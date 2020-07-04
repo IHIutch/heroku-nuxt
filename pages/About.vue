@@ -7,5 +7,32 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'About',
+  head() {
+    return {
+      title: this.pageTitle,
+      meta: [
+        {
+          hid: 'title',
+          name: 'title',
+          content: 'About Page?',
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Really the about page',
+        },
+      ],
+    }
+  },
+  asyncData() {
+    return { pageTitle: 'About!!' }
+  },
+  data() {
+    return {
+      pageTitle: '',
+    }
+  },
+}
 </script>

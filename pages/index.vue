@@ -21,7 +21,8 @@
           class="button--grey"
         >
           GitHub
-          <nuxt-link to="/about">About</nuxt-link>
+        </a>
+        <nuxt-link to="/about">About</nuxt-link>
       </div>
     </div>
   </div>
@@ -29,7 +30,7 @@
 
 <script>
 export default {
-  name: "About"
+  name: 'About',
 }
 </script>
 
@@ -44,16 +45,8 @@ export default {
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
