@@ -21,14 +21,16 @@
           class="button--grey"
         >
           GitHub
-        </a>
+          <nuxt-link to="/about">About</nuxt-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: "About"
+}
 </script>
 
 <style>
