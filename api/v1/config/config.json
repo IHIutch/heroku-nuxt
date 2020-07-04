@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "root",
+    "database": "ratemystop",
+    "host": "localhost",
+    "dialect": "postgres",
+    "timezone": "-05:00"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}

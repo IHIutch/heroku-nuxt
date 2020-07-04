@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Stop = require("../models/Stop");
+const db = require("../models/index");
+
+const Stop = db.Stop;
 
 router.get("/", (req, res) =>
   Stop.findAll()
@@ -11,14 +13,14 @@ router.get("/", (req, res) =>
 );
 
 router.post("/", (req, res) => {
-  let { stop_name, stop_code, stop_desc, stop_lat, stop_lon } = req.body;
+  let { stopName, stopCode, stopDesc, stopLat, stopLon } = req.body;
 
   Stop.create({
-    stop_name: stop_name,
-    stop_code: stop_code,
-    stop_desc: stop_desc,
-    stop_lat: stop_lat,
-    stop_lon: stop_lon,
+    stopName: stopName,
+    stopCode: stopCode,
+    stopDesc: stopDesc,
+    stopLat: stopLat,
+    stopLon: stopLon,
   })
     .then(res.sendStatus(201))
     .catch((err) => console.log(err));
