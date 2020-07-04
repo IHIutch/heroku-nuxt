@@ -1,7 +1,7 @@
-const Sequalize = require('sequelize')
-const db = require('../config')
+const Sequalize = require("sequelize");
+const db = require("../config");
 
-const Stop = db.define('stop', {
+const Stop = db.define("stop", {
   stop_name: {
     type: Sequalize.STRING,
   },
@@ -17,6 +17,6 @@ const Stop = db.define('stop', {
   stop_lon: {
     type: Sequalize.FLOAT,
   },
-})
+});
 
-module.exports = Stop
+module.exports = Stop;
