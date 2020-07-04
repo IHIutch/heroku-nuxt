@@ -5,9 +5,22 @@
     "database": "ratemystop",
     "host": "localhost",
     "dialect": "postgres",
-    "timezone": "-05:00"
+    "timezone": "-05:00",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   },
   "production": {
-    "use_env_variable": "DATABASE_URL"
+    "use_env_variable": "DATABASE_URL",
+    "timezone": "-05:00",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   }
 }
