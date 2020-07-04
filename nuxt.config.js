@@ -53,15 +53,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/apollo',
   ],
-  apollo: {
-    clientConfigs: {
-      default: {
-        httpEndpoint: 'http://localhost:5000/graphql',
-      },
-    },
-  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
