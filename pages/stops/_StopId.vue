@@ -28,10 +28,17 @@ export default {
       ],
     };
   },
-  async asyncData({ $axios, route }) {
+  async asyncData({ $axios, route, error }) {
     const stopId = route.params.StopId;
-    const stop = await $axios.$get(`/api/v1/stops/${stopId}`);
-    return { stop };
+    return $axios
+      .$get(`/api/v1/stops/${stopId}`)
+      .then((res) => {
+        if (res) return { stop: res };
+        else throw new Error();
+      })
+      .catch((err) => {
+        error({ statusCode: 404, message: "Stop not found" });
+      });
   },
 };
 </script>
