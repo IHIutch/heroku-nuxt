@@ -18,7 +18,9 @@
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.0",
-    "sequelize-cli": "^6.1.0"
+    "sequelize-cli": "^6.1.0",
+    "vue-chartjs": "^3.5.0",
+    "vue-feather-icons": "^5.0.0"
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.11.0",
