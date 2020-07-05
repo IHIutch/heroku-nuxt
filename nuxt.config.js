@@ -53,6 +53,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
+    "nuxt-leaflet",
   ],
   /*
    ** Axios module configuration

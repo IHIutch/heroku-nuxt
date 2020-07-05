@@ -11,35 +11,32 @@
       <b-col cols="12">
         <div class="p-4 shadow-sm rounded mb-4 bg-white">
           <div class="embed-responsive embed-responsive-21by9">
-            <!-- <l-map
+            <l-map
               class="embed-responsive-item"
               :zoom="12"
               :center="[42.8864, -78.8784]"
             >
               <l-tile-layer
-                :url="
-                  'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=' +
-                    accessToken
-                "
+                :url="`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${mapbox.accessToken}`"
               ></l-tile-layer>
               <l-feature-group ref="features">
                 <l-popup>
-                  <span>{{ caller }}</span>
+                  <span>{{ mapbox.caller }}</span>
                 </l-popup>
               </l-feature-group>
               <l-circle-marker
                 v-for="(stop, idx) in stopScores"
                 :key="idx"
-                :lat-lng="[stop.stop_lat, stop.stop_lon]"
+                :lat-lng="[stop.stopLat, stop.stopLon]"
                 :radius="5"
                 :weight="0"
                 :fillOpacity="1"
                 :fillColor="getColor(stop.overall)"
                 @click="
-                  markerClick([stop.stop_lat, stop.stop_lon], stop.stop_name)
+                  markerClick([stop.stopLat, stop.stopLon], stop.stopName)
                 "
               />
-            </l-map> -->
+            </l-map>
           </div>
         </div>
       </b-col>
@@ -71,12 +68,12 @@
               </b-form-group>
             </b-col>
             <b-col cols="6">
-              <!-- <b-pagination
+              <b-pagination
                 v-model="table.currentPage"
                 :total-rows="stopScores.length"
                 :per-page="table.perPage"
                 align="right"
-              ></b-pagination> -->
+              ></b-pagination>
             </b-col>
             <b-col cols="12" class="mt-4">
               <b-table
@@ -129,6 +126,8 @@
 </template>
 
 <script>
+import { getColorByNumber } from "@/functions/index";
+
 export default {
   name: "Home",
   async asyncData({ $axios, route, error }) {
@@ -143,7 +142,7 @@ export default {
         filter: "",
         currentPage: 1,
       },
-      mapBox: {
+      mapbox: {
         caller: "",
         accessToken:
           "pk.eyJ1IjoiamJodXRjaCIsImEiOiJjamRqZGU1eTYxMTZlMzNvMjV2dGxzdG8wIn0.IAAk5wKeLXOUaQ4QYF3sEA", // your access token. Needed if you using Mapbox maps
@@ -207,7 +206,7 @@ export default {
   },
   methods: {
     markerClick(latLng, caller) {
-      this.caller = caller;
+      this.mapbox.caller = caller;
       this.$refs.features.mapObject.openPopup(latLng);
     },
     getVariant(score) {

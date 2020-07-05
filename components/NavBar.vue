@@ -1,7 +1,7 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="primary">
     <b-container>
-      <b-navbar-brand :to="{ name: 'HomePage' }">RateMyStop</b-navbar-brand>
+      <b-navbar-brand to="/">RateMyStop</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -19,39 +19,13 @@
 </template>
 
 <script>
-import { auth } from "@/modules/firebase";
-
 export default {
   name: "Navbar",
   data() {
     return {
-      signedIn: false
+      signedIn: false,
     };
   },
-  methods: {
-    signOut() {
-      auth.signOut().then(() => {
-        auth.onAuthStateChanged(() => {
-          if (this.$route.path === "/") {
-            this.$router.go();
-          } else {
-            this.$router.push("/");
-          }
-        });
-      });
-    },
-    isSignedIn() {
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          this.signedIn = true;
-        } else {
-          this.signedIn = false;
-        }
-      });
-    }
-  },
-  created() {
-    this.isSignedIn();
-  }
+  methods: {},
 };
 </script>
