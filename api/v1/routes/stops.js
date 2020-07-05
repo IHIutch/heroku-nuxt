@@ -2,21 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { Stop } = require("../models/index");
 
-router.get("/:stopId/", (req, res) => {
-  const stopId = req.params.stopId;
-  Stop.findOne({
-    where: {
-      stopId: stopId,
-    },
-  })
-    .then((stop) => {
-      res.send(stop);
-    })
-    .catch((err) => console.log(err));
-});
-
 router.get("/", (req, res) =>
-  Stop.findAll()
+  Stop.findAll({
+    limit: 100,
+  })
     .then((stops) => {
       res.send(stops);
     })
@@ -34,6 +23,19 @@ router.post("/", (req, res) => {
     stopLon: stopLon,
   })
     .then(res.sendStatus(201))
+    .catch((err) => console.log(err));
+});
+
+router.get("/:stopId/", (req, res) => {
+  const stopId = req.params.stopId;
+  Stop.findOne({
+    where: {
+      stopId: stopId,
+    },
+  })
+    .then((stop) => {
+      res.send(stop);
+    })
     .catch((err) => console.log(err));
 });
 

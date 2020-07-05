@@ -29,7 +29,7 @@ export default {
     };
   },
   async asyncData({ $axios, route, error }) {
-    const stopId = route.params.StopId;
+    const stopId = route.params.stopId;
     return $axios
       .$get(`/api/v1/stops/${stopId}`)
       .then((res) => {
