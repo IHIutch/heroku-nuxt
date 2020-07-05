@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col>
-        {{ stops }}
+        {{ stop }}
       </b-col>
     </b-row>
   </b-container>
@@ -13,24 +13,25 @@ export default {
   name: "StopPage",
   head() {
     return {
-      title: this.stops[0].stopName,
+      title: this.stop.stopName,
       meta: [
         {
           hid: "title",
           name: "title",
-          content: this.stops[0].stopName,
+          content: this.stop.stopName,
         },
         {
           hid: "description",
           name: "description",
-          content: this.stops[0].stopDesc,
+          content: this.stop.stopDesc,
         },
       ],
     };
   },
-  async asyncData({ $axios }) {
-    const stops = await $axios.$get("/api/v1/stops");
-    return { stops };
+  async asyncData({ $axios, route }) {
+    const stopId = route.params.StopId;
+    const stop = await $axios.$get(`/api/v1/stops/${stopId}`);
+    return { stop };
   },
 };
 </script>

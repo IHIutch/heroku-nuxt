@@ -2,6 +2,19 @@ const express = require("express");
 const router = express.Router();
 const { Stop } = require("../models/index");
 
+router.get("/:stopId/", (req, res) => {
+  const stopId = req.params.stopId;
+  Stop.findOne({
+    where: {
+      stopId: stopId,
+    },
+  })
+    .then((stop) => {
+      res.send(stop);
+    })
+    .catch((err) => console.log(err));
+});
+
 router.get("/", (req, res) =>
   Stop.findAll()
     .then((stops) => {
