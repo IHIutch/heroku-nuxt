@@ -1,4 +1,12 @@
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://nuxt.herokuapp.com"
+    : "http://localhost:3000";
+
 export default {
+  env: {
+    baseUrl: baseUrl,
+  },
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode

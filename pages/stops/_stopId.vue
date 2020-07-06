@@ -110,36 +110,23 @@
 </template>
 
 <script>
+import { getMeta } from "@/functions/index";
+
 export default {
   name: "StopPage",
   head() {
-    return {
+    return getMeta({
       title: this.stop.stopName,
-      meta: [
-        {
-          hid: "title",
-          name: "title",
-          content: this.stop.stopName,
-        },
-        {
-          hid: "og:title",
-          name: "og:title",
-          content: this.stop.stopName,
-        },
-        {
-          hid: "description",
-          name: "description",
-          content: this.stop.stopDesc,
-        },
-      ],
-    };
+      url: this.currentRoute,
+      description: "",
+    });
   },
-  async asyncData({ $axios, route, error }) {
+  async asyncData({ $axios, route, error, env }) {
     const stopId = route.params.stopId;
     return $axios
       .$get(`/api/v1/stops/${stopId}`)
       .then((res) => {
-        if (res) return { stop: res };
+        if (res) return { stop: res, currentRoute: env.baseUrl + route.path };
         else throw new Error();
       })
       .catch((err) => {
