@@ -130,8 +130,8 @@ import { getColorByNumber } from "@/functions/index";
 
 export default {
   name: "Home",
-  async asyncData({ $axios, route, error }) {
-    return $axios.$get(`/api/v1/stops/`).then((res) => {
+  async asyncData({ $axios, route, error, env }) {
+    return $axios.$get(`${env.baseUrl}/api/v1/stops/`).then((res) => {
       return { stops: res };
     });
   },
