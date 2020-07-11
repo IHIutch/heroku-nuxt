@@ -13,14 +13,14 @@ router.get("/", (req, res) =>
 );
 
 router.post("/", (req, res) => {
-  let { stopName, stopCode, stopDesc, stopLat, stopLon } = req.body;
+  const { stopName, stopCode, stopDesc, stopLat, stopLon } = req.body;
 
   Stop.create({
-    stopName: stopName,
-    stopCode: stopCode,
-    stopDesc: stopDesc,
-    stopLat: stopLat,
-    stopLon: stopLon,
+    stopName,
+    stopCode,
+    stopDesc,
+    stopLat,
+    stopLon,
   })
     .then(res.sendStatus(201))
     .catch((err) => console.log(err));
