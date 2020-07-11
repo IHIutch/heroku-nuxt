@@ -6,7 +6,6 @@ const { User } = require("../models/index");
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
-
   if (typeof email !== "undefined" && typeof password !== "undefined") {
     User.findOne({
       where: {
@@ -25,7 +24,6 @@ router.post("/login", (req, res) => {
               id: user.id,
               email: user.email,
             };
-
             // Sign Token
             jwt.sign(payload, "secret", { expiresIn: 7200 }, (err, token) => {
               res.json({
@@ -33,7 +31,7 @@ router.post("/login", (req, res) => {
               });
             });
           } else {
-            return res.send(400).json({
+            return res.status(400).json({
               error: "Password invalid",
             });
           }
@@ -45,22 +43,29 @@ router.post("/login", (req, res) => {
   }
 });
 
-// function verifyToken(req, res, next) {
-//   const bearerHeader = req.headers['authorization'];
-//   if (typeof bearerHeader !== undefined) {
-//     const bearer = bearerHeader.split(" ");
-//     const bearerToken = bearer[1];
-//     req.token = bearerToken;
-//     next();
-//   } else {
-//     res.sendStatus(403)
-//   }
-// }
-
 router.get("/user", (req, res) => {
-  const payload = { user: { email: "test@email.com" } };
-  console.log(payload);
-  res.json(payload);
+  const bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== undefined) {
+    const bearer = bearerHeader.split(" ");
+    const token = bearer[1];
+    const verifiedUser = jwt.verify(token, "secret");
+
+    if (typeof verifiedUser !== "undefined") {
+      User.findOne({
+        where: {
+          email: verifiedUser.email,
+        },
+      })
+        .then((user) => {
+          res.json({ user: { email: user.email } });
+        })
+        .catch((err) => console.log(err));
+    } else {
+      // res.redirect("auth/logout");
+    }
+  } else {
+    // res.redirect("auth/logout");
+  }
 });
 
 router.get("/logout", (req, res) => {

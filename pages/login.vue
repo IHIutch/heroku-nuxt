@@ -46,8 +46,7 @@ export default {
   methods: {
     logIn() {
       this.$auth.loginWith("local", {
-        email: this.form.email,
-        password: this.form.password,
+        data: this.form,
       });
     },
   },
