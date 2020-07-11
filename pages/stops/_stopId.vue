@@ -124,7 +124,7 @@ export default {
   async asyncData({ $axios, route, error, env }) {
     const stopId = route.params.stopId;
     return $axios
-      .$get(`${env.baseUrl}/api/v1/stops/${stopId}`)
+      .$get(`/stops/${stopId}`)
       .then((res) => {
         if (res) return { stop: res, currentRoute: env.baseUrl + route.path };
         else throw new Error();

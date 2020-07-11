@@ -60,14 +60,16 @@ export default {
     "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/pwa",
+    "@nuxtjs/auth",
     "nuxt-leaflet",
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseUrl: "/api/v1",
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
@@ -77,6 +79,22 @@ export default {
     // Will register file from project api directory to handle /api/* requires
     { path: "/api/v1", handler: "~/api/v1/index" },
   ],
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/api/v1/auth/login",
+            method: "post",
+            propertyName: "token",
+          },
+          logout: { url: "/auth/logout", method: "post" },
+          user: { url: "/user", method: "get", propertyName: "user" },
+        },
+      },
+      tokenType: "bearer",
+    },
+  },
   bootstrapVue: {
     bootstrapCSS: false,
     bootstrapVueCSS: false,
