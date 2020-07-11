@@ -131,7 +131,8 @@ import { getColorByNumber } from "@/functions/index";
 export default {
   name: "Home",
   async asyncData({ $axios, route, error, env }) {
-    return $axios.$get(`/stops`).then((res) => {
+    // console.log($axios);
+    return $axios.$get(`${$axios.defaults.baseURL}/stops`).then((res) => {
       return { stops: res };
     });
   },

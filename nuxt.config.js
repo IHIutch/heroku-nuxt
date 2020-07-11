@@ -1,12 +1,9 @@
-const baseUrl =
+const baseURL =
   process.env.NODE_ENV === "production"
     ? "https://nuxt.herokuapp.com"
     : "http://localhost:3000";
 
 export default {
-  env: {
-    baseUrl: baseUrl,
-  },
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
@@ -68,7 +65,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseUrl: "/api/v1",
+    baseURL: `${baseURL}/api/v1`,
   },
   /*
    ** Build configuration
@@ -84,12 +81,12 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: "/api/v1/auth/login",
+            url: "/auth/login",
             method: "post",
             propertyName: "token",
           },
           logout: { url: "/auth/logout", method: "post" },
-          user: { url: "/user", method: "get", propertyName: "user" },
+          user: { url: "/auth/user", method: "get", propertyName: "user" },
         },
       },
       tokenType: "bearer",

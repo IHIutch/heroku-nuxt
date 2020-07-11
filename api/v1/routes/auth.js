@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const { User } = require("../models/index");
 
 router.post("/login", (req, res) => {
   const payload = { token: "123" };
@@ -8,7 +7,7 @@ router.post("/login", (req, res) => {
   res.json(payload);
 });
 
-router.get("/users", (req, res) => {
+router.get("/user", (req, res) => {
   const payload = { user: { email: "test@email.com" } };
   console.log(payload);
   res.json(payload);
