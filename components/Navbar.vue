@@ -11,7 +11,9 @@
           <b-nav-item href="#">Changes</b-nav-item>
           <b-nav-item href="#">Research</b-nav-item>
           <b-nav-item href="#">FAQ</b-nav-item>
-          <b-nav-item v-if="loggedIn" @click="logOut()">Sign Out</b-nav-item>
+          <b-nav-item v-if="$auth.loggedIn" @click="logOut()"
+            >Log Out</b-nav-item
+          >
           <b-nav-item v-else to="/login">Log In</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -29,7 +31,7 @@ export default {
   },
   methods: {
     logOut() {
-      console.log("Logged Out");
+      this.$auth.logout();
     },
   },
 };
