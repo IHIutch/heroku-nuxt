@@ -1,36 +1,20 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Stops", {
+    await queryInterface.createTable("Users", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      stopName: {
+      email: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      stopId: {
-        type: Sequelize.INTEGER,
-      },
-      stopCode: {
-        type: Sequelize.INTEGER,
-      },
-      stopDesc: {
+      password: {
         type: Sequelize.STRING,
-      },
-      stopLat: {
-        type: Sequelize.FLOAT,
-      },
-      stopLon: {
-        type: Sequelize.FLOAT,
-      },
-      zoneId: {
-        type: Sequelize.INTEGER,
-      },
-      wheelchairBoarding: {
-        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +27,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Stops");
+    await queryInterface.dropTable("Users");
   },
 };
