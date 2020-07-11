@@ -7,7 +7,7 @@ router.get("/", (req, res) =>
     limit: 100,
   })
     .then((stops) => {
-      res.send(stops);
+      res.json(stops);
     })
     .catch((err) => console.log(err))
 );
@@ -34,7 +34,7 @@ router.get("/:stopId/", (req, res) => {
     },
   })
     .then((stop) => {
-      res.send(stop);
+      res.json(stop);
     })
     .catch((err) => console.log(err));
 });
