@@ -1,6 +1,6 @@
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://nuxt.herokuapp.com"
+    ? "http://nuxt.herokuapp.com"
     : "http://localhost:3000";
 
 export default {

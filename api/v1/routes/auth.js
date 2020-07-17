@@ -48,23 +48,16 @@ router.get("/user", (req, res) => {
   if (typeof bearerHeader !== undefined) {
     const bearer = bearerHeader.split(" ");
     const token = bearer[1];
-    const verifiedUser = jwt.verify(token, "secret");
 
-    if (typeof verifiedUser !== "undefined") {
-      User.findOne({
-        where: {
-          email: verifiedUser.email,
-        },
-      })
-        .then((user) => {
-          res.json({ user: { email: user.email } });
-        })
-        .catch((err) => console.log(err));
-    } else {
-      // res.redirect("auth/logout");
-    }
+    jwt.verify(token, "secret", (err, data) => {
+      if (err) {
+        res.json({ user: false });
+      } else {
+        res.json({ user: { email: data.email } });
+      }
+    });
   } else {
-    // res.redirect("auth/logout");
+    res.json({ user: false });
   }
 });
 

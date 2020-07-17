@@ -14,7 +14,7 @@
                   placeholder="Enter name"
                 ></b-form-input>
               </b-form-group>
-              <b-form-group label="Password" label-for="passwod">
+              <b-form-group label="Password" label-for="password">
                 <b-form-input
                   id="password"
                   type="password"
