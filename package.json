@@ -22,6 +22,7 @@
     "nuxt-leaflet": "0.0.21",
     "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
+    "redirect-ssl": "^2.0.0",
     "sequelize": "^6.3.2",
     "vue-chartjs": "^3.5.0",
     "vue-feather-icons": "^5.0.0"
