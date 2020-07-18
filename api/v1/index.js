@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const origin =
   process.env.NODE_ENV === "production"
-    ? "http://nuxt.herokuapp.com"
+    ? "https://nuxt.herokuapp.com"
     : "http://localhost:3000";
 
 app.use(express.json());
