@@ -300,11 +300,9 @@ export default {
   computed: {
     computedQuestions() {
       return this.questions.map((question) => {
-        const category = this.categories
-          .filter((cat) => {
-            return question.categoryId === cat.id;
-          })
-          .pop();
+        const category = this.categories.find((cat) => {
+          return question.categoryId === cat.id;
+        });
         return {
           category,
           ...question,
