@@ -17,7 +17,7 @@ router.post("/register", (req, res) => {
       },
     }).then((user) => {
       if (user) {
-        return res.sendStatus(404).json({ error: "That email already exists" });
+        return res.status(404).json({ error: "That email already exists" });
       } else {
         bcrypt.genSalt(10, (err, salt) => {
           if (err) throw err;
@@ -35,7 +35,7 @@ router.post("/register", (req, res) => {
       }
     });
   } else {
-    return res.sendStatus(404).json({ error: "Email and password required" });
+    return res.status(404).json({ error: "Email and password required" });
   }
 });
 
