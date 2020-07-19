@@ -9,7 +9,9 @@ router.post("/create", (req, res) => {
     text,
     value,
   })
-    .then(res.sendStatus(201))
+    .then((data) => {
+      res.status(201).json(data);
+    })
     .catch((err) => console.log(err));
 });
 
@@ -20,7 +22,7 @@ router.put("/update/:id", (req, res) => {
   Category.findByPk(id)
     .then((category) => {
       if (!category) {
-        return res.sendStatus(404).json({ error: "Category not found" });
+        return res.status(404).json({ error: "Category not found" });
       } else {
         category
           .update(data)

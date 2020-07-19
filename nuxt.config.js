@@ -81,6 +81,11 @@ export default {
     { path: "/api/v1", handler: "~/api/v1/index" },
   ],
   auth: {
+    redirect: {
+      login: "/login", // default
+      logout: "/", // default
+      home: "/admin",
+    },
     strategies: {
       local: {
         endpoints: {

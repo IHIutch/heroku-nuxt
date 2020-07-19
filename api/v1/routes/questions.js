@@ -11,7 +11,9 @@ router.post("/create", (req, res) => {
     answers,
     categoryId,
   })
-    .then(res.sendStatus(201))
+    .then((data) => {
+      res.status(201).json(data);
+    })
     .catch((err) => console.log(err));
 });
 
@@ -22,7 +24,7 @@ router.put("/update/:id", (req, res) => {
   Question.findByPk(id)
     .then((question) => {
       if (!question) {
-        return res.sendStatus(404).json({ error: "Question not found" });
+        return res.status(404).json({ error: "Question not found" });
       } else {
         question
           .update(data)
