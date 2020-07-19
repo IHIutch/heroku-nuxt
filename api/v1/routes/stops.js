@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Stop } = require("../models/index");
+const { Stop, Question, Answer } = require("../models/index");
 
 router.get("/", (req, res) =>
   Stop.findAll({
@@ -28,13 +28,18 @@ router.post("/", (req, res) => {
 
 router.get("/:stopId/", (req, res) => {
   const stopId = req.params.stopId;
-  Stop.findOne({
+
+  const stop = Stop.findOne({
     where: {
       stopId: stopId,
     },
-  })
-    .then((stop) => {
-      res.json(stop);
+  });
+  const questions = Question.findAll({ where: { active: true } });
+  const answers = Answer.findAll({ where: { stopId } });
+
+  Promise.all([stop, questions, answers])
+    .then((data) => {
+      res.json(data);
     })
     .catch((err) => console.log(err));
 });

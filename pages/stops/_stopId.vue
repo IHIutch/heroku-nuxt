@@ -5,7 +5,9 @@
         <div class="mb-5">
           <div class="d-flex align-items-center justify-content-between">
             <h1>{{ stop.stopName }}</h1>
-            <b-button variant="primary" size="sm">Take Survey</b-button>
+            <b-button variant="primary" size="sm" :to="`/survey/${stop.stopId}`"
+              >Take Survey</b-button
+            >
           </div>
           <div>
             <span class="mr-3">Stop Code: {{ stop.stopCode }}</span>
@@ -123,14 +125,24 @@ export default {
   },
   async asyncData({ $axios, route, error, env }) {
     const stopId = route.params.stopId;
+
     return $axios
       .$get(`${$axios.defaults.baseURL}/stops/${stopId}`)
       .then((res) => {
-        if (res) return { stop: res, currentRoute: env.baseUrl + route.path };
-        else throw new Error();
+        if (res) {
+          const [stop, questions, answers] = res;
+          return {
+            stop,
+            questions,
+            answers,
+            currentRoute: env.baseURL + route.path,
+          };
+        } else {
+          throw new Error();
+        }
       })
       .catch((err) => {
-        error({ statusCode: 404, message: "Stop not found" });
+        error({ statusCode: 404, message: err });
       });
   },
   methods: {

@@ -1,4 +1,4 @@
-import redirectSSL from 'redirect-ssl'
+import redirectSSL from "redirect-ssl";
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "https://nuxt.herokuapp.com"
@@ -75,8 +75,8 @@ export default {
   build: {},
   serverMiddleware: [
     redirectSSL.create({
-      enabled: process.env.NODE_ENV === 'production'
-     }),
+      enabled: process.env.NODE_ENV === "production",
+    }),
     // Will register file from project api directory to handle /api/* requires
     { path: "/api/v1", handler: "~/api/v1/index" },
   ],
