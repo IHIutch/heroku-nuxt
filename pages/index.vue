@@ -11,32 +11,34 @@
       <b-col cols="12">
         <div class="p-4 shadow-sm rounded mb-4 bg-white">
           <div class="embed-responsive embed-responsive-21by9">
-            <l-map
-              class="embed-responsive-item"
-              :zoom="12"
-              :center="[42.8864, -78.8784]"
-            >
-              <l-tile-layer
-                :url="`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${mapbox.accessToken}`"
-              ></l-tile-layer>
-              <l-feature-group ref="features">
-                <l-popup>
-                  <span>{{ mapbox.caller }}</span>
-                </l-popup>
-              </l-feature-group>
-              <l-circle-marker
-                v-for="(stop, idx) in stopScores"
-                :key="idx"
-                :lat-lng="[stop.stopLat, stop.stopLon]"
-                :radius="5"
-                :weight="0"
-                :fillOpacity="1"
-                :fillColor="getColor(stop.overall)"
-                @click="
-                  markerClick([stop.stopLat, stop.stopLon], stop.stopName)
-                "
-              />
-            </l-map>
+            <client-only>
+              <l-map
+                class="embed-responsive-item"
+                :zoom="12"
+                :center="[42.8864, -78.8784]"
+              >
+                <l-tile-layer
+                  :url="`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${mapbox.accessToken}`"
+                ></l-tile-layer>
+                <l-feature-group ref="features">
+                  <l-popup>
+                    <span>{{ mapbox.caller }}</span>
+                  </l-popup>
+                </l-feature-group>
+                <l-circle-marker
+                  v-for="(stop, idx) in stopScores"
+                  :key="idx"
+                  :lat-lng="[stop.stopLat, stop.stopLon]"
+                  :radius="5"
+                  :weight="0"
+                  :fillOpacity="1"
+                  :fillColor="getColor(stop.overall)"
+                  @click="
+                    markerClick([stop.stopLat, stop.stopLon], stop.stopName)
+                  "
+                />
+              </l-map>
+            </client-only>
           </div>
         </div>
       </b-col>
@@ -129,9 +131,8 @@
 import { getColorByNumber } from "@/functions/index";
 
 export default {
-  name: "Home",
+  name: "HomePage",
   async asyncData({ $axios, route, error, env }) {
-    // console.log($axios);
     return $axios.$get(`${$axios.defaults.baseURL}/stops`).then((res) => {
       return { stops: res };
     });
