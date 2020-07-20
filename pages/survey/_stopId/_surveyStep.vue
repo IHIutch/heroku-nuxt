@@ -1,29 +1,22 @@
 <template>
   <div>
-    {{ question }}
-    <!-- <template v-if="question.questionType == 'yes_no'">
-          <YesNoQuestion
-            :question="question"
-            :answer.sync="answers[idx]"
-            :index="idx"
-          />
-        </template>
-        <template v-if="question.questionType == 'multiple_choice'">
-          <template v-if="question.numAnswers < 0">
-            <MultipleChoiceCheckboxQuestion
-              :question="question"
-              :answer.sync="answers[idx]"
-              :index="idx"
-            />
-          </template>
-          <template v-else>
-            <MultipleChoiceRadioQuestion
-              :question="question"
-              :answer.sync="answers[idx]"
-              :index="idx"
-            />
-          </template>
-        </template> -->
+    <template v-if="question.type == 'yes_no'">
+      <YesNoQuestion :question="question" :answer.sync="answer" />
+    </template>
+    <template v-if="question.type == 'multiple_choice'">
+      <template v-if="question.numAnswers < 0">
+        <MultipleChoiceCheckboxQuestion
+          :question="question"
+          :answer.sync="answer"
+        />
+      </template>
+      <template v-else>
+        <MultipleChoiceRadioQuestion
+          :question="question"
+          :answer.sync="answer"
+        />
+      </template>
+    </template>
 
     <!-- <div v-if="currentQuestion > -1">
       <b-button class="mb-2" @click="toggleComments(currentQuestion)">
@@ -41,19 +34,24 @@
           no-auto-shrink
         ></b-form-textarea>
       </div>
-    </div> -->
+    <!-- </div> -->
   </div>
 </template>
 
 <script>
+import YesNoQuestion from "@/components/questionTypes/YesNoQuestion.vue";
+import MultipleChoiceCheckboxQuestion from "@/components/questionTypes/MultipleChoiceCheckboxQuestion";
+import MultipleChoiceRadioQuestion from "@/components/questionTypes/MultipleChoiceRadioQuestion";
+
 export default {
   name: "SurveyStep",
   props: {
     question: {
       type: Object,
     },
+    answer: {
+      type: Object,
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

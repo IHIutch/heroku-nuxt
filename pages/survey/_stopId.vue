@@ -6,7 +6,7 @@
           variant="info"
           class="rounded-0"
           height="8px"
-          :value="surveyStep * (100 / questions.length)"
+          :value="surveyStep * (100 / answers.length)"
         ></b-progress>
       </b-col>
     </b-row>
@@ -30,7 +30,10 @@
               <template v-if="surveyStep">
                 <transition name="slide-fade" mode="out-in">
                   <div :key="surveyStep">
-                    <nuxt-child :question="questions[surveyStep - 1]" />
+                    <nuxt-child
+                      :question="questions[surveyStep - 1]"
+                      :answer.sync="answers[surveyStep - 1]"
+                    />
                   </div>
                 </transition>
               </template>
@@ -48,20 +51,27 @@
         </b-row>
       </b-container>
     </b-row>
-    <b-row v-if="surveyStep > -1">
+    <b-row v-if="surveyStep > 0">
       <b-col class="fixed-bottom bg-white shadow-sm border-top p-3">
-        <b-button
-          v-if="surveyStep < questions.length"
-          @click="next()"
-          :disabled="answers[surveyStep].value == null"
-          variant="primary"
-          block
-        >
-          Continue
-        </b-button>
-        <b-button v-else @click="complete()" variant="primary" block
-          >Complete!</b-button
-        >
+        <template v-if="surveyStep < answers.length">
+          <b-button
+            @click="next()"
+            :disabled="answers[surveyStep - 1].value == null"
+            variant="primary"
+            block
+          >
+            Continue
+          </b-button>
+        </template>
+        <template v-else>
+          <b-button
+            @click="complete()"
+            variant="primary"
+            :disabled="isSaving"
+            block
+            >Complete!</b-button
+          >
+        </template>
       </b-col>
     </b-row>
   </b-container>
@@ -77,10 +87,11 @@ export default {
       .$get(`${$axios.defaults.baseURL}/survey/${stopId}`)
       .then((res) => {
         if (res) {
-          const [stop, questions] = res;
+          const [stop, questions, watcher] = res;
           return {
             stop,
-            // questions,
+            questions,
+            watcher: watcher.status,
           };
         } else {
           throw new Error();
@@ -90,30 +101,6 @@ export default {
         error({ statusCode: 404, message: err });
       });
   },
-  data() {
-    return {
-      questions: [
-        { id: "zero" },
-        { id: "one" },
-        { id: "two" },
-        { id: "three" },
-        { id: "four" },
-      ],
-      questionCount: 5,
-      surveyStep: 0,
-      answers: [],
-    };
-  },
-  created() {
-    if (!this.surveyStep) {
-      this.$router.push(`/survey/${this.stop.stopId}`);
-    }
-    this.answers = this.questions.map((question) => {
-      return {
-        value: true,
-      };
-    });
-  },
   watch: {
     "$route.params"() {
       if (this.$route.params.surveyStep) {
@@ -121,9 +108,61 @@ export default {
       }
     },
   },
+  data() {
+    return {
+      isSaving: false,
+      questionCount: 5,
+      surveyStep: 0,
+      answers: [],
+    };
+  },
+  async created() {
+    if (!this.surveyStep) {
+      this.$router.push(`/survey/${this.stop.stopId}`);
+    }
+    if (!this.watcher.length) {
+      // Initial watcher set
+      this.watcher = this.questionMap();
+    }
+  },
+  mounted() {
+    this.filterQuestions();
+  },
   methods: {
+    questionMap() {
+      return this.questions.map((question) => {
+        return question.id;
+      });
+    },
+    filterQuestions() {
+      let arr = [];
+      while (this.answers.length < this.questionCount) {
+        let randomIdx = Math.floor(Math.random() * this.watcher.length);
+        if (arr.indexOf(this.watcher[randomIdx]) === -1) {
+          arr.push(this.watcher[randomIdx]);
+          this.answers.push({
+            questionId: this.watcher[randomIdx],
+            value: null,
+          });
+          this.watcher.splice(randomIdx, 1);
+          if (!this.watcher.length) {
+            this.watcher = this.questionMap();
+          }
+        }
+      }
+    },
     complete() {
-      console.log("Completed!");
+      this.isSaving = true;
+      this.$axios
+        .$post(`${this.$axios.defaults.baseURL}/survey/${this.stop.stopId}`, {
+          answers: this.answers,
+          watcher: this.watcher,
+        })
+        .then((data) => {
+          this.isSaving = false;
+          this.$router.push(`/stops/${this.stop.stopId}`);
+        })
+        .catch((err) => console.log(err));
     },
     next() {
       this.surveyStep++;

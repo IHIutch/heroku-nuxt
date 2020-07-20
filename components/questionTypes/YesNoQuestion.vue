@@ -8,7 +8,7 @@
         class="d-block mb-2"
         :name="'question' + index"
         v-model="answer.value"
-        v-for="(label, idx) in question.boolLabels"
+        v-for="(label, idx) in question.answers"
         :value="label.value"
         :key="idx"
         button
@@ -25,7 +25,7 @@ export default {
   props: {
     question: Object,
     answer: Object,
-    index: Number
-  }
+    index: Number,
+  },
 };
 </script>
