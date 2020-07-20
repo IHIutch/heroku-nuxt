@@ -9,7 +9,11 @@
               <b-button v-b-modal.catModal>New Category</b-button>
             </div>
           </div>
-          <b-table :items="categories" :fields="['id', 'text', 'created']">
+          <b-table
+            :items="categories"
+            :fields="['id', 'text', 'created']"
+            sort-by="id"
+          >
             <template v-slot:cell(created)="data">
               {{ data.item.createdAt | dayjs("MM/DD/YY, hh:mmA") }}
             </template>
@@ -25,6 +29,7 @@
           <b-table
             :items="computedQuestions"
             :fields="['id', 'text', 'category', 'type', 'active', 'created']"
+            sort-by="id"
           >
             <template v-slot:cell(category)="data">
               {{ data.item.category.text }}
