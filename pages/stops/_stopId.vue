@@ -72,16 +72,21 @@
                       </div>
                       <div class="d-flex">
                         <div class="mr-3">
-                          <span v-if="question.score">
-                            <b-badge variant="success">True</b-badge>
-                          </span>
-                          <span v-else>
-                            <b-badge variant="danger">False</b-badge>
-                          </span>
+                          <template v-if="question.answer">
+                            <template v-if="question.answer.value === 'true'">
+                              <b-badge variant="success">True</b-badge>
+                            </template>
+                            <template v-else>
+                              <b-badge variant="danger">False</b-badge>
+                            </template>
+                          </template>
+                          <template v-else>
+                            <b-badge variant="secondary">Pending</b-badge>
+                          </template>
                         </div>
                         <div>
                           <span>
-                            <chevron-down-icon size="1.5x" />
+                            <chevron-down-icon />
                           </span>
                         </div>
                       </div>
@@ -175,11 +180,14 @@ export default {
     },
     answersbyQuestion() {
       return this.questions.map((question) => {
-        const answer = this.recentAnswers[question.id][0] || null;
+        const answer =
+          this.recentAnswers && this.recentAnswers[question.id]
+            ? this.recentAnswers[question.id][0]
+            : null;
         return {
           ...question,
           answer: answer,
-          score: answer.value === "true" ? 1 : 0,
+          score: answer && answer.value === "true" ? 1 : 0,
         };
       });
     },
