@@ -91,7 +91,7 @@ export default {
           return {
             stop,
             questions,
-            watcher: watcher.status,
+            watcher: watcher ? watcher.status : [],
           };
         } else {
           throw new Error();
