@@ -22,12 +22,12 @@
               <DoughnutChartWrapper
                 :foregroundColor="getChartForegroundColor(cat.score)"
                 :backgroundColor="getChartBackgroundColor(cat.score)"
-                :percent="cat.score"
+                :percent="handleScore(cat)"
                 :thickness="20"
               >
                 <div class="mx-auto">
                   <div class="mb-3">
-                    <span class="h1">{{ cat.score }}</span>
+                    <span class="h1">{{ handleScore(cat) }}</span>
                   </div>
                   <div>
                     <span>{{ cat.text }}</span>
@@ -169,6 +169,11 @@ export default {
     },
     getChartBackgroundColor(score) {
       return getColorByNumber(score, 0.2);
+    },
+    handleScore(cat) {
+      return cat.questions.some((question) => question.answer === null)
+        ? 0
+        : cat.score;
     },
   },
   computed: {
