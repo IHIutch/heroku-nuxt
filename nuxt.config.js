@@ -5,6 +5,9 @@ const baseURL =
     : "http://localhost:3000";
 
 export default {
+  env: {
+    baseURL,
+  },
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode

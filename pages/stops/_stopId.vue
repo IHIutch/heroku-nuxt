@@ -16,7 +16,7 @@
             </span>
           </div>
         </div>
-        <!-- <b-row>
+        <b-row>
           <b-col v-for="(cat, idx) in questionByCategory" :key="idx">
             <div class="text-center mb-5">
               <DoughnutChartWrapper
@@ -72,7 +72,7 @@
                       </div>
                       <div class="d-flex">
                         <div class="mr-3">
-                          <span v-if="getResult()">
+                          <span v-if="question.score">
                             <b-badge variant="success">True</b-badge>
                           </span>
                           <span v-else>
@@ -105,17 +105,21 @@
               </div>
             </div>
           </b-col>
-        </b-row> -->
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { getMeta } from "@/functions/index";
+import { getMeta, getColorByNumber } from "@/functions/index";
+import { ChevronDownIcon } from "vue-feather-icons";
 
 export default {
   name: "StopPage",
+  components: {
+    ChevronDownIcon,
+  },
   head() {
     return getMeta({
       title: this.stop.stopName,
@@ -130,9 +134,10 @@ export default {
       .$get(`${$axios.defaults.baseURL}/stops/${stopId}`)
       .then((res) => {
         if (res) {
-          const [stop, questions, answers] = res;
+          const [stop, categories, questions, answers] = res;
           return {
             stop,
+            categories,
             questions,
             answers,
             currentRoute: env.baseURL + route.path,
@@ -146,9 +151,6 @@ export default {
       });
   },
   methods: {
-    getResult() {
-      return Math.random() < 0.5;
-    },
     navigateToCategory(category) {
       this.$router.push({
         name: "StopCategoryEditPage",
@@ -162,6 +164,40 @@ export default {
     },
     getChartBackgroundColor(score) {
       return getColorByNumber(score, 0.2);
+    },
+  },
+  computed: {
+    recentAnswers() {
+      return this.answers.reduce((acc, answer) => {
+        acc[answer.questionId] = [...(acc[answer.questionId] || []), answer];
+        return acc;
+      }, {});
+    },
+    answersbyQuestion() {
+      return this.questions.map((question) => {
+        const answer = this.recentAnswers[question.id][0] || null;
+        return {
+          ...question,
+          answer: answer,
+          score: answer.value === "true" ? 1 : 0,
+        };
+      });
+    },
+    questionByCategory() {
+      return this.categories.map((cat) => {
+        const questions = this.answersbyQuestion.filter((question) => {
+          return question.categoryId == cat.id;
+        });
+        const score = questions.reduce((acc, question) => {
+          return (acc += question.score);
+        }, 0);
+        return {
+          id: cat.id,
+          text: cat.text,
+          questions: questions,
+          score: parseFloat(((score / questions.length) * 100).toFixed(0)),
+        };
+      });
     },
   },
 };
