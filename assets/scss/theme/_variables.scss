@@ -22,7 +22,7 @@ $font-sizes: (
   3xl: $rem * 1.875,
   4xl: $rem * 2.25,
   5xl: $rem * 3,
-  6xl: $rem * 4
+  6xl: $rem * 4,
 );
 
 // ========================================================
@@ -53,7 +53,7 @@ $theme-colors: (
   "gray-600": $gray-600,
   "gray-700": $gray-700,
   "gray-800": $gray-800,
-  "gray-900": $gray-900
+  "gray-900": $gray-900,
 );
 
 // ========================================================
@@ -78,13 +78,13 @@ $spacers: (
   24: $rem * 6,
   32: $rem * 8,
   40: $rem * 10,
-  48: $rem * 12
+  48: $rem * 12,
 );
 
 // Used for widths, heights, max-widths, max-heights, etc
 $sizes: map-merge(
   (
-    "auto": auto
+    "auto": auto,
   ),
   $spacers
 );
@@ -94,3 +94,8 @@ $sizes: map-merge(
 // ========================================================
 
 $object-fit: (cover, contain);
+
+$fonts: (
+  "jakarta-text": "JakartaText",
+  "jakarta-display": "JakartaDisplay",
+);

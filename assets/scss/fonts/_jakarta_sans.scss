@@ -1,0 +1,66 @@
+$jakarta-text: (
+  "light": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaText-Light.otf",
+    style: "normal",
+    weight: "light",
+  ),
+  "regular": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaText-Regular.otf",
+    style: "normal",
+    weight: "regular",
+  ),
+  "bold": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaText-Bold.otf",
+    style: "normal",
+    weight: "bold",
+  ),
+);
+
+$jakarta-display: (
+  "light": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaDisplay-Light.otf",
+    style: "normal",
+    weight: "light",
+  ),
+  "regular": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaDisplay-Regular.otf",
+    style: "normal",
+    weight: "regular",
+  ),
+  "medium": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaDisplay-Medium.otf",
+    style: "normal",
+    weight: "medium",
+  ),
+  "bold": (
+    path: "../fonts/JakartaSans_v1.0/otf/PlusJakartaDisplay-Bold.otf",
+    style: "normal",
+    weight: "bold",
+  ),
+);
+
+@each $key, $map in $jakarta-text {
+  $path: map-get($map, path);
+  $style: map-get($map, style);
+  $weight: map-get($map, weight);
+  @font-face {
+    font-family: "JakartaText";
+    src: url($path) format("woff2"), url($path) format("woff"),
+      url($path) format("truetype");
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+@each $key, $map in $jakarta-display {
+  $path: map-get($map, path);
+  $style: map-get($map, style);
+  $weight: map-get($map, weight);
+  @font-face {
+    font-family: "JakartaDisplay";
+    src: url($path) format("woff2"), url($path) format("woff"),
+      url($path) format("truetype");
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
