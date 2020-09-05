@@ -62,6 +62,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/auth",
+    "@nuxtjs/sentry",
     "nuxt-leaflet",
   ],
   /*
@@ -107,5 +108,9 @@ export default {
   bootstrapVue: {
     bootstrapCSS: false,
     bootstrapVueCSS: false,
+  },
+    sentry: {
+    initialize: process.env.NODE_ENV === "production",
+    dsn: "https://6e0106f21eb343188c047af216daa2f7@o311837.ingest.sentry.io/5418652",
   },
 };
