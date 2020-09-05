@@ -2,15 +2,15 @@ const express = require("express");
 const router = express.Router();
 const { Stop, Question, Answer, Category } = require("../models/index");
 
-router.get("/", (req, res) =>
+router.get("/", (req, res) => {
   Stop.findAll({
     limit: 100,
   })
     .then((stops) => {
       res.json(stops);
     })
-    .catch((err) => console.log(err))
-);
+    .catch((err) => console.log(err));
+});
 
 router.post("/", (req, res) => {
   const { stopName, stopCode, stopDesc, stopLat, stopLon } = req.body;
