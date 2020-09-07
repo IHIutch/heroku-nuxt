@@ -1,7 +1,7 @@
 <template>
   <b-container class="py-5">
     <b-row>
-      <b-col cols="8" offset="2">
+      <b-col cols="12" md="8" offset-md="2">
         <div class="mb-5">
           <div class="d-flex align-items-center justify-content-between">
             <h1>{{ stop.stopName }}</h1>

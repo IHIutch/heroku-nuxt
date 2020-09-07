@@ -28,6 +28,8 @@ $font-sizes: (
 // ========================================================
 // Colors
 // ========================================================
+$black: #000000;
+$white: #ffffff;
 
 $gray-100: #f5f5f5;
 $gray-200: #eeeeee;
@@ -39,8 +41,15 @@ $gray-700: #616161;
 $gray-800: #424242;
 $gray-900: #212121;
 
-$black: #000000;
-$white: #ffffff;
+$green-100: #dbefdc;
+$green-200: #b7dfb9;
+$green-300: #94d096;
+$green-400: #70c073;
+$green-500: #4cb050;
+$green-600: #3d8d40;
+$green-700: #2e6a30;
+$green-800: #1e4620;
+$green-900: #0f2310;
 
 $theme-colors: (
   "black": $black,
@@ -54,6 +63,15 @@ $theme-colors: (
   "gray-700": $gray-700,
   "gray-800": $gray-800,
   "gray-900": $gray-900,
+  "green-100": $green-100,
+  "green-200": $green-200,
+  "green-300": $green-300,
+  "green-400": $green-400,
+  "green-500": $green-500,
+  "green-600": $green-600,
+  "green-700": $green-700,
+  "green-800": $green-800,
+  "green-900": $green-900,
 );
 
 // ========================================================
@@ -99,3 +117,5 @@ $fonts: (
   "jakarta-text": "JakartaText",
   "jakarta-display": "JakartaDisplay",
 );
+
+$primary: $green-500;
