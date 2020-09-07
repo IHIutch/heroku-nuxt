@@ -8,7 +8,7 @@
           rated
         </p>
       </b-col>
-      <b-col cols="12">
+      <!-- <b-col cols="12">
         <div class="p-4 shadow-sm rounded mb-4 bg-white">
           <div class="embed-responsive embed-responsive-21by9">
             <client-only>
@@ -41,7 +41,7 @@
             </client-only>
           </div>
         </div>
-      </b-col>
+      </b-col> -->
       <b-col cols="12">
         <div class="p-4 shadow-sm rounded bg-white">
           <b-row>
@@ -81,7 +81,6 @@
               <b-table
                 hover
                 small
-                @row-clicked="navigateToStop"
                 :items="stopScores"
                 :fields="fields"
                 :per-page="table.perPage"
@@ -90,33 +89,38 @@
               >
                 <template v-slot:cell(safety)="data">
                   <b-badge :variant="getVariant(data.item.safety)">
-                    {{ data.item.safety }}
+                    {{ data.item.safety }}%
                   </b-badge>
                 </template>
                 <template v-slot:cell(accessibility)="data">
                   <b-badge :variant="getVariant(data.item.accessibility)">
-                    {{ data.item.accessibility }}
+                    {{ data.item.accessibility }}%
                   </b-badge>
                 </template>
                 <template v-slot:cell(sanitary)="data">
                   <b-badge :variant="getVariant(data.item.sanitary)">
-                    {{ data.item.sanitary }}
+                    {{ data.item.sanitary }}%
                   </b-badge>
                 </template>
                 <template v-slot:cell(wayfinding)="data">
                   <b-badge :variant="getVariant(data.item.wayfinding)">
-                    {{ data.item.wayfinding }}
+                    {{ data.item.wayfinding }}%
                   </b-badge>
                 </template>
                 <template v-slot:cell(comfort)="data">
                   <b-badge :variant="getVariant(data.item.comfort)">
-                    {{ data.item.comfort }}
+                    {{ data.item.comfort }}%
                   </b-badge>
                 </template>
                 <template v-slot:cell(overall)="data">
                   <b-badge :variant="getVariant(data.item.overall)">
-                    {{ data.item.overall }}
+                    {{ data.item.overall }}%
                   </b-badge>
+                </template>
+                <template v-slot:cell(link)="data">
+                  <router-link :to="`/stops/${data.item.id}`">
+                    Details
+                  </router-link>
                 </template>
               </b-table>
             </b-col>
@@ -151,11 +155,11 @@ export default {
       },
       fields: [
         { key: "rank", sortable: true, label: "Rank" },
-        {
-          key: "stopId",
-          sortable: true,
-          label: "Stop ID",
-        },
+        // {
+        //   key: "stopId",
+        //   sortable: true,
+        //   label: "Stop ID",
+        // },
         {
           key: "stopName",
           sortable: true,
@@ -203,6 +207,11 @@ export default {
           thClass: "text-right",
           tdClass: "text-right",
         },
+        {
+          key: "link",
+          sortable: false,
+          label: "",
+        },
       ],
     };
   },
@@ -224,10 +233,10 @@ export default {
     randomNumber() {
       return Math.floor(Math.random() * 100);
     },
-    navigateToStop(stop) {
-      const stopId = stop.stopId;
-      this.$router.push(`stops/${stopId}`);
-    },
+    // navigateToStop(stop) {
+    //   const stopId = stop.stopId;
+    //   this.$router.push(`stops/${stopId}`);
+    // },
   },
   computed: {
     stopScores() {

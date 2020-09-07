@@ -21,7 +21,7 @@
 
 @each $name, $value in $fonts {
   .font-#{$name} {
-    font-family: $value;
+    font-family: $value, sans-serif !important;
   }
 }
 

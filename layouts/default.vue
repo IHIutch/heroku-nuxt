@@ -1,5 +1,5 @@
 <template>
-  <div class="font-jakarta-text">
+  <div class="font-barlow">
     <Navbar />
     <Nuxt />
   </div>
