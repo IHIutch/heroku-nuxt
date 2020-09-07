@@ -25,6 +25,7 @@
     "pg-hstore": "^2.3.3",
     "redirect-ssl": "^2.0.0",
     "sequelize": "^6.3.5",
+    "typeface-barlow": "0.0.71",
     "vue-chartjs": "^3.5.1",
     "vue-feather-icons": "^5.1.0"
   },

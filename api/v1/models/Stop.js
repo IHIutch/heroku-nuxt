@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       stopLon: DataTypes.FLOAT,
       zoneId: DataTypes.INTEGER,
       wheelchairBoarding: DataTypes.BOOLEAN,
+      categoryScores: DataTypes.JSONB
     },
     {
       sequelize,
