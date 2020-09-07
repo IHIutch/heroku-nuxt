@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { v4: uuidv4 } = require("uuid");
-const { Stop, Question, Watcher, Answer } = require("../models/index");
+const {
+  Stop,
+  Question,
+  Watcher,
+  Answer,
+  Category,
+} = require("../models/index");
 
 router.get("/:stopId", (req, res) => {
   const stopId = req.params.stopId;
@@ -47,8 +53,74 @@ router.post("/:stopId", (req, res) => {
         ...answer,
       };
     })
-  )
-    .then(res.sendStatus(201))
+  ).catch((err) => console.log(err));
+
+  const stop = Stop.findOne({
+    raw: true,
+    where: {
+      stopId: stopId,
+    },
+  });
+  const categories = Category.findAll({ raw: true });
+  const questions = Question.findAll({ raw: true, where: { active: true } });
+  const queryAnswers = Answer.findAll({
+    raw: true,
+    where: { stopId },
+    order: [["id", "DESC"]],
+  });
+
+  Promise.all([questions, queryAnswers, categories])
+    .then((data) => {
+      const [questionQ, answerQ, categoryQ] = data;
+
+      const recentAnswers = () => {
+        return answerQ.reduce((acc, answer) => {
+          acc[answer.questionId] = [...(acc[answer.questionId] || []), answer];
+          return acc;
+        }, {});
+      };
+
+      const answersbyQuestion = () => {
+        return questionQ.map((question) => {
+          const recAns = recentAnswers();
+          const mappedAnswer =
+            recAns && recAns[question.id] ? recAns[question.id][0] : null;
+          return {
+            ...question,
+            answer: mappedAnswer,
+            score: mappedAnswer && mappedAnswer.value === "true" ? 1 : 0,
+          };
+        });
+      };
+
+      const questionByCategory = () => {
+        return categoryQ.map((cat) => {
+          const aByQ = answersbyQuestion();
+          const mappedQuestions = aByQ.filter((question) => {
+            return question.categoryId == cat.id;
+          });
+          const score = mappedQuestions.reduce((acc, question) => {
+            return (acc += question.score);
+          }, 0);
+
+          return {
+            category: cat.text,
+            score: parseFloat(
+              ((score / mappedQuestions.length) * 100).toFixed(0)
+            ),
+          };
+        });
+      };
+
+      Stop.findOne({ where: { stopId } }).then((stop) => {
+        stop
+          .update({
+            categoryScores: questionByCategory(),
+          })
+          .then(res.sendStatus(201))
+          .catch((err) => console.log(err));
+      });
+    })
     .catch((err) => console.log(err));
 });
 
