@@ -5,6 +5,7 @@ const { Stop, Question, Answer, Category } = require("../models/index");
 router.get("/", (req, res) => {
   Stop.findAll({
     limit: 100,
+    order: [["id", "ASC"]],
   })
     .then((stops) => {
       res.json(stops);

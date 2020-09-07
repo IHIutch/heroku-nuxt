@@ -241,21 +241,31 @@ export default {
   computed: {
     stopScores() {
       return this.stops.map((stop, idx) => {
-        var safety = this.randomNumber();
-        var accessibility = this.randomNumber();
-        var sanitary = this.randomNumber();
-        var wayfinding = this.randomNumber();
-        var comfort = this.randomNumber();
+        const categories = [
+          "safety",
+          "accessibility",
+          "sanitary",
+          "wayfinding",
+          "comfort",
+        ];
+
+        const scores = Object.assign(
+          {},
+          ...categories.map((cat) => {
+            return {
+              [cat]: stop.categoryScores
+                ? stop.categoryScores.find((catScore) => {
+                    return catScore.category.toLowerCase() === cat;
+                  }).score
+                : false,
+            };
+          })
+        );
         return {
+          ...scores,
           ...stop,
           rank: idx + 1,
-          safety: safety,
-          accessibility: accessibility,
-          sanitary: sanitary,
-          wayfinding: wayfinding,
-          comfort: comfort,
-          overall:
-            (safety + accessibility + sanitary + wayfinding + comfort) / 5,
+          overall: 4 / 5,
         };
       });
     },
