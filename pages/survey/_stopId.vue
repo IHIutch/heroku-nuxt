@@ -31,7 +31,9 @@
                 <transition name="slide-fade" mode="out-in">
                   <div :key="surveyStep">
                     <nuxt-child
-                      :question="questions[surveyStep - 1]"
+                      :question="
+                        getQuestion(answers[surveyStep - 1].questionId)
+                      "
                       :answer.sync="answers[surveyStep - 1]"
                     />
                   </div>
@@ -129,6 +131,11 @@ export default {
     this.filterQuestions();
   },
   methods: {
+    getQuestion(id) {
+      return this.questions.find((question) => {
+        return question.id === id;
+      });
+    },
     questionMap() {
       return this.questions.map((question) => {
         return question.id;
