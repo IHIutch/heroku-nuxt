@@ -38,7 +38,7 @@ router.get("/:stopId/", (req, res) => {
   const questions = Question.findAll({ where: { active: true } });
   const answers = Answer.findAll({
     where: { stopId },
-    // order: [["id", "DESC"]],
+    order: [["id", "DESC"]],
   });
 
   Promise.all([stop, categories, questions, answers])
