@@ -1,13 +1,8 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import { Stop, Question, Watcher, Answer, Category } from "../models/index";
 const { v4: uuidv4 } = require("uuid");
-const {
-  Stop,
-  Question,
-  Watcher,
-  Answer,
-  Category,
-} = require("../models/index");
+
+const router = express.Router();
 
 router.get("/:stopId", (req, res) => {
   const stopId = req.params.stopId;

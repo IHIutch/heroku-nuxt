@@ -1,8 +1,9 @@
-const express = require("express");
+import express from "express";
+import { User } from "../models/index";
+
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { User } = require("../models/index");
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body;

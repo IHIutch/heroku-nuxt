@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import { User } from "../models/index";
+
 const bcrypt = require("bcryptjs");
-const { User } = require("../models/index");
+const router = express.Router();
 
 router.get("/", (req, res) => {
   res.json({ user: { email: "jbhutch01@gmail.com" } });

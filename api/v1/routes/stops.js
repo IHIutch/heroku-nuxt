@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import { Stop, Question, Answer, Category } from "../models/index";
+
 const router = express.Router();
-const { Stop, Question, Answer, Category } = require("../models/index");
 
 router.get("/", (req, res) => {
   Stop.findAll({

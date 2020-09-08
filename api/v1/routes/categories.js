@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import { Category } from "../models/index";
+
 const router = express.Router();
-const { Category } = require("../models/index");
 
 router.post("/create", (req, res) => {
   const { text, value } = req.body;
