@@ -43,9 +43,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [
-    '@/plugins/fonts.client.js'
-  ],
+  plugins: ["@/plugins/fonts.client.js"],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -85,6 +83,15 @@ export default {
     }),
     // Will register file from project api directory to handle /api/* requires
     { path: "/api/v1", handler: "~/api/v1/index" },
+    {
+      path: "/qr",
+      handler(req, res) {
+        const url = req.url.split("/");
+        res.writeHead(301, { Location: `/stops/${url[1]}` });
+        res.end();
+        return;
+      },
+    },
   ],
   auth: {
     redirect: {
@@ -111,8 +118,9 @@ export default {
     bootstrapCSS: false,
     bootstrapVueCSS: false,
   },
-    sentry: {
+  sentry: {
     initialize: process.env.NODE_ENV === "production",
-    dsn: "https://6e0106f21eb343188c047af216daa2f7@o311837.ingest.sentry.io/5418652",
+    dsn:
+      "https://6e0106f21eb343188c047af216daa2f7@o311837.ingest.sentry.io/5418652",
   },
 };
