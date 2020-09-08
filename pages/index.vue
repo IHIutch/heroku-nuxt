@@ -161,9 +161,20 @@ import { getColorByNumber } from "@/functions/index";
 export default {
   name: "HomePage",
   async asyncData({ $axios, route, error, env }) {
-    return $axios.$get(`${$axios.defaults.baseURL}/stops`).then((res) => {
-      return { stops: res };
-    });
+    return $axios
+      .$get(`${$axios.defaults.baseURL}/stops/`)
+      .then((res) => {
+        if (res) {
+          return {
+            stops: res,
+          };
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((err) => {
+        error({ statusCode: 404, message: err });
+      });
   },
   data() {
     return {
