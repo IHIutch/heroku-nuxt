@@ -140,7 +140,7 @@ export default {
       description: "",
     });
   },
-  async asyncData({ $axios, route, error, env }) {
+  async asyncData({ $axios, route, error, $config }) {
     const stopId = route.params.stopId;
 
     return $axios

@@ -159,8 +159,8 @@
 import { getColorByNumber } from "@/functions/index";
 
 export default {
-  name: "HomePage",
-  async asyncData({ $axios, route, error, env }) {
+  name: "Dashboard",
+  async asyncData({ $axios, error }) {
     return $axios
       .$get(`${$axios.defaults.baseURL}/stops`)
       .then((res) => {
