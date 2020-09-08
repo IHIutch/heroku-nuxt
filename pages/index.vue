@@ -142,7 +142,7 @@
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(link)="data">
-                  <router-link :to="`/stops/${data.item.id}`">
+                  <router-link :to="`/stops/${data.item.stopId}`">
                     Details
                   </router-link>
                 </template>
