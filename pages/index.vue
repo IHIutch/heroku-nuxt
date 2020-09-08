@@ -298,7 +298,9 @@ export default {
         );
 
         scores["overall"] = Object.values(scores).reduce((acc, score) => {
-          return score ? (acc += score / Object.keys(scores).length) : 0;
+          return score
+            ? (acc += score / Object.keys(scores).length)
+            : (acc += 0);
         }, 0);
 
         return {
