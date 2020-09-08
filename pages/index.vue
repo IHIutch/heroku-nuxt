@@ -88,34 +88,58 @@
                 :filter="table.filter"
               >
                 <template v-slot:cell(safety)="data">
-                  <b-badge :variant="getVariant(data.item.safety)">
-                    {{ data.item.safety }}%
+                  <b-badge
+                    v-if="data.item.scores.safety !== false"
+                    :variant="getVariant(data.item.scores.safety)"
+                  >
+                    {{ data.item.scores.safety }}%
                   </b-badge>
+                  <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(accessibility)="data">
-                  <b-badge :variant="getVariant(data.item.accessibility)">
-                    {{ data.item.accessibility }}%
+                  <b-badge
+                    v-if="data.item.scores.accessibility !== false"
+                    :variant="getVariant(data.item.scores.accessibility)"
+                  >
+                    {{ data.item.scores.accessibility }}%
                   </b-badge>
+                  <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(sanitary)="data">
-                  <b-badge :variant="getVariant(data.item.sanitary)">
-                    {{ data.item.sanitary }}%
+                  <b-badge
+                    v-if="data.item.scores.sanitary !== false"
+                    :variant="getVariant(data.item.scores.sanitary)"
+                  >
+                    {{ data.item.scores.sanitary }}%
                   </b-badge>
+                  <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(wayfinding)="data">
-                  <b-badge :variant="getVariant(data.item.wayfinding)">
-                    {{ data.item.wayfinding }}%
+                  <b-badge
+                    v-if="data.item.scores.wayfinding !== false"
+                    :variant="getVariant(data.item.scores.wayfinding)"
+                  >
+                    {{ data.item.scores.wayfinding }}%
                   </b-badge>
+                  <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(comfort)="data">
-                  <b-badge :variant="getVariant(data.item.comfort)">
-                    {{ data.item.comfort }}%
+                  <b-badge
+                    v-if="data.item.scores.comfort !== false"
+                    :variant="getVariant(data.item.scores.comfort)"
+                  >
+                    {{ data.item.scores.comfort }}%
                   </b-badge>
+                  <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(overall)="data">
-                  <b-badge :variant="getVariant(data.item.overall)">
-                    {{ data.item.overall }}%
+                  <b-badge
+                    v-if="data.item.scores.overall !== false"
+                    :variant="getVariant(data.item.scores.overall)"
+                  >
+                    {{ data.item.scores.overall }}%
                   </b-badge>
+                  <b-badge v-else variant="secondary">-</b-badge>
                 </template>
                 <template v-slot:cell(link)="data">
                   <router-link :to="`/stops/${data.item.id}`">
@@ -240,15 +264,15 @@ export default {
   },
   computed: {
     stopScores() {
-      return this.stops.map((stop, idx) => {
-        const categories = [
-          "safety",
-          "accessibility",
-          "sanitary",
-          "wayfinding",
-          "comfort",
-        ];
+      const categories = [
+        "safety",
+        "accessibility",
+        "sanitary",
+        "wayfinding",
+        "comfort",
+      ];
 
+      return this.stops.map((stop, idx) => {
         const scores = Object.assign(
           {},
           ...categories.map((cat) => {
@@ -261,11 +285,14 @@ export default {
             };
           })
         );
+
+        scores["overall"] = Object.values(scores).reduce((acc, score) => {
+          return score ? (acc += score / Object.keys(scores).length) : 0;
+        }, 0);
+
         return {
-          ...scores,
           ...stop,
-          rank: idx + 1,
-          overall: 4 / 5,
+          scores,
         };
       });
     },
