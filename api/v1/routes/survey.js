@@ -50,12 +50,6 @@ router.post("/:stopId", (req, res) => {
     })
   ).catch((err) => console.log(err));
 
-  const stop = Stop.findOne({
-    raw: true,
-    where: {
-      stopId: stopId,
-    },
-  });
   const categories = Category.findAll({ raw: true });
   const questions = Question.findAll({ raw: true, where: { active: true } });
   const queryAnswers = Answer.findAll({
@@ -119,4 +113,4 @@ router.post("/:stopId", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-module.exports = router;
+export default router;

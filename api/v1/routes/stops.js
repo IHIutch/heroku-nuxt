@@ -50,4 +50,4 @@ router.get("/:stopId/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-module.exports = router;
+export default router;
