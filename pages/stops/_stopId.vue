@@ -3,6 +3,10 @@
     <b-row>
       <b-col cols="12" md="8" offset-md="2">
         <div class="mb-5">
+          <QRCode
+            :value="`${$config.baseURL}/qr/${$route.params.stopId}`"
+            :width="200"
+          />
           <div class="d-flex align-items-center justify-content-between">
             <h1>{{ stop.stopName }}</h1>
             <b-button variant="primary" size="sm" :to="`/survey/${stop.stopId}`"
@@ -119,11 +123,15 @@
 <script>
 import { getMeta, getColorByNumber } from "@/functions/index";
 import { ChevronDownIcon } from "vue-feather-icons";
+import QRCode from "@/components/QRCode";
+import DoughnutChartWrapper from "@/components/DoughnutChartWrapper";
 
 export default {
   name: "StopPage",
   components: {
     ChevronDownIcon,
+    DoughnutChartWrapper,
+    QRCode,
   },
   head() {
     return getMeta({
