@@ -87,7 +87,7 @@ export default {
       path: "/qr",
       handler(req, res) {
         const url = req.url.split("/");
-        res.writeHead(301, { Location: `/stops/${url[1]}` });
+        res.writeHead(301, { Location: `/survey/${url[1]}` });
         res.end();
         return;
       },
