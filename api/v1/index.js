@@ -4,6 +4,7 @@ import stops from "./routes/stops";
 import users from "./routes/users";
 import questions from "./routes/questions";
 import categories from "./routes/categories";
+import answers from "./routes/answers";
 import survey from "./routes/survey";
 import admin from "./routes/admin";
 

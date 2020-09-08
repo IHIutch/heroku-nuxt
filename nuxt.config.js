@@ -1,7 +1,7 @@
 import redirectSSL from "redirect-ssl";
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://nuxt.herokuapp.com"
+    ? "https://ratemystop.herokuapp.com"
     : "http://localhost:3000";
 
 export default {
@@ -43,7 +43,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ["@/plugins/fonts.client.js"],
+  plugins: ["@/plugins/fonts.client.js", "~/serverMiddleware/debug.js"],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
