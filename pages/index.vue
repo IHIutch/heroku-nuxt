@@ -162,7 +162,7 @@ export default {
   name: "HomePage",
   async asyncData({ $axios, route, error, env }) {
     return $axios
-      .$get(`${$axios.defaults.baseURL}/stops/`)
+      .$get(`${$axios.defaults.baseURL}/stops`)
       .then((res) => {
         if (res) {
           return {

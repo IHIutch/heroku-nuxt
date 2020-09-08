@@ -153,7 +153,7 @@ export default {
             categories,
             questions,
             answers,
-            currentRoute: env.baseURL + route.path,
+            currentRoute: $config.baseURL + route.path,
           };
         } else {
           throw new Error();
