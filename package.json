@@ -26,6 +26,7 @@
     "qrcode": "^1.4.4",
     "redirect-ssl": "^2.0.0",
     "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
     "typeface-barlow": "0.0.71",
     "vue-chartjs": "^3.5.1",
     "vue-feather-icons": "^5.1.0"
@@ -35,8 +36,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.1",
-    "sass-loader": "^8.0.2",
-    "sequelize-cli": "^6.2.0"
+    "sass-loader": "^8.0.2"
   },
   "postcss": {
     "plugins": {
