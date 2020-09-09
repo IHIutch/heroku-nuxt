@@ -1,9 +1,12 @@
 <template>
   <div>
+    <div class="mb-4">
+      <span>Question {{ currentStep }} of {{ totalSteps }}</span>
+    </div>
     <template v-if="question.type == 'yes_no'">
       <YesNoQuestion :question="question" :answer.sync="answer" />
     </template>
-    <template v-if="question.type == 'multiple_choice'">
+    <!-- <template v-if="question.type == 'multiple_choice'">
       <template v-if="question.numAnswers < 0">
         <MultipleChoiceCheckboxQuestion
           :question="question"
@@ -16,7 +19,7 @@
           :answer.sync="answer"
         />
       </template>
-    </template>
+    </template> -->
 
     <!-- <div v-if="currentQuestion > -1">
       <b-button class="mb-2" @click="toggleComments(currentQuestion)">
@@ -44,14 +47,12 @@ import MultipleChoiceCheckboxQuestion from "@/components/questionTypes/MultipleC
 import MultipleChoiceRadioQuestion from "@/components/questionTypes/MultipleChoiceRadioQuestion";
 
 export default {
-  name: "SurveyStep",
+  name: "Step",
   props: {
-    question: {
-      type: Object,
-    },
-    answer: {
-      type: Object,
-    },
+    currentStep: Number,
+    totalSteps: Number,
+    question: Object,
+    answer: Object,
   },
 };
 </script>
