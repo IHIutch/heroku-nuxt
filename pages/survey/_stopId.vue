@@ -27,15 +27,20 @@
               </b-button>
             </div>
             <transition name="slide-fade" mode="out-in">
-              <div class="bg-white shadow-sm p-4 w-100" :key="surveyStep">
+              <div
+                class="bg-white shadow-sm p-8 w-100 rounded-lg"
+                :key="surveyStep"
+              >
                 <template v-if="surveyStep">
                   <nuxt-child
+                    :currentStep="surveyStep"
+                    :totalSteps="answers.length"
                     :question="getQuestion(answers[surveyStep - 1].questionId)"
                     :answer.sync="answers[surveyStep - 1]"
                   />
                 </template>
                 <template v-else>
-                  <nuxt-child :surveyStep.sync="surveyStep" />
+                  <nuxt-child :step.sync="surveyStep" />
                 </template>
               </div>
             </transition>
@@ -51,6 +56,7 @@
             :disabled="answers[surveyStep - 1].value == null"
             variant="primary"
             block
+            size="lg"
           >
             Continue
           </b-button>
@@ -59,8 +65,9 @@
           <b-button
             @click="complete()"
             variant="primary"
-            :disabled="isSaving"
+            :disabled="answers[surveyStep - 1].value == null || isSaving"
             block
+            size="lg"
             >Complete!</b-button
           >
         </template>
@@ -157,7 +164,7 @@ export default {
         })
         .then((data) => {
           this.isSaving = false;
-          this.$router.push(`/stops/${this.stop.stopId}`);
+          this.$router.push(`/survey/${this.stop.stopId}/thank-you`);
         })
         .catch((err) => console.log(err));
     },

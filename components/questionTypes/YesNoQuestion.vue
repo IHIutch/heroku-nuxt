@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-4">
-      <h2 class="h4 mb-0">{{ question.text }}</h2>
+      <span class="h2 mb-0">{{ question.text }}</span>
     </div>
     <b-form-group class="mb-0" :id="'question' + index">
       <b-form-radio
@@ -13,6 +13,7 @@
         :key="idx"
         button
         button-variant="outline-primary btn-block"
+        size="lg"
         >{{ label.text }}</b-form-radio
       >
     </b-form-group>
