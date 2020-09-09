@@ -8,8 +8,8 @@ router.get("/", (req, res) => {
     limit: 100,
     order: [["id", "ASC"]],
   })
-    .then((stops) => {
-      res.json(stops);
+    .then((data) => {
+      res.json(data);
     })
     .catch((err) => console.log(err));
 });
@@ -32,9 +32,7 @@ router.get("/:stopId/", (req, res) => {
   const stopId = req.params.stopId;
 
   const stop = Stop.findOne({
-    where: {
-      stopId: stopId,
-    },
+    where: { stopId },
   });
   const categories = Category.findAll();
   const questions = Question.findAll({ where: { active: true } });
