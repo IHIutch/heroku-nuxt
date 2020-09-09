@@ -26,29 +26,19 @@
                 <span>Back</span>
               </b-button>
             </div>
-            <div class="bg-white shadow-sm p-4 w-100">
-              <template v-if="surveyStep">
-                <transition name="slide-fade" mode="out-in">
-                  <div :key="surveyStep">
-                    <nuxt-child
-                      :question="
-                        getQuestion(answers[surveyStep - 1].questionId)
-                      "
-                      :answer.sync="answers[surveyStep - 1]"
-                    />
-                  </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div class="text-center">
-                  <h2>Welcome!</h2>
-                  <div>
-                    <span>Start the Survey!</span>
-                  </div>
-                  <b-button @click="next()">Start</b-button>
-                </div>
-              </template>
-            </div>
+            <transition name="slide-fade" mode="out-in">
+              <div class="bg-white shadow-sm p-4 w-100" :key="surveyStep">
+                <template v-if="surveyStep">
+                  <nuxt-child
+                    :question="getQuestion(answers[surveyStep - 1].questionId)"
+                    :answer.sync="answers[surveyStep - 1]"
+                  />
+                </template>
+                <template v-else>
+                  <nuxt-child :surveyStep.sync="surveyStep" />
+                </template>
+              </div>
+            </transition>
           </b-col>
         </b-row>
       </b-container>
