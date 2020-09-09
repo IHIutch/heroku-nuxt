@@ -185,18 +185,11 @@ export default {
     },
   },
   computed: {
-    recentAnswers() {
-      return this.answers.reduce((acc, answer) => {
-        acc[answer.questionId] = [...(acc[answer.questionId] || []), answer];
-        return acc;
-      }, {});
-    },
-    answersbyQuestion() {
+    answersByQuestion() {
       return this.questions.map((question) => {
-        const answer =
-          this.recentAnswers && this.recentAnswers[question.id]
-            ? this.recentAnswers[question.id][0]
-            : null;
+        const answer = this.answers.find((a) => {
+          return a.questionId === question.id;
+        });
         return {
           ...question,
           answer: answer,
@@ -205,16 +198,16 @@ export default {
       });
     },
     questionByCategory() {
-      return this.categories.map((cat) => {
-        const questions = this.answersbyQuestion.filter((question) => {
-          return question.categoryId == cat.id;
+      return this.categories.map((c) => {
+        const questions = this.answersByQuestion.filter((q) => {
+          return q.categoryId == c.id;
         });
-        const score = questions.reduce((acc, question) => {
-          return (acc += question.score);
+        const score = questions.reduce((acc, q) => {
+          return (acc += q.score);
         }, 0);
         return {
-          id: cat.id,
-          text: cat.text,
+          id: c.id,
+          text: c.text,
           questions: questions,
           score: parseFloat(((score / questions.length) * 100).toFixed(0)),
         };

@@ -50,58 +50,47 @@ router.post("/:stopId", (req, res) => {
     })
   )
     .then(() => {
-      const categories = Category.findAll({ raw: true });
-      const questions = Question.findAll({
+      const allCategories = Category.findAll({ raw: true });
+      const allQuestions = Question.findAll({
         raw: true,
         where: { active: true },
       });
-      const queryAnswers = Answer.findAll({
+      const allAnswers = Answer.findAll({
         raw: true,
         where: { stopId },
         order: [["id", "DESC"]],
       });
 
-      Promise.all([questions, queryAnswers, categories])
+      Promise.all([allQuestions, allAnswers, allCategories])
         .then((data) => {
           const [questionQ, answerQ, categoryQ] = data;
 
-          const recentAnswers = () => {
-            return answerQ.reduce((acc, answer) => {
-              acc[answer.questionId] = [
-                ...(acc[answer.questionId] || []),
-                answer,
-              ];
-              return acc;
-            }, {});
-          };
-
-          const answersbyQuestion = () => {
+          const answersByQuestion = () => {
             return questionQ.map((question) => {
-              const recAns = recentAnswers();
-              const mappedAnswer =
-                recAns && recAns[question.id] ? recAns[question.id][0] : null;
+              const answer = answerQ.find((a) => {
+                return a.questionId === question.id;
+              });
               return {
                 ...question,
-                answer: mappedAnswer,
-                score: mappedAnswer && mappedAnswer.value === "true" ? 1 : 0,
+                score: answer && answer.value === "true" ? 1 : 0,
               };
             });
           };
 
           const questionByCategory = () => {
-            return categoryQ.map((cat) => {
-              const aByQ = answersbyQuestion();
-              const mappedQuestions = aByQ.filter((question) => {
-                return question.categoryId == cat.id;
+            return categoryQ.map((c) => {
+              const aByQ = answersByQuestion();
+              const questions = aByQ.filter((q) => {
+                return q.categoryId == c.id;
               });
-              const score = mappedQuestions.reduce((acc, question) => {
-                return (acc += question.score);
+              const score = questions.reduce((acc, q) => {
+                return (acc += q.score);
               }, 0);
 
               return {
-                category: cat.text,
+                category: c.text,
                 score: parseFloat(
-                  ((score / mappedQuestions.length) * 100).toFixed(0)
+                  ((score / questions.length) * 100).toFixed(0)
                 ),
               };
             });
