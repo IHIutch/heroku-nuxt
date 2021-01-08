@@ -8,7 +8,7 @@
           rated
         </p>
       </b-col>
-      <!-- <b-col cols="12">
+      <b-col cols="12">
         <div class="p-4 shadow-sm rounded mb-4 bg-white">
           <div class="embed-responsive embed-responsive-21by9">
             <client-only>
@@ -41,7 +41,7 @@
             </client-only>
           </div>
         </div>
-      </b-col> -->
+      </b-col>
       <b-col cols="12">
         <div class="p-4 shadow-sm rounded bg-white">
           <b-row>
