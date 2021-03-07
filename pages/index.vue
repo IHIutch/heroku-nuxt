@@ -45,22 +45,181 @@
           <table v-chakra w="100%">
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Stop Name</th>
-                <th>Safety</th>
-                <th>Accessibility</th>
-                <th>Sanitary</th>
-                <th>Wayfinding</th>
-                <th>Comfort</th>
-                <th>Overall</th>
-                <th></th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Rank
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Stop Name
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Safety
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Accessibility
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Sanitary
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Wayfinding
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Comfort
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                >
+                  Overall
+                </th>
+                <th
+                  v-chakra
+                  font-weight="bold"
+                  text-transform="uppercase"
+                  letter-spacing="wider"
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="3"
+                  padding-bottom="3"
+                  line-height="1rem"
+                  font-size="xs"
+                  color="gray.600"
+                  border-bottom-width="1px"
+                ></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(stop, idx) in stopScores" :key="idx">
-                <td></td>
-                <td>{{ stop.stopName }}</td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                ></td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
+                  {{ stop.stopName }}
+                </td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CBadge
                     v-if="stop.scores.safety !== false"
                     :variant-color="getVariant(stop.scores.safety)"
@@ -69,7 +228,15 @@
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CBadge
                     v-if="stop.scores.accessibility !== false"
                     :variant-color="getVariant(stop.scores.accessibility)"
@@ -78,7 +245,15 @@
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CBadge
                     v-if="stop.scores.sanitary !== false"
                     :variant-color="getVariant(stop.scores.sanitary)"
@@ -87,7 +262,15 @@
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CBadge
                     v-if="stop.scores.wayfinding !== false"
                     :variant-color="getVariant(stop.scores.wayfinding)"
@@ -96,7 +279,15 @@
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CBadge
                     v-if="stop.scores.comfort !== false"
                     :variant-color="getVariant(stop.scores.comfort)"
@@ -105,7 +296,15 @@
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CBadge
                     v-if="stop.scores.overall !== false"
                     :variant-color="getVariant(stop.scores.overall)"
@@ -114,7 +313,15 @@
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
-                <td>
+                <td
+                  v-chakra
+                  padding-left="6"
+                  padding-right="6"
+                  padding-top="4"
+                  padding-bottom="4"
+                  line-height="1.25rem"
+                  border-bottom-width="1px"
+                >
                   <CLink as="nuxt-link" :to="`/stops/${stop.stopId}`"
                     >Details</CLink
                   >
