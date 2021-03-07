@@ -23,16 +23,16 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   data() {
     return {
       loggedIn: false,
-    };
+    }
   },
   methods: {
     logOut() {
-      this.$auth.logout();
+      this.$auth.logout()
     },
   },
-};
+}
 </script>

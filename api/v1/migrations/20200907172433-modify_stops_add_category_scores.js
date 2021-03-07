@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('Stops', 'categoryScores', {
       type: Sequelize.JSONB,
     })
   },
-};
+}

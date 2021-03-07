@@ -12,12 +12,12 @@
 
 <script>
 export default {
-  name: "SurveyStart",
+  name: 'SurveyStart',
   methods: {
     next() {
-      this.$emit("update:step", 1);
-      this.$router.push(`/survey/${this.$route.params.stopId}/1`);
+      this.$emit('update:step', 1)
+      this.$router.push(`/survey/${this.$route.params.stopId}/1`)
     },
   },
-};
+}
 </script>

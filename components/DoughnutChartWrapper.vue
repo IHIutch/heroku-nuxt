@@ -5,8 +5,8 @@
     >
       <DoughnutChartBasic
         class="position-absolute w-100 top-0"
-        :foregroundColor="foregroundColor"
-        :backgroundColor="backgroundColor"
+        :foreground-color="foregroundColor"
+        :background-color="backgroundColor"
         :thickness="thickness"
         :percent="percent"
       />
@@ -16,24 +16,28 @@
 </template>
 
 <script>
-import DoughnutChartBasic from "@/components/charts/DoughnutChartBasic";
+import DoughnutChartBasic from '@/components/charts/DoughnutChartBasic'
 
 export default {
-  name: "DoughnutChartWrapper",
+  name: 'DoughnutChartWrapper',
   components: { DoughnutChartBasic },
   props: {
     foregroundColor: {
-      type: String
+      type: String,
+      default: 'black',
     },
     backgroundColor: {
-      type: String
+      type: String,
+      default: 'black',
     },
     thickness: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     percent: {
-      type: Number
-    }
-  }
-};
+      type: Number,
+      default: 0,
+    },
+  },
+}
 </script>

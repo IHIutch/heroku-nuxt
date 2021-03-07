@@ -8,8 +8,8 @@
               <b-form-group label="Email" label-for="email">
                 <b-form-input
                   id="email"
-                  type="email"
                   v-model="form.email"
+                  type="email"
                   required
                   placeholder="Enter name"
                 ></b-form-input>
@@ -17,8 +17,8 @@
               <b-form-group label="Password" label-for="password">
                 <b-form-input
                   id="password"
-                  type="password"
                   v-model="form.password"
+                  type="password"
                   required
                   placeholder="Enter password"
                 ></b-form-input>
@@ -34,21 +34,21 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       form: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
-    };
+    }
   },
   methods: {
     logIn() {
-      this.$auth.loginWith("local", {
+      this.$auth.loginWith('local', {
         data: this.form,
-      });
+      })
     },
   },
-};
+}
 </script>

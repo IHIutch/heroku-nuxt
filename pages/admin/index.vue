@@ -14,8 +14,8 @@
             :fields="['id', 'text', 'created']"
             sort-by="id"
           >
-            <template v-slot:cell(created)="data">
-              {{ data.item.createdAt | dayjs("MM/DD/YY, hh:mmA") }}
+            <template #cell(created)="data">
+              {{ data.item.createdAt | dayjs('MM/DD/YY, hh:mmA') }}
             </template>
           </b-table>
         </div>
@@ -31,18 +31,18 @@
             :fields="['id', 'text', 'category', 'type', 'active', 'created']"
             sort-by="id"
           >
-            <template v-slot:cell(category)="data">
+            <template #cell(category)="data">
               {{ data.item.category.text }}
             </template>
-            <template v-slot:cell(created)="data">
-              {{ data.item.createdAt | dayjs("MM/DD/YY, hh:mmA") }}
+            <template #cell(created)="data">
+              {{ data.item.createdAt | dayjs('MM/DD/YY, hh:mmA') }}
             </template>
           </b-table>
         </div>
       </b-col>
     </b-row>
 
-    <b-modal hide-footer id="catModal" title="Add New Category">
+    <b-modal id="catModal" hide-footer title="Add New Category">
       <b-form-group id="catNameLabel" label="Category Name" label-for="catName">
         <b-form-input
           id="catName"
@@ -52,11 +52,11 @@
           placeholder="Category Name"
         ></b-form-input>
       </b-form-group>
-      <b-button variant="primary" @click="createCategory()" :disabled="isSaving"
+      <b-button variant="primary" :disabled="isSaving" @click="createCategory()"
         >Create</b-button
       >
     </b-modal>
-    <b-modal hide-footer id="questionModal" title="Add New Question">
+    <b-modal id="questionModal" hide-footer title="Add New Question">
       <b-form-group
         id="questionTextLabel"
         label="Question"
@@ -97,7 +97,7 @@
           :options="questionTypes"
           required
         >
-          <template v-slot:first>
+          <template #first>
             <option :value="null" disabled>-- Please Select an Type --</option>
           </template>
         </b-form-select>
@@ -107,8 +107,8 @@
           <b-form-group label="Answer Type">
             <b-form-radio-group
               id="numAnswers"
-              name="numAnswers"
               v-model="newQuestion.numAnswers"
+              name="numAnswers"
             >
               <b-form-radio value="1">Select One Answer</b-form-radio>
               <b-form-radio value="-1">Select Multiple Answers</b-form-radio>
@@ -116,17 +116,17 @@
           </b-form-group>
           <b-form-group
             v-for="(answer, idx) in newQuestion.answers"
-            :key="idx"
             :id="'answerTextLabel-' + idx"
+            :key="idx"
             :label="'Answer ' + (idx + 1)"
             :label-for="'answerText-' + idx"
           >
             <b-form-input
               :id="'answerText-' + idx"
+              v-model="newQuestion.answers[idx].text"
               type="text"
               required
               placeholder="Answer"
-              v-model="newQuestion.answers[idx].text"
             ></b-form-input>
           </b-form-group>
           <b-button variant="primary" @click="addAnswer()">Add Answer</b-button>
@@ -137,7 +137,7 @@
           <b-col cols="12">
             <b-form-group id="stepsLabel" label="Steps" label-for="steps">
               <b-form-select id="steps" :options="steps" required>
-                <template v-slot:first>
+                <template #first>
                   <option :value="null" disabled>-- Number of Steps --</option>
                 </template>
               </b-form-select>
@@ -184,23 +184,25 @@
             v-model="newQuestion.answers"
             required
           >
-            <option :value="[]" disabled selected
-              >-- Choose an Option --</option
-            >
+            <option :value="[]" disabled selected>
+              -- Choose an Option --
+            </option>
             <option
               :value="[
                 { text: 'Yes', value: true },
                 { text: 'No', value: false },
               ]"
-              >Yes/No</option
             >
+              Yes/No
+            </option>
             <option
               :value="[
                 { text: 'True', value: true },
                 { text: 'False', value: false },
               ]"
-              >True/False</option
             >
+              True/False
+            </option>
           </b-form-select>
         </b-form-group>
       </template>
@@ -210,37 +212,42 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
+import dayjs from 'dayjs'
 
 export default {
-  name: "AdminHome",
-  layout: "admin",
-  async asyncData({ $axios, error }) {
+  name: 'AdminHome',
+  filters: {
+    dayjs(val, format) {
+      return dayjs(val).format(format)
+    },
+  },
+  layout: 'admin',
+  asyncData({ $axios, error }) {
     return $axios
       .$get(`${$axios.defaults.baseURL}/admin`)
       .then((res) => {
         if (res) {
-          const [questions, categories] = res;
+          const [questions, categories] = res
           return {
             questions,
             categories,
-          };
+          }
         } else {
-          throw new Error();
+          throw new Error(error)
         }
       })
       .catch((err) => {
-        error({ statusCode: 404, message: err });
-      });
+        error({ statusCode: 404, message: err })
+      })
   },
   data() {
     return {
       isSaving: false,
       newCategory: {
-        text: "",
+        text: '',
       },
       newQuestion: {
-        text: "",
+        text: '',
         type: null,
         categoryId: null,
         answers: [],
@@ -251,42 +258,57 @@ export default {
         boolLabels: {},
       },
       questionTypes: [
-        { text: "Multiple Choice", value: "multiple_choice" },
-        { text: "Yes/No", value: "yes_no" },
-        { text: "Range", value: "range" },
-        { text: "Text", value: "text" },
-        { text: "Number", value: "number" },
+        { text: 'Multiple Choice', value: 'multiple_choice' },
+        { text: 'Yes/No', value: 'yes_no' },
+        { text: 'Range', value: 'range' },
+        { text: 'Text', value: 'text' },
+        { text: 'Number', value: 'number' },
       ],
       categories: [],
       questions: [],
       steps: [3, 4, 5],
-    };
+    }
+  },
+  computed: {
+    computedQuestions() {
+      return this.questions.map((question) => {
+        const category = this.categories.find((cat) => {
+          return question.categoryId === cat.id
+        })
+        return {
+          category,
+          ...question,
+        }
+      })
+    },
   },
   methods: {
     addAnswer() {
       this.newQuestion.answers.push({
-        text: "",
-      });
+        text: '',
+      })
     },
     createCategory() {
-      this.isSaving = true;
+      this.isSaving = true
       this.$axios
         .$post(`${this.$axios.defaults.baseURL}/categories/create`, {
           text: this.newCategory.text,
-          value: this.newCategory.text.replace(/\s+/g, "-").toLowerCase(),
+          value: this.newCategory.text.replace(/\s+/g, '-').toLowerCase(),
         })
         .then((data) => {
-          this.categories.push(data);
-          this.$bvModal.hide("catModal");
+          this.categories.push(data)
+          this.$bvModal.hide('catModal')
           this.newCategory = {
-            text: "",
-          };
-          this.isSaving = false;
+            text: '',
+          }
+          this.isSaving = false
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          throw new Error(err)
+        })
     },
     createQuestion() {
-      this.isSaving = true;
+      this.isSaving = true
       this.$axios
         .$post(`${this.$axios.defaults.baseURL}/questions/create`, {
           text: this.newQuestion.text,
@@ -295,30 +317,14 @@ export default {
           categoryId: this.newQuestion.categoryId,
         })
         .then((data) => {
-          this.questions.push(data);
-          this.$bvModal.hide("questionModal");
-          this.isSaving = false;
+          this.questions.push(data)
+          this.$bvModal.hide('questionModal')
+          this.isSaving = false
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          throw new Error(err)
+        })
     },
   },
-  computed: {
-    computedQuestions() {
-      return this.questions.map((question) => {
-        const category = this.categories.find((cat) => {
-          return question.categoryId === cat.id;
-        });
-        return {
-          category,
-          ...question,
-        };
-      });
-    },
-  },
-  filters: {
-    dayjs(val, format) {
-      return dayjs(val).format(format);
-    },
-  },
-};
+}
 </script>

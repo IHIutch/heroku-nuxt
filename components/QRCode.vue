@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import QRCode from "qrcode";
+import QRCode from 'qrcode'
 
 export default {
-  name: "QRCode",
+  name: 'QRCode',
   props: {
     value: { type: String, required: true },
     width: { type: Number, default: 200 },
   },
   mounted() {
-    const options = { width: this.width };
+    const options = { width: this.width }
     QRCode.toCanvas(this.$refs.canvas, this.value, options, (err) => {
-      if (err) throw err;
-    });
+      if (err) throw err
+    })
   },
-};
+}
 </script>

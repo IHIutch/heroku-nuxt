@@ -61,8 +61,8 @@
     "not dead"
   ],
   "lint-staged": {
-    "*.{js,vue}": "eslint",
-    "*.{css,vue}": "stylelint"
+    "*.{js,vue}": "lint:js",
+    "*.{css,vue}": "lint:css"
   },
   "husky": {
     "hooks": {

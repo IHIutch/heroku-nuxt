@@ -1,1 +1,1 @@
-require("typeface-barlow");
+require('typeface-barlow')

@@ -1,21 +1,23 @@
-import express from "express";
-import { Stop, Question, Answer, Category } from "../models/index";
+import express from 'express'
+import { Stop, Question, Answer, Category } from '../models/index'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   Stop.findAll({
     limit: 100,
-    order: [["id", "ASC"]],
+    order: [['id', 'ASC']],
   })
     .then((data) => {
-      res.json(data);
+      res.json(data)
     })
-    .catch((err) => console.log(err));
-});
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
 
-router.post("/", (req, res) => {
-  const { stopName, stopCode, stopDesc, stopLat, stopLon } = req.body;
+router.post('/', (req, res) => {
+  const { stopName, stopCode, stopDesc, stopLat, stopLon } = req.body
 
   Stop.create({
     stopName,
@@ -25,27 +27,31 @@ router.post("/", (req, res) => {
     stopLon,
   })
     .then(res.sendStatus(201))
-    .catch((err) => console.log(err));
-});
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
 
-router.get("/:stopId/", (req, res) => {
-  const stopId = req.params.stopId;
+router.get('/:stopId/', (req, res) => {
+  const stopId = req.params.stopId
 
   const stop = Stop.findOne({
     where: { stopId },
-  });
-  const categories = Category.findAll();
-  const questions = Question.findAll({ where: { active: true } });
+  })
+  const categories = Category.findAll()
+  const questions = Question.findAll({ where: { active: true } })
   const answers = Answer.findAll({
     where: { stopId },
-    order: [["id", "DESC"]],
-  });
+    order: [['id', 'DESC']],
+  })
 
   Promise.all([stop, categories, questions, answers])
     .then((data) => {
-      res.json(data);
+      res.json(data)
     })
-    .catch((err) => console.log(err));
-});
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
 
-export default router;
+export default router

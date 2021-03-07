@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Navbar from "@/components/Navbar";
+import Navbar from '@/components/Navbar'
 export default {
-  name: "AdminLayout",
+  name: 'AdminLayout',
   components: {
     Navbar,
   },
-  middleware: ["auth"],
-};
+  middleware: ['auth'],
+}
 </script>

@@ -24,8 +24,8 @@
           <b-col v-for="(cat, idx) in questionByCategory" :key="idx">
             <div class="text-center mb-5">
               <DoughnutChartWrapper
-                :foregroundColor="getChartForegroundColor(cat.score)"
-                :backgroundColor="getChartBackgroundColor(cat.score)"
+                :foreground-color="getChartForegroundColor(cat.score)"
+                :background-color="getChartBackgroundColor(cat.score)"
                 :percent="handleScore(cat)"
                 :thickness="20"
               >
@@ -53,10 +53,10 @@
               </div>
               <div role="tablist" class="border border-bottom-0">
                 <b-card
-                  no-body
-                  border-variant="0"
                   v-for="(question, questionIdx) in cat.questions"
                   :key="questionIdx"
+                  no-body
+                  border-variant="0"
                 >
                   <b-card-header
                     header-tag="header"
@@ -64,8 +64,8 @@
                     role="tab"
                   >
                     <b-button
-                      block
                       v-b-toggle="cat.text + '-' + questionIdx"
+                      block
                       class="d-flex justify-content-between text-decoration-none py-0 text-dark"
                       variant="link"
                     >
@@ -97,8 +97,8 @@
                     </b-button>
                   </b-card-header>
                   <b-collapse
-                    class="border-bottom"
                     :id="cat.text + '-' + questionIdx"
+                    class="border-bottom"
                     accordion="somethings"
                     role="tabpanel"
                   >
@@ -121,98 +121,98 @@
 </template>
 
 <script>
-import { getMeta, getColorByNumber } from "@/functions/index";
-import { ChevronDownIcon } from "vue-feather-icons";
-import QRCode from "@/components/QRCode";
-import DoughnutChartWrapper from "@/components/DoughnutChartWrapper";
+import { getMeta, getColorByNumber } from '@/functions/index'
+import { ChevronDownIcon } from 'vue-feather-icons'
+import QRCode from '@/components/QRCode'
+import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
 
 export default {
-  name: "StopPage",
+  name: 'StopPage',
   components: {
     ChevronDownIcon,
     DoughnutChartWrapper,
     QRCode,
   },
-  head() {
-    return getMeta({
-      title: this.stop.stopName,
-      url: this.currentRoute,
-      description: "",
-    });
-  },
-  async asyncData({ $axios, route, error, $config }) {
-    const stopId = route.params.stopId;
+  asyncData({ $axios, route, error, $config }) {
+    const stopId = route.params.stopId
 
     return $axios
       .$get(`${$axios.defaults.baseURL}/stops/${stopId}`)
       .then((res) => {
         if (res) {
-          const [stop, categories, questions, answers] = res;
+          const [stop, categories, questions, answers] = res
           return {
             stop,
             categories,
             questions,
             answers,
             currentRoute: $config.baseURL + route.path,
-          };
+          }
         } else {
-          throw new Error();
+          throw new Error(error)
         }
       })
       .catch((err) => {
-        error({ statusCode: 404, message: err });
-      });
+        error({ statusCode: 404, message: err })
+      })
   },
-  methods: {
-    navigateToCategory(category) {
-      this.$router.push({
-        name: "StopCategoryEditPage",
-        params: {
-          category: category.title,
-        },
-      });
-    },
-    getChartForegroundColor(score) {
-      return getColorByNumber(score);
-    },
-    getChartBackgroundColor(score) {
-      return getColorByNumber(score, 0.2);
-    },
-    handleScore(cat) {
-      return cat.questions.some((question) => question.answer === null)
-        ? 0
-        : cat.score;
-    },
+  head() {
+    return getMeta({
+      title: this.stop.stopName,
+      url: this.currentRoute,
+      description: '',
+    })
   },
   computed: {
     answersByQuestion() {
       return this.questions.map((question) => {
         const answer = this.answers.find((a) => {
-          return a.questionId === question.id;
-        });
+          return a.questionId === question.id
+        })
         return {
           ...question,
-          answer: answer,
-          score: answer && answer.value === "true" ? 1 : 0,
-        };
-      });
+          answer,
+          score: answer && answer.value === 'true' ? 1 : 0,
+        }
+      })
     },
     questionByCategory() {
       return this.categories.map((c) => {
         const questions = this.answersByQuestion.filter((q) => {
-          return q.categoryId == c.id;
-        });
+          return q.categoryId === c.id
+        })
         const score = questions.reduce((acc, q) => {
-          return (acc += q.score);
-        }, 0);
+          return (acc += q.score)
+        }, 0)
         return {
           id: c.id,
           text: c.text,
-          questions: questions,
+          questions,
           score: parseFloat(((score / questions.length) * 100).toFixed(0)),
-        };
-      });
+        }
+      })
     },
   },
-};
+  methods: {
+    navigateToCategory(category) {
+      this.$router.push({
+        name: 'StopCategoryEditPage',
+        params: {
+          category: category.title,
+        },
+      })
+    },
+    getChartForegroundColor(score) {
+      return getColorByNumber(score)
+    },
+    getChartBackgroundColor(score) {
+      return getColorByNumber(score, 0.2)
+    },
+    handleScore(cat) {
+      return cat.questions.some((question) => question.answer === null)
+        ? 0
+        : cat.score
+    },
+  },
+}
 </script>

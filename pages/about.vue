@@ -9,6 +9,14 @@
 <script>
 export default {
   name: 'About',
+  asyncData() {
+    return { pageTitle: 'About!!' }
+  },
+  data() {
+    return {
+      pageTitle: '',
+    }
+  },
   head() {
     return {
       title: this.pageTitle,
@@ -24,14 +32,6 @@ export default {
           content: 'Really the about page',
         },
       ],
-    }
-  },
-  asyncData() {
-    return { pageTitle: 'About!!' }
-  },
-  data() {
-    return {
-      pageTitle: '',
     }
   },
 }

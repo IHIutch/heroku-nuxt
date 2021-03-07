@@ -1,17 +1,17 @@
 <script>
-import { Doughnut } from "vue-chartjs";
+import { Doughnut } from 'vue-chartjs'
 
 export default {
-  name: "DoughnutChartRounded",
+  name: 'DoughnutChartRounded',
   extends: Doughnut,
   props: {
     foregroundColor: {
       type: String,
-      default: "rgba(255,255,255,1)"
+      default: 'rgba(255,255,255,1)',
     },
-    backgroundColor: { type: String, default: "rgba(255,255,255,0.2)" },
+    backgroundColor: { type: String, default: 'rgba(255,255,255,0.2)' },
     percent: { type: Number, default: 85 },
-    thickness: { type: Number, default: 15 }
+    thickness: { type: Number, default: 15 },
   },
   data() {
     return {
@@ -21,16 +21,16 @@ export default {
         cutoutPercentage: 0,
         animation: {
           animationRotate: true,
-          duration: 2000
+          duration: 2000,
         },
         legend: {
-          display: false
+          display: false,
         },
         tooltips: {
-          enabled: false
+          enabled: false,
         },
         rotation: 0.8 * Math.PI,
-        circumference: 1.4 * Math.PI
+        circumference: 1.4 * Math.PI,
       },
       chartData: {
         datasets: [
@@ -38,22 +38,22 @@ export default {
             data: [],
             backgroundColor: [],
             hoverBackgroundColor: [],
-            borderWidth: [0, 0]
-          }
-        ]
-      }
-    };
+            borderWidth: [0, 0],
+          },
+        ],
+      },
+    }
   },
   created() {
-    this.chartData.datasets[0].data = [this.percent, this.percent - 100];
-    this.chartData.datasets[0].backgroundColor[0] = this.foregroundColor;
-    this.chartData.datasets[0].hoverBackgroundColor[0] = this.foregroundColor;
-    this.chartData.datasets[0].backgroundColor[1] = this.backgroundColor;
-    this.chartData.datasets[0].hoverBackgroundColor[1] = this.backgroundColor;
-    this.chartOptions.cutoutPercentage = 100 - this.thickness;
+    this.chartData.datasets[0].data = [this.percent, this.percent - 100]
+    this.chartData.datasets[0].backgroundColor[0] = this.foregroundColor
+    this.chartData.datasets[0].hoverBackgroundColor[0] = this.foregroundColor
+    this.chartData.datasets[0].backgroundColor[1] = this.backgroundColor
+    this.chartData.datasets[0].hoverBackgroundColor[1] = this.backgroundColor
+    this.chartOptions.cutoutPercentage = 100 - this.thickness
   },
   mounted() {
-    this.renderChart(this.chartData, this.chartOptions);
-  }
-};
+    this.renderChart(this.chartData, this.chartOptions)
+  },
+}
 </script>

@@ -1,17 +1,19 @@
-import express from "express";
-import { Category, Question } from "../models/index";
+import express from 'express'
+import { Category, Question } from '../models/index'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", (req, res) => {
-  const questions = Question.findAll();
-  const categories = Category.findAll();
+router.get('/', (req, res) => {
+  const questions = Question.findAll()
+  const categories = Category.findAll()
 
   Promise.all([questions, categories])
     .then((data) => {
-      res.json(data);
+      res.json(data)
     })
-    .catch((err) => console.log(err));
-});
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
 
-export default router;
+export default router

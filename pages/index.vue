@@ -31,8 +31,8 @@
                   :lat-lng="[stop.stopLat, stop.stopLon]"
                   :radius="5"
                   :weight="0"
-                  :fillOpacity="1"
-                  :fillColor="getColor(stop.overall)"
+                  :fill-opacity="1"
+                  :fill-color="getColor(stop.overall)"
                   @click="
                     markerClick([stop.stopLat, stop.stopLon], stop.stopName)
                   "
@@ -54,9 +54,9 @@
               >
                 <b-input-group>
                   <b-form-input
+                    id="filterInput"
                     v-model="table.filter"
                     type="search"
-                    id="filterInput"
                     placeholder="Type to Search"
                   ></b-form-input>
                   <b-input-group-append>
@@ -87,7 +87,7 @@
                 :current-page="table.currentPage"
                 :filter="table.filter"
               >
-                <template v-slot:cell(safety)="data">
+                <template #cell(safety)="data">
                   <b-badge
                     v-if="data.item.scores.safety !== false"
                     :variant="getVariant(data.item.scores.safety)"
@@ -96,7 +96,7 @@
                   </b-badge>
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
-                <template v-slot:cell(accessibility)="data">
+                <template #cell(accessibility)="data">
                   <b-badge
                     v-if="data.item.scores.accessibility !== false"
                     :variant="getVariant(data.item.scores.accessibility)"
@@ -105,7 +105,7 @@
                   </b-badge>
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
-                <template v-slot:cell(sanitary)="data">
+                <template #cell(sanitary)="data">
                   <b-badge
                     v-if="data.item.scores.sanitary !== false"
                     :variant="getVariant(data.item.scores.sanitary)"
@@ -114,7 +114,7 @@
                   </b-badge>
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
-                <template v-slot:cell(wayfinding)="data">
+                <template #cell(wayfinding)="data">
                   <b-badge
                     v-if="data.item.scores.wayfinding !== false"
                     :variant="getVariant(data.item.scores.wayfinding)"
@@ -123,7 +123,7 @@
                   </b-badge>
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
-                <template v-slot:cell(comfort)="data">
+                <template #cell(comfort)="data">
                   <b-badge
                     v-if="data.item.scores.comfort !== false"
                     :variant="getVariant(data.item.scores.comfort)"
@@ -132,7 +132,7 @@
                   </b-badge>
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
-                <template v-slot:cell(overall)="data">
+                <template #cell(overall)="data">
                   <b-badge
                     v-if="data.item.scores.overall !== false"
                     :variant="getVariant(data.item.scores.overall)"
@@ -141,7 +141,7 @@
                   </b-badge>
                   <b-badge v-else variant="secondary">-</b-badge>
                 </template>
-                <template v-slot:cell(link)="data">
+                <template #cell(link)="data">
                   <router-link :to="`/stops/${data.item.stopId}`">
                     Details
                   </router-link>
@@ -156,132 +156,109 @@
 </template>
 
 <script>
-import { getColorByNumber } from "@/functions/index";
+import { getColorByNumber } from '@/functions/index'
 
 export default {
-  name: "Dashboard",
-  async asyncData({ $axios, error }) {
+  name: 'Dashboard',
+  asyncData({ $axios, error }) {
     return $axios
       .$get(`${$axios.defaults.baseURL}/stops`)
       .then((res) => {
         if (res) {
           return {
             stops: res,
-          };
+          }
         } else {
-          throw new Error();
+          throw new Error(error)
         }
       })
       .catch((err) => {
-        error({ statusCode: 404, message: err });
-      });
+        error({ statusCode: 404, message: err })
+      })
   },
   data() {
     return {
       table: {
         perPage: 25,
-        filter: "",
+        filter: '',
         currentPage: 1,
       },
       mapbox: {
-        caller: "",
+        caller: '',
         accessToken:
-          "pk.eyJ1IjoiamJodXRjaCIsImEiOiJjamRqZGU1eTYxMTZlMzNvMjV2dGxzdG8wIn0.IAAk5wKeLXOUaQ4QYF3sEA", // your access token. Needed if you using Mapbox maps
+          'pk.eyJ1IjoiamJodXRjaCIsImEiOiJjamRqZGU1eTYxMTZlMzNvMjV2dGxzdG8wIn0.IAAk5wKeLXOUaQ4QYF3sEA', // your access token. Needed if you using Mapbox maps
       },
       fields: [
-        { key: "rank", sortable: true, label: "Rank" },
+        { key: 'rank', sortable: true, label: 'Rank' },
         // {
         //   key: "stopId",
         //   sortable: true,
         //   label: "Stop ID",
         // },
         {
-          key: "stopName",
+          key: 'stopName',
           sortable: true,
-          label: "Stop Name",
+          label: 'Stop Name',
         },
         {
-          key: "safety",
+          key: 'safety',
           sortable: true,
-          label: "Safety",
-          thClass: "text-right d-none d-lg-table-cell",
-          tdClass: "text-right d-none d-lg-table-cell",
+          label: 'Safety',
+          thClass: 'text-right d-none d-lg-table-cell',
+          tdClass: 'text-right d-none d-lg-table-cell',
         },
         {
-          key: "accessibility",
+          key: 'accessibility',
           sortable: true,
-          label: "Accessibility",
-          thClass: "text-right d-none d-lg-table-cell",
-          tdClass: "text-right d-none d-lg-table-cell",
+          label: 'Accessibility',
+          thClass: 'text-right d-none d-lg-table-cell',
+          tdClass: 'text-right d-none d-lg-table-cell',
         },
         {
-          key: "sanitary",
+          key: 'sanitary',
           sortable: true,
-          label: "Sanitary",
-          thClass: "text-right d-none d-lg-table-cell",
-          tdClass: "text-right d-none d-lg-table-cell",
+          label: 'Sanitary',
+          thClass: 'text-right d-none d-lg-table-cell',
+          tdClass: 'text-right d-none d-lg-table-cell',
         },
         {
-          key: "wayfinding",
+          key: 'wayfinding',
           sortable: true,
-          label: "Wayfinding",
-          thClass: "text-right d-none d-lg-table-cell",
-          tdClass: "text-right d-none d-lg-table-cell",
+          label: 'Wayfinding',
+          thClass: 'text-right d-none d-lg-table-cell',
+          tdClass: 'text-right d-none d-lg-table-cell',
         },
         {
-          key: "comfort",
+          key: 'comfort',
           sortable: true,
-          label: "Comfort",
-          thClass: "text-right d-none d-lg-table-cell",
-          tdClass: "text-right d-none d-lg-table-cell",
+          label: 'Comfort',
+          thClass: 'text-right d-none d-lg-table-cell',
+          tdClass: 'text-right d-none d-lg-table-cell',
         },
         {
-          key: "overall",
+          key: 'overall',
           sortable: true,
-          label: "Overall",
-          thClass: "text-right",
-          tdClass: "text-right",
+          label: 'Overall',
+          thClass: 'text-right',
+          tdClass: 'text-right',
         },
         {
-          key: "link",
+          key: 'link',
           sortable: false,
-          label: "",
+          label: '',
         },
       ],
-    };
-  },
-  methods: {
-    markerClick(latLng, caller) {
-      this.mapbox.caller = caller;
-      this.$refs.features.mapObject.openPopup(latLng);
-    },
-    getVariant(score) {
-      return score >= 90
-        ? "success"
-        : score < 90 && score >= 50
-        ? "warning"
-        : "danger";
-    },
-    getColor(score) {
-      return getColorByNumber(score);
-    },
-    randomNumber() {
-      return Math.floor(Math.random() * 100);
-    },
-    // navigateToStop(stop) {
-    //   const stopId = stop.stopId;
-    //   this.$router.push(`stops/${stopId}`);
-    // },
+    }
   },
   computed: {
     stopScores() {
       const categories = [
-        "safety",
-        "accessibility",
-        "sanitary",
-        "wayfinding",
-        "comfort",
-      ];
+        'safety',
+        'accessibility',
+        'sanitary',
+        'wayfinding',
+        'comfort',
+      ]
 
       return this.stops.map((stop, idx) => {
         const scores = Object.assign(
@@ -290,25 +267,48 @@ export default {
             return {
               [cat]: stop.categoryScores
                 ? stop.categoryScores.find((catScore) => {
-                    return catScore.category.toLowerCase() === cat;
+                    return catScore.category.toLowerCase() === cat
                   }).score
                 : false,
-            };
+            }
           })
-        );
+        )
 
-        scores["overall"] = Object.values(scores).reduce((acc, score) => {
+        scores.overall = Object.values(scores).reduce((acc, score) => {
           return score
             ? (acc += score / Object.keys(scores).length)
-            : (acc += 0);
-        }, 0);
+            : (acc += 0)
+        }, 0)
 
         return {
           ...stop,
           scores,
-        };
-      });
+        }
+      })
     },
   },
-};
+  methods: {
+    markerClick(latLng, caller) {
+      this.mapbox.caller = caller
+      this.$refs.features.mapObject.openPopup(latLng)
+    },
+    getVariant(score) {
+      return score >= 90
+        ? 'success'
+        : score < 90 && score >= 50
+        ? 'warning'
+        : 'danger'
+    },
+    getColor(score) {
+      return getColorByNumber(score)
+    },
+    randomNumber() {
+      return Math.floor(Math.random() * 100)
+    },
+    // navigateToStop(stop) {
+    //   const stopId = stop.stopId;
+    //   this.$router.push(`stops/${stopId}`);
+    // },
+  },
+}
 </script>

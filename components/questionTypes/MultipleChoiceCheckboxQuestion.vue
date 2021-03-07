@@ -4,10 +4,11 @@
     <b-form-group v-if="question.numAnswers < 0">
       <span>Select all that apply.</span>
       <b-form-checkbox-group
-        :id="'question' + index"
-        v-model="answer.value"
+        :id="'question' + _uid"
+        :value="answer.value"
         :options="question.answers"
         stacked
+        @input="onInput"
       ></b-form-checkbox-group>
     </b-form-group>
   </div>
@@ -15,11 +16,25 @@
 
 <script>
 export default {
-  name: "MultipleChoiceCheckboxQuestion",
+  name: 'MultipleChoiceCheckboxQuestion',
   props: {
-    question: Object,
-    answer: Object,
-    index: Number
-  }
-};
+    question: {
+      type: Object,
+      default: () => {},
+    },
+    answer: {
+      type: Object,
+      default: () => {},
+    },
+    index: {
+      type: Number,
+      default: null,
+    },
+  },
+  methods: {
+    onInput(e) {
+      this.$emit('input', e.target.value)
+    },
+  },
+}
 </script>
