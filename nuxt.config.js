@@ -33,7 +33,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/scss/main.scss'],
+  css: [],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -52,8 +52,6 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
@@ -109,10 +107,6 @@ export default {
       },
       tokenType: 'bearer',
     },
-  },
-  bootstrapVue: {
-    bootstrapCSS: false,
-    bootstrapVueCSS: false,
   },
   sentry: {
     initialize: process.env.NODE_ENV === 'production',

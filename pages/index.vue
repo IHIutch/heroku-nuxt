@@ -337,26 +337,12 @@
 
 <script>
 import { getColorByNumber } from '@/functions/index'
-import {
-  CGrid,
-  CBox,
-  CAspectRatioBox,
-  CBadge,
-  CLink,
-  CHeading,
-} from '@chakra-ui/vue'
 import Container from '~/components/global/Container.vue'
 
 export default {
   name: 'Dashboard',
   components: {
     Container,
-    CGrid,
-    CBox,
-    CAspectRatioBox,
-    CBadge,
-    CLink,
-    CHeading,
   },
   asyncData({ $axios, error }) {
     return $axios
@@ -386,66 +372,6 @@ export default {
         accessToken:
           'pk.eyJ1IjoiamJodXRjaCIsImEiOiJjamRqZGU1eTYxMTZlMzNvMjV2dGxzdG8wIn0.IAAk5wKeLXOUaQ4QYF3sEA', // your access token. Needed if you using Mapbox maps
       },
-      fields: [
-        { key: 'rank', sortable: true, label: 'Rank' },
-        // {
-        //   key: "stopId",
-        //   sortable: true,
-        //   label: "Stop ID",
-        // },
-        {
-          key: 'stopName',
-          sortable: true,
-          label: 'Stop Name',
-        },
-        {
-          key: 'safety',
-          sortable: true,
-          label: 'Safety',
-          thClass: 'text-right d-none d-lg-table-cell',
-          tdClass: 'text-right d-none d-lg-table-cell',
-        },
-        {
-          key: 'accessibility',
-          sortable: true,
-          label: 'Accessibility',
-          thClass: 'text-right d-none d-lg-table-cell',
-          tdClass: 'text-right d-none d-lg-table-cell',
-        },
-        {
-          key: 'sanitary',
-          sortable: true,
-          label: 'Sanitary',
-          thClass: 'text-right d-none d-lg-table-cell',
-          tdClass: 'text-right d-none d-lg-table-cell',
-        },
-        {
-          key: 'wayfinding',
-          sortable: true,
-          label: 'Wayfinding',
-          thClass: 'text-right d-none d-lg-table-cell',
-          tdClass: 'text-right d-none d-lg-table-cell',
-        },
-        {
-          key: 'comfort',
-          sortable: true,
-          label: 'Comfort',
-          thClass: 'text-right d-none d-lg-table-cell',
-          tdClass: 'text-right d-none d-lg-table-cell',
-        },
-        {
-          key: 'overall',
-          sortable: true,
-          label: 'Overall',
-          thClass: 'text-right',
-          tdClass: 'text-right',
-        },
-        {
-          key: 'link',
-          sortable: false,
-          label: '',
-        },
-      ],
     }
   },
   computed: {

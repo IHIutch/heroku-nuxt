@@ -10,7 +10,7 @@
           <CBox d="flex" align-items="center" justify-content="space-between">
             <CHeading as="h1">{{ stop.stopName }}</CHeading>
             <CBox>
-              <CButton mr="2" size="sm">Print Poster</CButton>
+              <CButton mr="2" size="sm">Print QR Code</CButton>
               <CButton
                 variant-color="blue"
                 as="nuxt-link"
@@ -111,21 +111,6 @@
 
 <script>
 import { getMeta, getColorByNumber } from '@/functions/index'
-import {
-  CGrid,
-  CBox,
-  CHeading,
-  CText,
-  CButton,
-  CFlex,
-  CAccordion,
-  CAccordionItem,
-  CAccordionHeader,
-  CAccordionPanel,
-  CAccordionIcon,
-  CBadge,
-  CLink,
-} from '@chakra-ui/vue'
 import QRCode from '@/components/QRCode'
 import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
 import Container from '~/components/global/Container.vue'
@@ -136,19 +121,6 @@ export default {
     DoughnutChartWrapper,
     QRCode,
     Container,
-    CGrid,
-    CBox,
-    CHeading,
-    CText,
-    CButton,
-    CFlex,
-    CAccordion,
-    CAccordionItem,
-    CAccordionHeader,
-    CAccordionPanel,
-    CAccordionIcon,
-    CBadge,
-    CLink,
   },
   asyncData({ $axios, route, error, $config }) {
     const { stopId } = route.params

@@ -5,12 +5,7 @@
 </template>
 
 <script>
-import { CBox } from '@chakra-ui/vue'
-
 export default {
-  components: {
-    CBox,
-  },
   data() {
     return {
       containerWidths: [
