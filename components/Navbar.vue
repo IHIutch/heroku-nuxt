@@ -1,5 +1,5 @@
 <template>
-  <CBox bg="green">
+  <CBox bg="white" shadow="sm">
     <Container>
       <CFlex wrap="wrap" align-items="center">
         <CBox mr="12">

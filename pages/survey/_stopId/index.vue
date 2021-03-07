@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <div class="text-center">
-      <h2>Welcome!</h2>
-      <div>
-        <span>Start the Survey!</span>
-      </div>
-      <b-button @click="next()">Start</b-button>
-    </div>
-  </div>
+  <CBox text-align="center">
+    <CBox mb="4">
+      <CHeading as="h2" font-size="xl">Welcome!</CHeading>
+      <CBox>
+        <CText>Start the Survey!</CText>
+      </CBox>
+    </CBox>
+    <CButton @click="next()">Start</CButton>
+  </CBox>
 </template>
 
 <script>

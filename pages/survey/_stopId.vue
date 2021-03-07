@@ -1,84 +1,88 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <b-col class="px-0">
-        <b-progress
-          variant="info"
-          class="rounded-0"
-          height="8px"
-          :value="surveyStep * (100 / answers.length)"
-        ></b-progress>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-container>
-        <b-row>
-          <b-col cols="12" offset="0" md="6" offset-md="3">
-            <div class="my-4">
-              <h1 class="h3 mb-0">{{ stop.stopName }}</h1>
-              <div class="text-muted">
-                <span class="font-weight-bold mr-1">Stop ID: </span>
-                <span>{{ stop.stopCode }}</span>
-              </div>
-            </div>
-            <div>
-              <b-button v-if="surveyStep > 1" variant="link" @click="prev()">
-                <span>Back</span>
-              </b-button>
-            </div>
-            <transition name="slide-fade" mode="out-in">
-              <div
-                :key="surveyStep"
-                class="bg-white shadow-sm p-8 w-100 rounded-lg"
-              >
-                <template v-if="surveyStep">
-                  <nuxt-child
-                    :current-step="surveyStep"
-                    :total-steps="answers.length"
-                    :question="getQuestion(answers[surveyStep - 1].questionId)"
-                    :answer.sync="answers[surveyStep - 1]"
-                  />
-                </template>
-                <template v-else>
-                  <nuxt-child :step.sync="surveyStep" />
-                </template>
-              </div>
-            </transition>
-          </b-col>
-        </b-row>
-      </b-container>
-    </b-row>
-    <b-row v-if="surveyStep > 0">
-      <b-col class="fixed-bottom bg-white shadow-sm border-top p-3">
+  <CBox>
+    <CBox>
+      <CProgress :value="surveyStep * (100 / answers.length)" />
+    </CBox>
+    <Container>
+      <CGrid template-columns="repeat(12, 1fr)" gap="6">
+        <CBox grid-column-start="4" grid-column-end="10">
+          <CBox my="4">
+            <CHeading as="h1" font-size="2xl">{{ stop.stopName }}</CHeading>
+            <CBox color="gray.500">
+              <CText as="span" font-weight="semibold" mr="1">Stop ID: </CText>
+              <CText as="span">{{ stop.stopCode }}</CText>
+            </CBox>
+          </CBox>
+          <CBox v-if="surveyStep > 1">
+            <CButton variant-color="blue" @click="prev()">Back</CButton>
+          </CBox>
+          <transition name="slide-fade" mode="out-in">
+            <CBox
+              :key="surveyStep"
+              bg="white"
+              shadow="sm"
+              p="8"
+              w="100%"
+              rounded="lg"
+            >
+              <template v-if="surveyStep">
+                <nuxt-child
+                  v-model="answers[surveyStep - 1]"
+                  :current-step="surveyStep"
+                  :total-steps="answers.length"
+                  :question="getQuestion(answers[surveyStep - 1].questionId)"
+                />
+              </template>
+              <template v-else>
+                <nuxt-child :step.sync="surveyStep" />
+              </template>
+            </CBox>
+          </transition>
+        </CBox>
+      </CGrid>
+    </Container>
+    <template v-if="surveyStep > 0">
+      <CBox
+        position="fixed"
+        w="100%"
+        bottom="0"
+        bg="white"
+        shadow="sm"
+        border-top-width="1px"
+        p="3"
+      >
         <template v-if="surveyStep < answers.length">
-          <b-button
-            :disabled="answers[surveyStep - 1].value == null"
-            variant="primary"
-            block
+          <CButton
+            d="block"
+            w="100%"
+            :disabled="answers[surveyStep - 1].value === null"
+            variant-color="blue"
             size="lg"
             @click="next()"
           >
             Continue
-          </b-button>
+          </CButton>
         </template>
         <template v-else>
-          <b-button
-            variant="primary"
-            :disabled="answers[surveyStep - 1].value == null || isSaving"
-            block
+          <CButton
+            variant-color="blue"
+            :disabled="answers[surveyStep - 1].value === null || isSaving"
             size="lg"
             @click="complete()"
-            >Complete!</b-button
           >
+            Complete!
+          </CButton>
         </template>
-      </b-col>
-    </b-row>
-  </b-container>
+      </CBox>
+    </template>
+  </CBox>
 </template>
 
 <script>
+import Container from '~/components/global/Container.vue'
 export default {
   name: 'SurveyPage',
+  components: { Container },
   asyncData({ $axios, route, error }) {
     const stopId = route.params.stopId
 

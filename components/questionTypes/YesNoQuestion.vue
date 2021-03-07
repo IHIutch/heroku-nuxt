@@ -1,22 +1,21 @@
 <template>
-  <div>
-    <div class="mb-4">
-      <span class="h2 mb-0">{{ question.text }}</span>
-    </div>
-    <b-form-group :id="'question' + _uid" class="mb-0" @input="onInput">
-      <b-form-radio
-        v-for="(label, idx) in question.answers"
-        :key="idx"
-        class="d-block mb-2"
-        name="question"
-        :value="label.value"
-        button
-        button-variant="outline-primary btn-block"
-        size="lg"
-        >{{ label.text }}</b-form-radio
-      >
-    </b-form-group>
-  </div>
+  <CBox>
+    <CBox mb="4">
+      <CText font-size="2xl">{{ question.text }}</CText>
+    </CBox>
+    <CStack spacing="4">
+      <CBox v-for="(a, idx) in question.answers" :key="idx">
+        <CButton
+          :variant-color="value && value.value === a.value ? 'blue' : 'gray'"
+          d="block"
+          w="100%"
+          @click="handleClick(a.value)"
+        >
+          {{ a.text }}
+        </CButton>
+      </CBox>
+    </CStack>
+  </CBox>
 </template>
 
 <script>
@@ -27,18 +26,14 @@ export default {
       type: Object,
       default: () => {},
     },
-    answer: {
+    value: {
       type: Object,
       default: () => {},
     },
-    index: {
-      type: Number,
-      default: null,
-    },
   },
   methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value)
+    handleClick(value) {
+      this.$emit('input', { ...this.value, value })
     },
   },
 }

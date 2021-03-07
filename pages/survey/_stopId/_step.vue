@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <div class="mb-4">
-      <span>Question {{ currentStep }} of {{ totalSteps }}</span>
-    </div>
+  <CBox>
+    <CBox mb="4">
+      <CText>Question {{ currentStep }} of {{ totalSteps }}</CText>
+    </CBox>
     <template v-if="question.type == 'yes_no'">
-      <YesNoQuestion :question="question" :answer.sync="answer" />
+      <YesNoQuestion v-model="localValue" :question="question" />
     </template>
-  </div>
+  </CBox>
 </template>
 
 <script>
+import YesNoQuestion from '~/components/questionTypes/YesNoQuestion.vue'
 export default {
   name: 'Step',
+  components: { YesNoQuestion },
   props: {
     currentStep: {
       type: Number,
@@ -25,9 +27,19 @@ export default {
       type: Object,
       default: () => {},
     },
-    answer: {
+    value: {
       type: Object,
       default: () => {},
+    },
+  },
+  data() {
+    return {
+      localValue: this.value,
+    }
+  },
+  watch: {
+    localValue() {
+      this.$emit('input', this.localValue)
     },
   },
 }
