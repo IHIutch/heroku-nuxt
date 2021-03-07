@@ -1,10 +1,8 @@
 <template>
   <CThemeProvider>
     <CReset />
-    <div class="font-barlow">
-      <Navbar />
-      <Nuxt />
-    </div>
+    <Navbar />
+    <Nuxt />
   </CThemeProvider>
 </template>
 

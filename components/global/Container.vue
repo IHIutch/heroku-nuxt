@@ -1,5 +1,5 @@
 <template>
-  <CBox :w="containerWidths">
+  <CBox :w="containerWidths" mx="auto">
     <slot />
   </CBox>
 </template>
