@@ -59,6 +59,8 @@ export default {
     '@nuxtjs/auth',
     '@nuxtjs/sentry',
     'nuxt-leaflet',
+    '@chakra-ui/nuxt',
+    '@nuxtjs/emotion',
   ],
   /*
    ** Axios module configuration

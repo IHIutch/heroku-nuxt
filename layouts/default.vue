@@ -1,8 +1,11 @@
 <template>
-  <div class="font-barlow">
-    <Navbar />
-    <Nuxt />
-  </div>
+  <CThemeProvider>
+    <CReset />
+    <div class="font-barlow">
+      <Navbar />
+      <Nuxt />
+    </div>
+  </CThemeProvider>
 </template>
 
 <script>
