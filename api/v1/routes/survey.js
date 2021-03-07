@@ -1,6 +1,6 @@
 import express from 'express'
+import { v4 as uuidv4 } from 'uuid'
 import { Stop, Question, Watcher, Answer, Category } from '../models/index'
-const { v4: uuidv4 } = require('uuid')
 
 const router = express.Router()
 
