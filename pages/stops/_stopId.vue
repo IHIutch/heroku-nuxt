@@ -1,5 +1,5 @@
 <template>
-  <b-container class="py-5">
+  <Container>
     <b-row>
       <b-col cols="12" md="8" offset-md="2">
         <div class="mb-5">
@@ -117,7 +117,7 @@
         </b-row>
       </b-col>
     </b-row>
-  </b-container>
+  </Container>
 </template>
 
 <script>
@@ -125,6 +125,7 @@ import { getMeta, getColorByNumber } from '@/functions/index'
 import { ChevronDownIcon } from 'vue-feather-icons'
 import QRCode from '@/components/QRCode'
 import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
+import Container from '@/components/global/Container'
 
 export default {
   name: 'StopPage',
@@ -132,6 +133,7 @@ export default {
     ChevronDownIcon,
     DoughnutChartWrapper,
     QRCode,
+    Container,
   },
   asyncData({ $axios, route, error, $config }) {
     const stopId = route.params.stopId

@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <CThemeProvider>
+    <CReset />
     <Navbar />
     <Nuxt />
-  </div>
+  </CThemeProvider>
 </template>
 
 <script>
