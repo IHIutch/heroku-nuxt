@@ -1,8 +1,6 @@
 <template>
-  <div class="embed-responsive embed-responsive-1by1 pb-3">
-    <div
-      class="embed-responsive-item d-flex align-items-end justify-content-center"
-    >
+  <CAspectRatioBox pb="3">
+    <CFlex align-items="center" justify-content="center">
       <DoughnutChartBasic
         class="position-absolute w-100 top-0"
         :foreground-color="foregroundColor"
@@ -11,8 +9,8 @@
         :percent="percent"
       />
       <slot></slot>
-    </div>
-  </div>
+    </CFlex>
+  </CAspectRatioBox>
 </template>
 
 <script>
