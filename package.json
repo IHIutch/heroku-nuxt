@@ -20,6 +20,7 @@
     "bootstrap-vue": "^2.21.2",
     "chart.js": "^2.9.4",
     "dayjs": "^1.10.4",
+    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.15.2",
     "nuxt-leaflet": "0.0.21",
