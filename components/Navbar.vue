@@ -1,32 +1,94 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="primary">
-    <b-container>
-      <b-navbar-brand to="/">RateMyStop</b-navbar-brand>
-
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#">About</b-nav-item>
-          <b-nav-item href="#">Changes</b-nav-item>
-          <b-nav-item href="#">Research</b-nav-item>
-          <b-nav-item href="#">FAQ</b-nav-item>
-          <b-nav-item v-if="$auth.loggedIn" @click="logOut()"
-            >Log Out</b-nav-item
+  <CBox bg="green">
+    <Container>
+      <CFlex wrap="wrap" align-items="center">
+        <CBox mr="12">
+          <CLink
+            as="nuxt-link"
+            to="/"
+            d="flex"
+            align-items="center"
+            px="4"
+            :mx="-4"
+            h="16"
+            _hover=""
+            font-size="lg"
+            font-weight="bold"
+            >RateMyStop</CLink
           >
-          <b-nav-item v-else to="/login">Log In</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-container>
-  </b-navbar>
+        </CBox>
+        <CCloseButton
+          ml="auto"
+          :d="['block', '', 'none']"
+          @click="isShowing = !isShowing"
+        />
+        <CFlex
+          :flex="['', '', '1']"
+          :flex-direction="['column', '', 'row']"
+          :d="[isShowing ? 'flex' : 'none', '', 'flex']"
+          align-items="stretch"
+          :w="['full', '', 'auto']"
+        >
+          <CBox h="100%">
+            <CLink
+              v-for="(link, idx) in links"
+              :key="idx"
+              as="nuxt-link"
+              :to="link.path"
+              h="16"
+              :d="['flex', '', 'inline-flex']"
+              font-weight="medium"
+              align-items="center"
+              px="4"
+              >{{ link.title }}</CLink
+            >
+          </CBox>
+          <CBox :ml="['', '', 'auto']">
+            <template v-if="$auth.loggedIn">
+              <CLink
+                as="button"
+                h="16"
+                :d="['flex', '', 'inline-flex']"
+                font-weight="medium"
+                align-items="center"
+                px="4"
+                @click="logOut()"
+                >Log Out</CLink
+              >
+            </template>
+            <template v-else>
+              <CLink
+                as="nuxt-link"
+                to="/login"
+                h="16"
+                :d="['flex', '', 'inline-flex']"
+                font-weight="medium"
+                align-items="center"
+                px="4"
+                >Log In</CLink
+              >
+            </template>
+          </CBox>
+        </CFlex>
+      </CFlex>
+    </Container>
+  </CBox>
 </template>
 
 <script>
+import Container from './global/Container.vue'
 export default {
   name: 'Navbar',
+  components: { Container },
   data() {
     return {
-      loggedIn: false,
+      isShowing: false,
+      links: [
+        { title: 'About', path: '#' },
+        { title: 'Changes', path: '#' },
+        { title: 'Research', path: '#' },
+        { title: 'FAQ', path: '#' },
+      ],
     }
   },
   methods: {

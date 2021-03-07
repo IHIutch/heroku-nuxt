@@ -119,4 +119,9 @@ export default {
     dsn:
       'https://6e0106f21eb343188c047af216daa2f7@o311837.ingest.sentry.io/5418652',
   },
+  chakra: {
+    config: {
+      autoImport: true,
+    },
+  },
 }
