@@ -1,142 +1,157 @@
 <template>
-  <Container>
-    <b-row>
-      <b-col cols="12" md="8" offset-md="2">
-        <div class="mb-5">
+  <Container v-chakra py="5">
+    <CGrid template-columns="repeat(12, 1fr)" gap="6">
+      <CBox grid-column-start="3" grid-column-end="11">
+        <CBox mb="5">
           <QRCode
             :value="`${$config.baseURL}/qr/${$route.params.stopId}`"
             :width="200"
           />
-          <div class="d-flex align-items-center justify-content-between">
-            <h1>{{ stop.stopName }}</h1>
-            <b-button variant="primary" size="sm" :to="`/survey/${stop.stopId}`"
-              >Take Survey</b-button
-            >
-          </div>
-          <div>
-            <span class="mr-3">Stop Code: {{ stop.stopCode }}</span>
-            <span class="text-muted">
+          <CBox d="flex" align-items="center" justify-content="space-between">
+            <CHeading as="h1">{{ stop.stopName }}</CHeading>
+            <CBox>
+              <CButton mr="2" size="sm">Print Poster</CButton>
+              <CButton
+                variant-color="blue"
+                as="nuxt-link"
+                :to="`/survey/${stop.stopId}`"
+                size="sm"
+                >Take Survey</CButton
+              >
+            </CBox>
+          </CBox>
+          <CBox>
+            <CText as="span" mr="3">Stop Code: {{ stop.stopCode }}</CText>
+            <CText as="span" color="gray.500">
               Coords: {{ stop.stopLat }}, {{ stop.stopLon }}
-            </span>
-          </div>
-        </div>
-        <b-row>
-          <b-col v-for="(cat, idx) in questionByCategory" :key="idx">
-            <div class="text-center mb-5">
+            </CText>
+          </CBox>
+        </CBox>
+        <CGrid template-columns="repeat(5, 1fr)" gap="6">
+          <CBox v-for="(cat, idx) in questionByCategory" :key="idx">
+            <CBox text-align="center" mb="5">
               <DoughnutChartWrapper
                 :foreground-color="getChartForegroundColor(cat.score)"
                 :background-color="getChartBackgroundColor(cat.score)"
                 :percent="handleScore(cat)"
                 :thickness="20"
               >
-                <div class="mx-auto">
-                  <div class="mb-3">
-                    <span class="h1">{{ handleScore(cat) }}</span>
-                  </div>
-                  <div>
-                    <span>{{ cat.text }}</span>
-                  </div>
-                </div>
+                <CBox mx="auto">
+                  <CBox mb="3">
+                    <CText as="span" font-size="3xl">
+                      {{ handleScore(cat) }}
+                    </CText>
+                  </CBox>
+                  <CBox>
+                    <CText as="span">{{ cat.text }}</CText>
+                  </CBox>
+                </CBox>
               </DoughnutChartWrapper>
-            </div>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <div
-              v-for="(cat, catIdx) in questionByCategory"
-              :key="catIdx"
-              class="mb-4"
-            >
-              <div class="d-flex justify-content-between mb-2">
-                <h3 class="mb-0">{{ cat.text }}</h3>
-              </div>
-              <div role="tablist" class="border border-bottom-0">
-                <b-card
-                  v-for="(question, questionIdx) in cat.questions"
-                  :key="questionIdx"
-                  no-body
-                  border-variant="0"
-                >
-                  <b-card-header
-                    header-tag="header"
-                    class="px-0 py-1 bg-transparent"
-                    role="tab"
-                  >
-                    <b-button
-                      v-b-toggle="cat.text + '-' + questionIdx"
-                      block
-                      class="d-flex justify-content-between text-decoration-none py-0 text-dark"
-                      variant="link"
+            </CBox>
+          </CBox>
+        </CGrid>
+        <CBox>
+          <CBox
+            v-for="(cat, catIdx) in questionByCategory"
+            :key="catIdx"
+            mb="4"
+          >
+            <CFlex justify-content="space-between" mb="2">
+              <CHeading as="h3" size="lg">{{ cat.text }}</CHeading>
+            </CFlex>
+            <CAccordion :allow-toggle="true">
+              <CAccordionItem
+                v-for="(question, questionIdx) in cat.questions"
+                :key="questionIdx"
+              >
+                <CAccordionHeader>
+                  <CFlex flex="1">
+                    <CText as="span" font-weight="semibold">
+                      {{ question.text }}
+                    </CText>
+                  </CFlex>
+                  <CBox>
+                    <CBadge
+                      :variant-color="
+                        question.answer && question.answer.value === 'true'
+                          ? 'green'
+                          : question.answer && question.answer.value === 'false'
+                          ? 'red'
+                          : 'gray'
+                      "
                     >
-                      <div>
-                        <span class="font-weight-bold">
-                          {{ question.text }}
-                        </span>
-                      </div>
-                      <div class="d-flex">
-                        <div class="mr-3">
-                          <template v-if="question.answer">
-                            <template v-if="question.answer.value === 'true'">
-                              <b-badge variant="success">True</b-badge>
-                            </template>
-                            <template v-else>
-                              <b-badge variant="danger">False</b-badge>
-                            </template>
-                          </template>
-                          <template v-else>
-                            <b-badge variant="secondary">Pending</b-badge>
-                          </template>
-                        </div>
-                        <div>
-                          <span>
-                            <chevron-down-icon />
-                          </span>
-                        </div>
-                      </div>
-                    </b-button>
-                  </b-card-header>
-                  <b-collapse
-                    :id="cat.text + '-' + questionIdx"
-                    class="border-bottom"
-                    accordion="somethings"
-                    role="tabpanel"
-                  >
-                    <div class="p-3">
-                      <p class="mb-0">
-                        This is a description of the question and why the
-                        question is important. There might even be a
-                        <a href="#">link to a study</a> about this topic.
-                      </p>
-                    </div>
-                  </b-collapse>
-                </b-card>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
+                      {{
+                        question.answer && question.answer.value === 'true'
+                          ? 'True'
+                          : question.answer && question.answer.value === 'false'
+                          ? 'False'
+                          : 'Pending'
+                      }}
+                    </CBadge>
+                    <CAccordionIcon />
+                  </CBox>
+                </CAccordionHeader>
+                <CAccordionPanel :id="cat.text + '-' + questionIdx">
+                  <CBox p="3">
+                    <CText>
+                      This is a description of the question and why the question
+                      is important. There might even be a
+                      <a href="#">link to a study</a> about this topic.
+                    </CText>
+                  </CBox>
+                </CAccordionPanel>
+              </CAccordionItem>
+            </CAccordion>
+          </CBox>
+        </CBox>
+      </CBox>
+    </CGrid>
   </Container>
 </template>
 
 <script>
 import { getMeta, getColorByNumber } from '@/functions/index'
-import { ChevronDownIcon } from 'vue-feather-icons'
+import {
+  CGrid,
+  CBox,
+  CHeading,
+  CText,
+  CButton,
+  CFlex,
+  CAccordion,
+  CAccordionItem,
+  CAccordionHeader,
+  CAccordionPanel,
+  CAccordionIcon,
+  CBadge,
+  CLink,
+} from '@chakra-ui/vue'
 import QRCode from '@/components/QRCode'
 import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
-import Container from '@/components/global/Container'
+import Container from '~/components/global/Container.vue'
 
 export default {
   name: 'StopPage',
   components: {
-    ChevronDownIcon,
     DoughnutChartWrapper,
     QRCode,
     Container,
+    CGrid,
+    CBox,
+    CHeading,
+    CText,
+    CButton,
+    CFlex,
+    CAccordion,
+    CAccordionItem,
+    CAccordionHeader,
+    CAccordionPanel,
+    CAccordionIcon,
+    CBadge,
+    CLink,
   },
   asyncData({ $axios, route, error, $config }) {
-    const stopId = route.params.stopId
+    const { stopId } = route.params
 
     return $axios
       .$get(`${$axios.defaults.baseURL}/stops/${stopId}`)
