@@ -1,165 +1,156 @@
 <template>
-  <b-container class="py-5">
-    <b-row>
-      <b-col cols="12">
-        <h1>Buffalo, NY</h1>
-        <p>
+  <Container v-chakra py="5">
+    <CGrid template-columns="repeat(12, 1fr)" gap="6">
+      <CBox grid-column-start="1" grid-column-end="12">
+        <CHeading as="h1">Buffalo, NY</CHeading>
+        <CText>
           This is Buffalo, NY's RateMyStop. See below for how well each stop is
           rated
-        </p>
-      </b-col>
-      <b-col cols="12">
-        <div class="p-4 shadow-sm rounded mb-4 bg-white">
-          <div class="embed-responsive embed-responsive-21by9">
-            <client-only>
-              <l-map
-                class="embed-responsive-item"
-                :zoom="12"
-                :center="[42.8864, -78.8784]"
-              >
-                <l-tile-layer
-                  :url="`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${mapbox.accessToken}`"
-                ></l-tile-layer>
-                <l-feature-group ref="features">
-                  <l-popup>
-                    <span>{{ mapbox.caller }}</span>
-                  </l-popup>
-                </l-feature-group>
-                <l-circle-marker
-                  v-for="(stop, idx) in stopScores"
-                  :key="idx"
-                  :lat-lng="[stop.stopLat, stop.stopLon]"
-                  :radius="5"
-                  :weight="0"
-                  :fill-opacity="1"
-                  :fill-color="getColor(stop.overall)"
-                  @click="
-                    markerClick([stop.stopLat, stop.stopLon], stop.stopName)
-                  "
-                />
-              </l-map>
-            </client-only>
-          </div>
-        </div>
-      </b-col>
-      <b-col cols="12">
-        <div class="p-4 shadow-sm rounded bg-white">
-          <b-row>
-            <b-col cols="6">
-              <b-form-group
-                label="Search"
-                label-cols="auto"
-                label-for="filterInput"
-                class="mb-0"
-              >
-                <b-input-group>
-                  <b-form-input
-                    id="filterInput"
-                    v-model="table.filter"
-                    type="search"
-                    placeholder="Type to Search"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-button
-                      :disabled="!table.filter"
-                      @click="table.filter = ''"
-                      >Clear</b-button
-                    >
-                  </b-input-group-append>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-pagination
-                v-model="table.currentPage"
-                :total-rows="stopScores.length"
-                :per-page="table.perPage"
-                align="right"
-              ></b-pagination>
-            </b-col>
-            <b-col cols="12" class="mt-4">
-              <b-table
-                hover
-                small
-                :items="stopScores"
-                :fields="fields"
-                :per-page="table.perPage"
-                :current-page="table.currentPage"
-                :filter="table.filter"
-              >
-                <template #cell(safety)="data">
-                  <b-badge
-                    v-if="data.item.scores.safety !== false"
-                    :variant="getVariant(data.item.scores.safety)"
+        </CText>
+      </CBox>
+      <CBox grid-column-start="1" grid-column-end="12">
+        <CBox p="4" shadow="sm" rounded="md" mb="4" bg="white">
+          <CAspectRatioBox :ratio="21 / 9">
+            <CBox>
+              <client-only>
+                <l-map v-chakra :zoom="12" :center="[42.8864, -78.8784]">
+                  <l-tile-layer
+                    :url="`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${mapbox.accessToken}`"
+                  ></l-tile-layer>
+                  <l-feature-group ref="features">
+                    <l-popup>
+                      <span>{{ mapbox.caller }}</span>
+                    </l-popup>
+                  </l-feature-group>
+                  <l-circle-marker
+                    v-for="(stop, idx) in stopScores"
+                    :key="idx"
+                    :lat-lng="[stop.stopLat, stop.stopLon]"
+                    :radius="5"
+                    :weight="0"
+                    :fill-opacity="1"
+                    :fill-color="getColor(stop.overall)"
+                    @click="
+                      markerClick([stop.stopLat, stop.stopLon], stop.stopName)
+                    "
+                  />
+                </l-map>
+              </client-only>
+            </CBox>
+          </CAspectRatioBox>
+        </CBox>
+      </CBox>
+      <CBox grid-column-start="1" grid-column-end="12">
+        <CBox p="4" shadow="sm" rounded="md" mb="4" bg="white">
+          <table v-chakra w="100%">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Stop Name</th>
+                <th>Safety</th>
+                <th>Accessibility</th>
+                <th>Sanitary</th>
+                <th>Wayfinding</th>
+                <th>Comfort</th>
+                <th>Overall</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(stop, idx) in stopScores" :key="idx">
+                <td></td>
+                <td>{{ stop.stopName }}</td>
+                <td>
+                  <CBadge
+                    v-if="stop.scores.safety !== false"
+                    :variant-color="getVariant(stop.scores.safety)"
                   >
-                    {{ data.item.scores.safety }}%
-                  </b-badge>
-                  <b-badge v-else variant="secondary">-</b-badge>
-                </template>
-                <template #cell(accessibility)="data">
-                  <b-badge
-                    v-if="data.item.scores.accessibility !== false"
-                    :variant="getVariant(data.item.scores.accessibility)"
+                    {{ stop.scores.safety }}
+                  </CBadge>
+                  <CText v-else>-</CText>
+                </td>
+                <td>
+                  <CBadge
+                    v-if="stop.scores.accessibility !== false"
+                    :variant-color="getVariant(stop.scores.accessibility)"
                   >
-                    {{ data.item.scores.accessibility }}%
-                  </b-badge>
-                  <b-badge v-else variant="secondary">-</b-badge>
-                </template>
-                <template #cell(sanitary)="data">
-                  <b-badge
-                    v-if="data.item.scores.sanitary !== false"
-                    :variant="getVariant(data.item.scores.sanitary)"
+                    {{ stop.scores.accessibility }}
+                  </CBadge>
+                  <CText v-else>-</CText>
+                </td>
+                <td>
+                  <CBadge
+                    v-if="stop.scores.sanitary !== false"
+                    :variant-color="getVariant(stop.scores.sanitary)"
                   >
-                    {{ data.item.scores.sanitary }}%
-                  </b-badge>
-                  <b-badge v-else variant="secondary">-</b-badge>
-                </template>
-                <template #cell(wayfinding)="data">
-                  <b-badge
-                    v-if="data.item.scores.wayfinding !== false"
-                    :variant="getVariant(data.item.scores.wayfinding)"
+                    {{ stop.scores.sanitary }}
+                  </CBadge>
+                  <CText v-else>-</CText>
+                </td>
+                <td>
+                  <CBadge
+                    v-if="stop.scores.wayfinding !== false"
+                    :variant-color="getVariant(stop.scores.wayfinding)"
                   >
-                    {{ data.item.scores.wayfinding }}%
-                  </b-badge>
-                  <b-badge v-else variant="secondary">-</b-badge>
-                </template>
-                <template #cell(comfort)="data">
-                  <b-badge
-                    v-if="data.item.scores.comfort !== false"
-                    :variant="getVariant(data.item.scores.comfort)"
+                    {{ stop.scores.wayfinding }}
+                  </CBadge>
+                  <CText v-else>-</CText>
+                </td>
+                <td>
+                  <CBadge
+                    v-if="stop.scores.comfort !== false"
+                    :variant-color="getVariant(stop.scores.comfort)"
                   >
-                    {{ data.item.scores.comfort }}%
-                  </b-badge>
-                  <b-badge v-else variant="secondary">-</b-badge>
-                </template>
-                <template #cell(overall)="data">
-                  <b-badge
-                    v-if="data.item.scores.overall !== false"
-                    :variant="getVariant(data.item.scores.overall)"
+                    {{ stop.scores.comfort }}
+                  </CBadge>
+                  <CText v-else>-</CText>
+                </td>
+                <td>
+                  <CBadge
+                    v-if="stop.scores.overall !== false"
+                    :variant-color="getVariant(stop.scores.overall)"
                   >
-                    {{ data.item.scores.overall }}%
-                  </b-badge>
-                  <b-badge v-else variant="secondary">-</b-badge>
-                </template>
-                <template #cell(link)="data">
-                  <router-link :to="`/stops/${data.item.stopId}`">
-                    Details
-                  </router-link>
-                </template>
-              </b-table>
-            </b-col>
-          </b-row>
-        </div>
-      </b-col>
-    </b-row>
-  </b-container>
+                    {{ stop.scores.overall }}
+                  </CBadge>
+                  <CText v-else>-</CText>
+                </td>
+                <td>
+                  <CLink as="nuxt-link" :to="`/stops/${stop.stopId}`"
+                    >Details</CLink
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </CBox>
+      </CBox>
+    </CGrid>
+  </Container>
 </template>
 
 <script>
 import { getColorByNumber } from '@/functions/index'
+import {
+  CGrid,
+  CBox,
+  CAspectRatioBox,
+  CBadge,
+  CLink,
+  CHeading,
+} from '@chakra-ui/vue'
+import Container from '~/components/global/Container.vue'
 
 export default {
   name: 'Dashboard',
+  components: {
+    Container,
+    CGrid,
+    CBox,
+    CAspectRatioBox,
+    CBadge,
+    CLink,
+    CHeading,
+  },
   asyncData({ $axios, error }) {
     return $axios
       .$get(`${$axios.defaults.baseURL}/stops`)
@@ -294,10 +285,10 @@ export default {
     },
     getVariant(score) {
       return score >= 90
-        ? 'success'
+        ? 'green'
         : score < 90 && score >= 50
-        ? 'warning'
-        : 'danger'
+        ? 'yellow'
+        : 'red'
     },
     getColor(score) {
       return getColorByNumber(score)

@@ -1,5 +1,5 @@
 <template>
-  <Container>
+  <Container v-chakra py="5">
     <CGrid template-columns="repeat(12, 1fr)" gap="6">
       <CBox grid-column-start="3" grid-column-end="11">
         <CBox mb="5">
