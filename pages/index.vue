@@ -344,21 +344,9 @@ export default {
   components: {
     Container,
   },
-  asyncData({ $axios, error }) {
-    return $axios
-      .$get(`${$axios.defaults.baseURL}/stops`)
-      .then((res) => {
-        if (res) {
-          return {
-            stops: res,
-          }
-        } else {
-          throw new Error(error)
-        }
-      })
-      .catch((err) => {
-        error({ statusCode: 404, message: err })
-      })
+  async asyncData({ store }) {
+    if (!store.getters['stops/getStops'].length)
+      await store.dispatch('stops/fetchStops')
   },
   data() {
     return {
@@ -384,7 +372,7 @@ export default {
         'comfort',
       ]
 
-      return this.stops.map((stop, idx) => {
+      return this.$store.getters['stops/getStops'].map((stop, idx) => {
         const scores = Object.assign(
           {},
           ...categories.map((cat) => {
