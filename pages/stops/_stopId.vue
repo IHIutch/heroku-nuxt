@@ -131,11 +131,9 @@ export default {
         if (res) {
           const [stop, categories, questions, answers] = res
           return {
-            stop,
             categories,
             questions,
             answers,
-            currentRoute: $config.baseURL + route.path,
           }
         } else {
           throw new Error(error)
@@ -145,14 +143,23 @@ export default {
         error({ statusCode: 404, message: err })
       })
   },
+  async fetch({ store }) {
+    if (!store.getters['stops/getStops'].length)
+      await store.dispatch('stops/fetchStops')
+  },
   head() {
     return getMeta({
       title: this.stop.stopName,
-      url: this.currentRoute,
+      url: this.$config.baseURL + this.$route.path,
       description: '',
     })
   },
   computed: {
+    stop() {
+      return this.$store.getters['stops/getStop'](
+        parseInt(this.$route.params.stopId)
+      )
+    },
     answersByQuestion() {
       return this.questions.map((question) => {
         const answer = this.answers.find((a) => {

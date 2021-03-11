@@ -344,7 +344,7 @@ export default {
   components: {
     Container,
   },
-  async asyncData({ store }) {
+  async fetch({ store }) {
     if (!store.getters['stops/getStops'].length)
       await store.dispatch('stops/fetchStops')
   },

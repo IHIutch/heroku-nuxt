@@ -22,6 +22,9 @@ export const mutations = {
 
 export const getters = {
   getStops: (state) => state.stops,
+  getStop: (state) => (id) => {
+    return state.stops.find((stop) => stop.stopId === id)
+  },
 }
 
 export const actions = {
