@@ -1,26 +1,30 @@
 export const state = () => ({
-  questions: [],
-  unique_question: {},
+  questions: null,
+  unique_question: null,
 })
 
 export const mutations = {
   SET_QUESTIONS(state, questions) {
-    state.questions = questions
+    // eslint-disable-next-line no-sequences
+    state.questions = questions.reduce((a, b) => ((a[b.id] = b), a), {})
   },
   SET_UNIQUE_QUESTION(state, question) {
     state.unique_question = question
   },
   CREATE_QUESTION(state, question) {
-    state.questions.unshift(question)
+    state.questions = {
+      ...state.questions,
+      [question.id]: { ...question },
+    }
   },
   UPDATE_QUESTION(state, question) {
-    state.questions[question.id] = question
+    state.questions = {
+      ...state.questions,
+      [question.id]: { ...question },
+    }
   },
   DELETE_QUESTION(state, id) {
-    state.questions.splice(
-      state.questions.findIndex((question) => question.id === id),
-      1
-    )
+    state.questions = Object.values(state.questions).filter((v) => v.id !== id)
   },
 }
 
@@ -39,7 +43,7 @@ export const actions = {
     )
     commit('SET_QUESTIONS', data)
   },
-  async fetchQuestion({ commit }, id) {
+  async fetchUniqueQuestion({ commit }, id) {
     const data = await this.$axios.$get(
       `${this.$axios.defaults.baseURL}/questions/${id}`
     )

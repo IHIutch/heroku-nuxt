@@ -143,10 +143,12 @@ export default {
       })
   },
   async fetch({ store }) {
-    if (!store.getters['stops/getStops'].length)
-      await store.dispatch('stops/fetchStops')
-    if (!store.getters['questions/getQuestions'].length)
-      await store.dispatch('questions/fetchQuestions')
+    if (!store.getters['stops/getAllStops']) {
+      await store.dispatch('stops/fetchAllStops')
+    }
+    if (!store.getters['questions/getAllQuestions']) {
+      await store.dispatch('questions/fetchAllQuestions')
+    }
   },
   head() {
     return getMeta({

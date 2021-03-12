@@ -1,43 +1,47 @@
 export const state = () => ({
-  stops: [],
-  unique_stop: [],
+  stops: null,
+  unique_stop: null,
 })
 
 export const mutations = {
   SET_STOPS(state, stops) {
-    state.stops = stops
-  },
-  CREATE_STOP(state, stop) {
-    state.stops.unshift(stop)
+    // eslint-disable-next-line no-sequences
+    state.stops = stops.reduce((a, b) => ((a[b.id] = b), a), {})
   },
   SET_UNIQUE_STOP(state, stop) {
     state.unique_stop = stop
   },
+  CREATE_STOP(state, stop) {
+    state.stops = {
+      ...state.stops,
+      [stop.id]: { ...stop },
+    }
+  },
   UPDATE_STOP(state, stop) {
-    state.stops[stop.id] = stop
+    state.stops = {
+      ...state.stops,
+      [stop.id]: { ...stop },
+    }
   },
   DELETE_STOP(state, id) {
-    state.stops.splice(
-      state.stops.findIndex((stop) => stop.id === id),
-      1
-    )
+    state.stops = Object.values(state.stops).filter((v) => v.id !== id)
   },
 }
 
 export const getters = {
-  getStops: (state) => state.stops,
-  getStop: (state) => (id) => {
+  getAllStops: (state) => state.stops,
+  getOneStop: (state) => (id) => {
     return state.stops.find((stop) => stop.stopId === id)
   },
   getUniqueStop: (state) => state.unique_stop,
 }
 
 export const actions = {
-  async fetchStops({ commit }) {
+  async fetchAllStops({ commit }) {
     const data = await this.$axios.$get(`${this.$axios.defaults.baseURL}/stops`)
     commit('SET_STOPS', data)
   },
-  async fetchStop({ commit }, id) {
+  async fetchUniqueStop({ commit }, id) {
     const data = await this.$axios.$get(
       `${this.$axios.defaults.baseURL}/stops/${id}`
     )

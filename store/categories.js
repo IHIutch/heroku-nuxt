@@ -1,45 +1,51 @@
 export const state = () => ({
-  categories: [],
-  unique_category: {},
+  categories: null,
+  unique_category: null,
 })
 
 export const mutations = {
-  SET_CATEGORYIES(state, categories) {
-    state.categories = categories
+  SET_CATEGORIES(state, categories) {
+    // eslint-disable-next-line no-sequences
+    state.categories = categories.reduce((a, b) => ((a[b.id] = b), a), {})
   },
   SET_UNIQUE_CATEGORY(state, category) {
     state.unique_category = category
   },
   CREATE_CATEGORY(state, category) {
-    state.categories.unshift(category)
+    state.categories = {
+      ...state.categories,
+      [category.id]: { ...category },
+    }
   },
   UPDATE_CATEGORY(state, category) {
-    state.categories[category.id] = category
+    state.categories = {
+      ...state.categories,
+      [category.id]: { ...category },
+    }
   },
   DELETE_CATEGORY(state, id) {
-    state.categories.splice(
-      state.categories.findIndex((category) => category.id === id),
-      1
+    state.categories = Object.values(state.categories).filter(
+      (v) => v.id !== id
     )
   },
 }
 
 export const getters = {
-  getCategories: (state) => state.categories,
-  getCategory: (state) => (id) => {
+  getAllCategories: (state) => state.categories,
+  getOneCategory: (state) => (id) => {
     return state.categories.find((category) => category.id === id)
   },
   getUniqueCategory: (state) => state.unique_category,
 }
 
 export const actions = {
-  async fetchCategories({ commit }) {
+  async fetchAllCategories({ commit }) {
     const data = await this.$axios.$get(
       `${this.$axios.defaults.baseURL}/categories`
     )
     commit('SET_CATEGORYS', data)
   },
-  async fetchCategory({ commit }, id) {
+  async fetchUniqueCategory({ commit }, id) {
     const data = await this.$axios.$get(
       `${this.$axios.defaults.baseURL}/categories/${id}`
     )
