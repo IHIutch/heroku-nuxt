@@ -344,10 +344,6 @@ export default {
   components: {
     Container,
   },
-  async fetch({ store }) {
-    if (!store.getters['stops/getStops'].length)
-      await store.dispatch('stops/fetchStops')
-  },
   data() {
     return {
       table: {
@@ -361,6 +357,10 @@ export default {
           'pk.eyJ1IjoiamJodXRjaCIsImEiOiJjamRqZGU1eTYxMTZlMzNvMjV2dGxzdG8wIn0.IAAk5wKeLXOUaQ4QYF3sEA', // your access token. Needed if you using Mapbox maps
       },
     }
+  },
+  async fetch({ store }) {
+    if (!store.getters['stops/getStops'].length)
+      await store.dispatch('stops/fetchStops')
   },
   computed: {
     stopScores() {
