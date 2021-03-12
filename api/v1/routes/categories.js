@@ -3,6 +3,16 @@ import { Category } from '../models/index'
 
 const router = express.Router()
 
+router.get('/', (req, res) => {
+  Category.findAll()
+    .then((data) => {
+      res.json(data)
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
+
 router.post('/create', (req, res) => {
   const { text, value } = req.body
 
