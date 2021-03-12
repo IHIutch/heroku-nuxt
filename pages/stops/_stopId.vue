@@ -132,7 +132,6 @@ export default {
           const [stop, categories, questions, answers] = res
           return {
             categories,
-            questions,
             answers,
           }
         } else {
@@ -146,6 +145,8 @@ export default {
   async fetch({ store }) {
     if (!store.getters['stops/getStops'].length)
       await store.dispatch('stops/fetchStops')
+    if (!store.getters['questions/getQuestions'].length)
+      await store.dispatch('questions/fetchQuestions')
   },
   head() {
     return getMeta({
@@ -159,6 +160,9 @@ export default {
       return this.$store.getters['stops/getStop'](
         parseInt(this.$route.params.stopId)
       )
+    },
+    questions() {
+      return this.$store.getters['questions/getQuestions']
     },
     answersByQuestion() {
       return this.questions.map((question) => {

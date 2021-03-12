@@ -3,6 +3,16 @@ import { Question } from '../models/index'
 
 const router = express.Router()
 
+router.get('/', (req, res) => {
+  Question.findAll()
+    .then((data) => {
+      res.json(data)
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
+
 router.post('/create', (req, res) => {
   const { text, type, answers, categoryId } = req.body
 
