@@ -373,31 +373,33 @@ export default {
         'comfort',
       ]
 
-      return this.$store.getters['stops/getAllStops'].map((stop, idx) => {
-        const scores = Object.assign(
-          {},
-          ...categories.map((cat) => {
-            return {
-              [cat]: stop.categoryScores
-                ? stop.categoryScores.find((catScore) => {
-                    return catScore.category.toLowerCase() === cat
-                  }).score
-                : false,
-            }
-          })
-        )
+      return Object.values(this.$store.getters['stops/getAllStops']).map(
+        (stop, idx) => {
+          const scores = Object.assign(
+            {},
+            ...categories.map((cat) => {
+              return {
+                [cat]: stop.categoryScores
+                  ? stop.categoryScores.find((catScore) => {
+                      return catScore.category.toLowerCase() === cat
+                    }).score
+                  : false,
+              }
+            })
+          )
 
-        scores.overall = Object.values(scores).reduce((acc, score) => {
-          return score
-            ? (acc += score / Object.keys(scores).length)
-            : (acc += 0)
-        }, 0)
+          scores.overall = Object.values(scores).reduce((acc, score) => {
+            return score
+              ? (acc += score / Object.keys(scores).length)
+              : (acc += 0)
+          }, 0)
 
-        return {
-          ...stop,
-          scores,
+          return {
+            ...stop,
+            scores,
+          }
         }
-      })
+      )
     },
   },
   methods: {

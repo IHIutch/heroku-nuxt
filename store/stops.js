@@ -31,7 +31,7 @@ export const mutations = {
 export const getters = {
   getAllStops: (state) => state.stops,
   getOneStop: (state) => (id) => {
-    return state.stops.find((stop) => stop.stopId === id)
+    return state.stops[id]
   },
   getUniqueStop: (state) => state.unique_stop,
 }

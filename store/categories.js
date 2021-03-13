@@ -43,7 +43,7 @@ export const actions = {
     const data = await this.$axios.$get(
       `${this.$axios.defaults.baseURL}/categories`
     )
-    commit('SET_CATEGORYS', data)
+    commit('SET_CATEGORIES', data)
   },
   async fetchUniqueCategory({ commit }, id) {
     const data = await this.$axios.$get(

@@ -29,15 +29,15 @@ export const mutations = {
 }
 
 export const getters = {
-  getQuestions: (state) => state.questions,
-  getQuestion: (state) => (id) => {
+  getAllQuestions: (state) => state.questions,
+  getOneQuestion: (state) => (id) => {
     return state.questions.find((question) => question.id === id)
   },
   getUniqueQuestion: (state) => state.unique_question,
 }
 
 export const actions = {
-  async fetchQuestions({ commit }) {
+  async fetchAllQuestions({ commit }) {
     const data = await this.$axios.$get(
       `${this.$axios.defaults.baseURL}/questions`
     )

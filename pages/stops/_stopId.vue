@@ -73,17 +73,21 @@
                   <CBox>
                     <CBadge
                       :variant-color="
-                        question.answer && question.answer.value === 'true'
+                        question.answers[0] &&
+                        question.answers[0].value === answerType.TRUE
                           ? 'green'
-                          : question.answer && question.answer.value === 'false'
+                          : question.answers[0] &&
+                            question.answers[0].value === answerType.FALSE
                           ? 'red'
                           : 'gray'
                       "
                     >
                       {{
-                        question.answer && question.answer.value === 'true'
+                        question.answers[0] &&
+                        question.answers[0].value === answerType.TRUE
                           ? 'True'
-                          : question.answer && question.answer.value === 'false'
+                          : question.answers[0] &&
+                            question.answers[0].value === answerType.FALSE
                           ? 'False'
                           : 'Pending'
                       }}
@@ -113,6 +117,7 @@
 import { getMeta, getColorByNumber } from '@/functions/index'
 import QRCode from '@/components/QRCode'
 import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
+import { answerType } from '@/types'
 import Container from '~/components/global/Container.vue'
 
 export default {
@@ -131,7 +136,6 @@ export default {
         if (res) {
           const [stop, categories, questions, answers] = res
           return {
-            categories,
             answers,
           }
         } else {
@@ -142,12 +146,20 @@ export default {
         error({ statusCode: 404, message: err })
       })
   },
+  data() {
+    return {
+      answerType,
+    }
+  },
   async fetch({ store }) {
     if (!store.getters['stops/getAllStops']) {
       await store.dispatch('stops/fetchAllStops')
     }
     if (!store.getters['questions/getAllQuestions']) {
       await store.dispatch('questions/fetchAllQuestions')
+    }
+    if (!store.getters['categories/getAllCategories']) {
+      await store.dispatch('categories/fetchAllCategories')
     }
   },
   head() {
@@ -159,27 +171,26 @@ export default {
   },
   computed: {
     stop() {
-      return this.$store.getters['stops/getStop'](
-        parseInt(this.$route.params.stopId)
-      )
+      return this.$store.getters['stops/getOneStop'](this.$route.params.stopId)
     },
     questions() {
-      return this.$store.getters['questions/getQuestions']
+      return this.$store.getters['questions/getAllQuestions']
+    },
+    categories() {
+      return this.$store.getters['categories/getAllCategories']
     },
     answersByQuestion() {
-      return this.questions.map((question) => {
-        const answer = this.answers.find((a) => {
-          return a.questionId === question.id
-        })
+      return Object.values(this.questions).map((q) => {
+        const answers = this.answers.filter((a) => q.id === a.questionId)
         return {
-          ...question,
-          answer,
-          score: answer && answer.value === 'true' ? 1 : 0,
+          ...q,
+          answers,
+          score: answers.length && answers[0].value === answerType.TRUE ? 1 : 0,
         }
       })
     },
     questionByCategory() {
-      return this.categories.map((c) => {
+      return Object.values(this.categories).map((c) => {
         const questions = this.answersByQuestion.filter((q) => {
           return q.categoryId === c.id
         })
