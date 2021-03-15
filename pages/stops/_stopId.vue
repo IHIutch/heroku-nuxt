@@ -1,16 +1,42 @@
 <template>
   <Container v-chakra py="5">
-    <CGrid template-columns="repeat(12, 1fr)" gap="6">
+    <CBox
+      v-chakra="{
+        '@media print': {
+          textAlign: 'center',
+          display: 'block',
+          '#Header, #Footer': { display: 'none !important' },
+        },
+      }"
+      d="none"
+    >
+      <CBox>
+        <CHeading as="h1">{{ stop.stopName }}</CHeading>
+      </CBox>
+      <CAspectRatioBox :ratio="1">
+        <QRCode
+          v-chakra
+          :value="`${$config.baseURL}/qr/${$route.params.stopId}`"
+        />
+      </CAspectRatioBox>
+    </CBox>
+    <CGrid
+      v-chakra="{
+        '@media print': {
+          display: 'none',
+        },
+      }"
+      template-columns="repeat(12, 1fr)"
+      gap="6"
+    >
       <CBox grid-column-start="3" grid-column-end="11">
         <CBox mb="5">
-          <QRCode
-            :value="`${$config.baseURL}/qr/${$route.params.stopId}`"
-            :width="200"
-          />
-          <CBox d="flex" align-items="center" justify-content="space-between">
+          <CBox d="flex" align="center" justify="space-between">
             <CHeading as="h1">{{ stop.stopName }}</CHeading>
             <CBox>
-              <CButton mr="2" size="sm">Print QR Code</CButton>
+              <CButton mr="2" size="sm" @click="handlePrint()"
+                >Print QR Code</CButton
+              >
               <CButton
                 variant-color="blue"
                 as="nuxt-link"
@@ -29,23 +55,29 @@
         </CBox>
         <CGrid template-columns="repeat(5, 1fr)" gap="6">
           <CBox v-for="(cat, idx) in questionByCategory" :key="idx">
-            <CBox text-align="center" mb="5">
+            <CBox text-align="center" w="100%" mb="5">
               <DoughnutChartWrapper
                 :foreground-color="getChartForegroundColor(cat.score)"
                 :background-color="getChartBackgroundColor(cat.score)"
                 :percent="handleScore(cat)"
                 :thickness="20"
               >
-                <CBox mx="auto">
-                  <CBox mb="3">
-                    <CText as="span" font-size="3xl">
+                <CFlex
+                  text-align="center"
+                  align="center"
+                  justify="center"
+                  h="100%"
+                  w="100%"
+                >
+                  <CBox mt="3">
+                    <CText as="span" font-size="2xl">
                       {{ handleScore(cat) }}
                     </CText>
+                    <CBox>
+                      <CText as="span">{{ cat.text }}</CText>
+                    </CBox>
                   </CBox>
-                  <CBox>
-                    <CText as="span">{{ cat.text }}</CText>
-                  </CBox>
-                </CBox>
+                </CFlex>
               </DoughnutChartWrapper>
             </CBox>
           </CBox>
@@ -56,7 +88,7 @@
             :key="catIdx"
             mb="4"
           >
-            <CFlex justify-content="space-between" mb="2">
+            <CFlex justify="space-between" mb="2">
               <CHeading as="h3" size="lg">{{ cat.text }}</CHeading>
             </CFlex>
             <CAccordion :allow-toggle="true">
@@ -127,7 +159,7 @@ export default {
     QRCode,
     Container,
   },
-  asyncData({ $axios, route, error, $config }) {
+  asyncData({ $axios, route, error }) {
     const { stopId } = route.params
 
     return $axios
@@ -207,13 +239,8 @@ export default {
     },
   },
   methods: {
-    navigateToCategory(category) {
-      this.$router.push({
-        name: 'StopCategoryEditPage',
-        params: {
-          category: category.title,
-        },
-      })
+    handlePrint() {
+      window.print()
     },
     getChartForegroundColor(score) {
       return getColorByNumber(score)
@@ -229,3 +256,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+@page {
+  size: auto;
+  margin: 0mm;
+}
+</style>

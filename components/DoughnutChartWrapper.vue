@@ -1,8 +1,11 @@
 <template>
-  <CAspectRatioBox pb="3">
-    <CFlex align-items="center" justify-content="center">
+  <CAspectRatioBox :ratio="1">
+    <CFlex align="center" justify="center">
       <DoughnutChartBasic
-        class="position-absolute w-100 top-0"
+        v-chakra
+        position="absolute"
+        w="100%"
+        top="0"
         :foreground-color="foregroundColor"
         :background-color="backgroundColor"
         :thickness="thickness"

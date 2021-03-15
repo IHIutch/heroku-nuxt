@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <canvas ref="canvas"></canvas>
-  </div>
+  <img :src="qrUrl" alt="" />
 </template>
 
 <script>
@@ -11,13 +9,20 @@ export default {
   name: 'QRCode',
   props: {
     value: { type: String, required: true },
-    width: { type: Number, default: 200 },
   },
-  mounted() {
-    const options = { width: this.width }
-    QRCode.toCanvas(this.$refs.canvas, this.value, options, (err) => {
-      if (err) throw err
-    })
+  data() {
+    return {
+      qrUrl: '',
+    }
+  },
+  // computed() {
+  //   const options = { width: this.$refs.canvas.clientWidth }
+  //   QRCode.toDataURL(this.value, (err) => {
+  //     if (err) throw err
+  //   })
+  // },
+  async created() {
+    this.qrUrl = await QRCode.toDataURL(this.value, { margin: 0 })
   },
 }
 </script>
