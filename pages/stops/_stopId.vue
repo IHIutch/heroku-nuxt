@@ -31,7 +31,7 @@
     >
       <CBox grid-column-start="3" grid-column-end="11">
         <CBox mb="5">
-          <CBox d="flex" align="center" justify="space-between">
+          <CFlex align="center" justify="space-between">
             <CHeading as="h1">{{ stop.stopName }}</CHeading>
             <CBox>
               <CButton mr="2" size="sm" @click="handlePrint()"
@@ -45,7 +45,7 @@
                 >Take Survey</CButton
               >
             </CBox>
-          </CBox>
+          </CFlex>
           <CBox>
             <CText as="span" mr="3">Stop Code: {{ stop.stopCode }}</CText>
             <CText as="span" color="gray.500">
