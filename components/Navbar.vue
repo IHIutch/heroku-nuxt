@@ -1,7 +1,7 @@
 <template>
   <CBox bg="white" shadow="sm">
     <Container>
-      <CFlex wrap="wrap" align-items="center">
+      <CFlex wrap="wrap" align="center">
         <CBox mr="12">
           <CLink
             as="nuxt-link"
@@ -26,7 +26,7 @@
           :flex="['', '', '1']"
           :flex-direction="['column', '', 'row']"
           :d="[isShowing ? 'flex' : 'none', '', 'flex']"
-          align-items="stretch"
+          align="stretch"
           :w="['full', '', 'auto']"
         >
           <CBox h="100%">
