@@ -6,6 +6,7 @@ import questions from './routes/questions'
 import categories from './routes/categories'
 import answers from './routes/answers'
 import survey from './routes/survey'
+import watchers from './routes/watchers'
 import admin from './routes/admin'
 
 const app = express()
@@ -18,6 +19,7 @@ app.use('/questions', questions)
 app.use('/categories', categories)
 app.use('/answers', answers)
 app.use('/survey', survey)
+app.use('/watchers', watchers)
 app.use('/admin', admin)
 
 module.exports = app
