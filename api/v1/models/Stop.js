@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Stop.hasOne(models.Watcher, { foreignKey: 'stopId', as: 'watcher' })
+      Stop.hasMany(models.Answer, { foreignKey: 'stopId', as: 'answers' })
     }
   }
   Stop.init(
@@ -21,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       stopLon: DataTypes.FLOAT,
       zoneId: DataTypes.INTEGER,
       wheelchairBoarding: DataTypes.BOOLEAN,
-      categoryScores: DataTypes.JSONB,
     },
     {
       sequelize,

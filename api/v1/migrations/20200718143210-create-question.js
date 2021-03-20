@@ -19,6 +19,12 @@ module.exports = {
       },
       categoryId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       active: {
         type: Sequelize.BOOLEAN,

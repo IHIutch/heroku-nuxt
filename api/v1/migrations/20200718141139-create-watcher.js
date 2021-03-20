@@ -10,8 +10,17 @@ module.exports = {
       },
       stopId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Stops',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       status: {
+        type: Sequelize.JSONB,
+      },
+      scores: {
         type: Sequelize.JSONB,
       },
       createdAt: {

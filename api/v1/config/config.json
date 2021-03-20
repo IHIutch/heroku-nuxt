@@ -1,9 +1,8 @@
 {
   "development": {
-    "use_env_variable": "DATABASE_URL",
+    "use_env_variable": "DATABASE_DEV",
     "dialectOptions": {
       "ssl": {
-        "require": true,
         "rejectUnauthorized": false
       }
     }

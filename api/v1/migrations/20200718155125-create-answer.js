@@ -13,9 +13,21 @@ module.exports = {
       },
       questionId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Questions',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       stopId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Stops',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       sessionId: {
         type: Sequelize.UUID,
