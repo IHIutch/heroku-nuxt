@@ -1,5 +1,5 @@
 import express from 'express'
-import { Stop, Question, Answer, Category } from '../models/index'
+import { Stop } from '../models/index'
 
 const router = express.Router()
 
@@ -7,9 +7,24 @@ router.get('/', (req, res) => {
   Stop.findAll({
     limit: 100,
     order: [['id', 'ASC']],
+    include: ['watcher'],
   })
     .then((data) => {
-      res.json(data)
+      res.status(201).json(data)
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+})
+
+router.get('/:id', (req, res) => {
+  const { id } = req.params
+
+  Stop.findByPk(id, {
+    include: ['watcher', 'answers'],
+  })
+    .then((data) => {
+      res.status(201).json(data)
     })
     .catch((err) => {
       throw new Error(err)
@@ -26,28 +41,8 @@ router.post('/', (req, res) => {
     stopLat,
     stopLon,
   })
-    .then(res.sendStatus(201))
-    .catch((err) => {
-      throw new Error(err)
-    })
-})
-
-router.get('/:stopId/', (req, res) => {
-  const stopId = req.params.stopId
-
-  const stop = Stop.findOne({
-    where: { stopId },
-  })
-  const categories = Category.findAll()
-  const questions = Question.findAll({ where: { active: true } })
-  const answers = Answer.findAll({
-    where: { stopId },
-    order: [['id', 'DESC']],
-  })
-
-  Promise.all([stop, categories, questions, answers])
     .then((data) => {
-      res.json(data)
+      res.status(201).json(data)
     })
     .catch((err) => {
       throw new Error(err)

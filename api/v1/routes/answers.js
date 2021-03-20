@@ -5,8 +5,8 @@ const router = express.Router()
 
 router.get('/', (req, res) =>
   Answer.findAll({})
-    .then((stops) => {
-      res.json(stops)
+    .then((data) => {
+      res.status(201).json(data)
     })
     .catch((err) => {
       throw new Error(err)

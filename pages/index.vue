@@ -379,8 +379,8 @@ export default {
             {},
             ...categories.map((cat) => {
               return {
-                [cat]: stop.categoryScores
-                  ? stop.categoryScores.find((catScore) => {
+                [cat]: stop.scores
+                  ? stop.scores.find((catScore) => {
                       return catScore.category.toLowerCase() === cat
                     }).score
                   : false,

@@ -8,7 +8,7 @@ router.get('/:stopId', (req, res) => {
 
   Watcher.findOne({ where: { stopId: parseInt(stopId) } })
     .then((data) => {
-      res.json(data)
+      res.status(201).json(data)
     })
     .catch((err) => {
       throw new Error(err)

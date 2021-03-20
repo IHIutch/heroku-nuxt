@@ -104,8 +104,14 @@ export default {
     }
   },
   async fetch({ store, route }) {
-    if (!store.getters['stops/getAllStops']) {
-      await store.dispatch('stops/fetchAllStops')
+    if (
+      (!store.getters['stops/getUniqueStop'] ||
+        store.getters['stops/getUniqueStop'].id !==
+          parseInt(route.params.stopId)) &&
+      (!store.getters['stops/getAllStops'] ||
+        !store.getters['stops/getOneStop'](route.params.stopId))
+    ) {
+      await store.dispatch('stops/fetchUniqueStop', route.params.stopId)
     }
     if (!store.getters['questions/getAllQuestions']) {
       await store.dispatch('questions/fetchAllQuestions')
@@ -119,7 +125,7 @@ export default {
       return parseInt(this.$route.hash ? this.$route.hash.replace('#', '') : 0)
     },
     stop() {
-      return this.$store.getters['stops/getOneStop'](this.$route.params.stopId)
+      return this.$store.getters['stops/getUniqueStop']
     },
     questions() {
       return this.$store.getters['questions/getAllQuestions']
