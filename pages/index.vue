@@ -13,7 +13,12 @@
           <CAspectRatioBox :ratio="21 / 9">
             <CBox>
               <client-only>
-                <l-map v-chakra :zoom="12" :center="[42.8864, -78.8784]">
+                <l-map
+                  v-chakra
+                  :zoom="12"
+                  :center="[42.8864, -78.8784]"
+                  :options="{ preferCanvas: true }"
+                >
                   <l-tile-layer
                     :url="`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${mapbox.accessToken}`"
                   ></l-tile-layer>
@@ -30,9 +35,7 @@
                     :weight="0"
                     :fill-opacity="1"
                     :fill-color="getColor(stop.overall)"
-                    @click="
-                      markerClick([stop.stopLat, stop.stopLon], stop.stopName)
-                    "
+                    @click="markerClick([stop.stopLat, stop.stopLon], stop)"
                   />
                 </l-map>
               </client-only>
@@ -403,8 +406,8 @@ export default {
     },
   },
   methods: {
-    markerClick(latLng, caller) {
-      this.mapbox.caller = caller
+    markerClick(latLng, stop) {
+      this.mapbox.caller = stop.stopName
       this.$refs.features.mapObject.openPopup(latLng)
     },
     getVariant(score) {
@@ -420,10 +423,6 @@ export default {
     randomNumber() {
       return Math.floor(Math.random() * 100)
     },
-    // navigateToStop(stop) {
-    //   const stopId = stop.stopId;
-    //   this.$router.push(`stops/${stopId}`);
-    // },
   },
 }
 </script>
