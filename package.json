@@ -16,7 +16,7 @@
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/emotion": "^0.1.0",
-    "@nuxtjs/sentry": "^5.0.2",
+    "@nuxtjs/sentry": "^5.0.3",
     "bcryptjs": "^2.4.3",
     "chart.js": "^2.9.4",
     "dayjs": "^1.10.4",
