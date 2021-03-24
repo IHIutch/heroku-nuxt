@@ -52,20 +52,15 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    '@nuxt/http',
     '@nuxtjs/auth',
     '@nuxtjs/sentry',
     'nuxt-leaflet',
     '@chakra-ui/nuxt',
     '@nuxtjs/emotion',
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    baseURL: `${baseURL}/api/v1`,
+  http: {
+    prefix: '/api/v1',
   },
   /*
    ** Build configuration

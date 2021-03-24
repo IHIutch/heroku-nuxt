@@ -38,33 +38,25 @@ export const getters = {
 
 export const actions = {
   async fetchAllQuestions({ commit }) {
-    const data = await this.$axios.$get(
-      `${this.$axios.defaults.baseURL}/questions`
-    )
+    const data = await this.$http.$get(`/questions`)
     commit('SET_QUESTIONS', data)
   },
   async fetchUniqueQuestion({ commit }, id) {
-    const data = await this.$axios.$get(
-      `${this.$axios.defaults.baseURL}/questions/${id}`
-    )
+    const data = await this.$http.$get(`/questions/${id}`)
     commit('SET_UNIQUE_QUESTION', data)
   },
   async createQuestion({ commit }, question) {
-    const data = await this.$axios.$post(
-      `${this.$axios.defaults.baseURL}/questions`,
-      { question }
-    )
+    const data = await this.$http.$post(`/questions`, { question })
     commit('CREATE_QUESTION', data)
   },
   async updateQuestion({ commit }, question) {
-    const data = await this.$axios.$put(
-      `${this.$axios.defaults.baseURL}/questions/${question.id}`,
-      { question }
-    )
+    const data = await this.$http.$put(`/questions/${question.id}`, {
+      question,
+    })
     commit('UPDATE_QUESTION', data)
   },
   async deleteQuestion({ commit }, id) {
-    await this.$axios.$delete(`${this.$axios.defaults.baseURL}/questions/${id}`)
+    await this.$http.$delete(`/questions/${id}`)
     commit('DELETE_QUESTION', id)
   },
 }

@@ -362,11 +362,11 @@ export default {
       },
     }
   },
-  async fetch({ store, $axios }) {
+  async fetch({ store, $http }) {
     if (!store.getters['stops/getAllStops']) {
-      const data = await getStops($axios, {
+      const data = await getStops($http, {
         limit: 100,
-        order: ['id', 'ASC'],
+        order: [['id', 'ASC']],
       })
       store.dispatch('stops/fetchAllStops', data)
     }

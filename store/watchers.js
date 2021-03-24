@@ -14,23 +14,15 @@ export const getters = {
 
 export const actions = {
   async fetchUniqueWatcher({ commit }, id) {
-    const data = await this.$axios.$get(
-      `${this.$axios.defaults.baseURL}/watchers/${id}`
-    )
+    const data = await this.$http.$get(`/watchers/${id}`)
     commit('SET_UNIQUE_WATCHER', data)
   },
   async createWatcher({ commit }, watcher) {
-    const data = await this.$axios.$post(
-      `${this.$axios.defaults.baseURL}/watchers`,
-      { watcher }
-    )
+    const data = await this.$http.$post(`/watchers`, { watcher })
     commit('SET_UNIQUE_WATCHER', data)
   },
   async updateWatcher({ commit }, watcher) {
-    const data = await this.$axios.$put(
-      `${this.$axios.defaults.baseURL}/watchers/${watcher.id}`,
-      { watcher }
-    )
+    const data = await this.$http.$put(`/watchers/${watcher.id}`, { watcher })
     commit('SET_UNIQUE_WATCHER', data)
   },
 }

@@ -40,35 +40,25 @@ export const getters = {
 
 export const actions = {
   async fetchAllCategories({ commit }) {
-    const data = await this.$axios.$get(
-      `${this.$axios.defaults.baseURL}/categories`
-    )
+    const data = await this.$http.$get(`/categories`)
     commit('SET_CATEGORIES', data)
   },
   async fetchUniqueCategory({ commit }, id) {
-    const data = await this.$axios.$get(
-      `${this.$axios.defaults.baseURL}/categories/${id}`
-    )
+    const data = await this.$http.$get(`/categories/${id}`)
     commit('SET_UNIQUE_CATEGORY', data)
   },
   async createCategory({ commit }, category) {
-    const data = await this.$axios.$post(
-      `${this.$axios.defaults.baseURL}/categories`,
-      { category }
-    )
+    const data = await this.$http.$post(`/categories`, { category })
     commit('CREATE_CATEGORY', data)
   },
   async updateCategory({ commit }, category) {
-    const data = await this.$axios.$put(
-      `${this.$axios.defaults.baseURL}/categories/${category.id}`,
-      { category }
-    )
+    const data = await this.$http.$put(`/categories/${category.id}`, {
+      category,
+    })
     commit('UPDATE_CATEGORY', data)
   },
   async deleteCategory({ commit }, id) {
-    await this.$axios.$delete(
-      `${this.$axios.defaults.baseURL}/categories/${id}`
-    )
+    await this.$http.$delete(`/categories/${id}`)
     commit('DELETE_CATEGORY', id)
   },
 }

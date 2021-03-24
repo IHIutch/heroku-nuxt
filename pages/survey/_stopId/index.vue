@@ -148,8 +148,8 @@ export default {
   methods: {
     submit() {
       this.isSaving = true
-      this.$axios
-        .$post(`${this.$axios.defaults.baseURL}/survey/${this.stop.stopId}`, {
+      this.$http
+        .$post(`/survey/${this.stop.stopId}`, {
           answers: this.answers,
           watcher: this.watcher,
         })

@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const { limit = null, order = null, where = null } = req.query
     const data = await Stop.findAll({
       limit,
-      order: [order],
+      order,
       where,
       include: ['watcher'],
     })
