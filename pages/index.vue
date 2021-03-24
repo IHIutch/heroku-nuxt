@@ -341,6 +341,7 @@
 <script>
 import { getColorByNumber } from '@/functions/index'
 import Container from '~/components/global/Container.vue'
+import { getStops } from '~/lib/api/stops'
 
 export default {
   name: 'Dashboard',
@@ -361,9 +362,13 @@ export default {
       },
     }
   },
-  async fetch({ store }) {
+  async fetch({ store, $axios }) {
     if (!store.getters['stops/getAllStops']) {
-      await store.dispatch('stops/fetchAllStops')
+      const data = await getStops($axios, {
+        limit: 100,
+        order: ['id', 'ASC'],
+      })
+      store.dispatch('stops/fetchAllStops', data)
     }
   },
   computed: {

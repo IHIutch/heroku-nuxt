@@ -1,5 +1,3 @@
-import { getStop, getStops, postStop, putStop } from '~/lib/api/stops'
-
 export const state = () => ({
   stops: null,
   unique_stop: null,
@@ -39,40 +37,19 @@ export const getters = {
 }
 
 export const actions = {
-  async fetchAllStops({ commit }) {
-    try {
-      const data = await getStops()
-      commit('SET_STOPS', data)
-    } catch (err) {
-      throw new Error(err)
-    }
+  fetchAllStops({ commit }, data) {
+    commit('SET_STOPS', data)
   },
-  async fetchUniqueStop({ commit }, id) {
-    try {
-      const data = await getStop(id)
-      commit('SET_UNIQUE_STOP', data)
-    } catch (err) {
-      throw new Error(err)
-    }
+  fetchUniqueStop({ commit }, data) {
+    commit('SET_UNIQUE_STOP', data)
   },
-  async createStop({ commit }, stop) {
-    try {
-      const data = await postStop(stop)
-      commit('CREATE_STOP', data)
-    } catch (err) {
-      throw new Error(err)
-    }
+  createStop({ commit }, data) {
+    commit('CREATE_STOP', data)
   },
-  async updateStop({ commit }, stop) {
-    try {
-      const data = await putStop(stop.id, stop)
-      commit('UPDATE_STOP', data)
-    } catch (err) {
-      throw new Error(err)
-    }
+  updateStop({ commit }, data) {
+    commit('UPDATE_STOP', data)
   },
-  async deleteStop({ commit }, id) {
-    await this.$axios.$delete(`${this.$axios.defaults.baseURL}/stops/${id}`)
+  deleteStop({ commit }, id) {
     commit('DELETE_STOP', id)
   },
 }

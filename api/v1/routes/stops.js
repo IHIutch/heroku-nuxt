@@ -1,6 +1,6 @@
 import express from 'express'
 import { Stop } from '../models/index'
-import { apiStatusType } from '~/lib/types/apiStatus'
+import { apiStatusType } from '../../../lib/types/apiStatus'
 
 const router = express.Router()
 
@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const { limit = null, order = null, where = null } = req.query
     const data = await Stop.findAll({
       limit,
-      order,
+      order: [order],
       where,
       include: ['watcher'],
     })
