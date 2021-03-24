@@ -14,13 +14,13 @@ export const mutations = {
   CREATE_QUESTION(state, question) {
     state.questions = {
       ...state.questions,
-      [question.id]: { ...question },
+      [question.id]: question,
     }
   },
   UPDATE_QUESTION(state, question) {
     state.questions = {
       ...state.questions,
-      [question.id]: { ...question },
+      [question.id]: { ...question.id, ...question },
     }
   },
   DELETE_QUESTION(state, id) {

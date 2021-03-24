@@ -14,13 +14,13 @@ export const mutations = {
   CREATE_CATEGORY(state, category) {
     state.categories = {
       ...state.categories,
-      [category.id]: { ...category },
+      [category.id]: category,
     }
   },
   UPDATE_CATEGORY(state, category) {
     state.categories = {
       ...state.categories,
-      [category.id]: { ...category },
+      [category.id]: { ...category.id, ...category },
     }
   },
   DELETE_CATEGORY(state, id) {
