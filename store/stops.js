@@ -1,3 +1,5 @@
+import { getStop, getStops, postStop, putStop } from '~/lib/api/stops'
+
 export const state = () => ({
   stops: null,
   unique_stop: null,
@@ -14,13 +16,13 @@ export const mutations = {
   CREATE_STOP(state, stop) {
     state.stops = {
       ...state.stops,
-      [stop.id]: { ...stop },
+      [stop.id]: stop,
     }
   },
   UPDATE_STOP(state, stop) {
     state.stops = {
       ...state.stops,
-      [stop.id]: { ...stop },
+      [stop.id]: { ...stop.id, ...stop },
     }
   },
   DELETE_STOP(state, id) {
@@ -38,28 +40,36 @@ export const getters = {
 
 export const actions = {
   async fetchAllStops({ commit }) {
-    const data = await this.$axios.$get(`${this.$axios.defaults.baseURL}/stops`)
-    commit('SET_STOPS', data)
+    try {
+      const data = await getStops()
+      commit('SET_STOPS', data)
+    } catch (err) {
+      throw new Error(err)
+    }
   },
   async fetchUniqueStop({ commit }, id) {
-    const data = await this.$axios.$get(
-      `${this.$axios.defaults.baseURL}/stops/${id}`
-    )
-    commit('SET_UNIQUE_STOP', data)
+    try {
+      const data = await getStop(id)
+      commit('SET_UNIQUE_STOP', data)
+    } catch (err) {
+      throw new Error(err)
+    }
   },
   async createStop({ commit }, stop) {
-    const data = await this.$axios.$post(
-      `${this.$axios.defaults.baseURL}/stops`,
-      { stop }
-    )
-    commit('CREATE_STOP', data)
+    try {
+      const data = await postStop(stop)
+      commit('CREATE_STOP', data)
+    } catch (err) {
+      throw new Error(err)
+    }
   },
   async updateStop({ commit }, stop) {
-    const data = await this.$axios.$put(
-      `${this.$axios.defaults.baseURL}/stops/${stop.id}`,
-      { stop }
-    )
-    commit('UPDATE_STOP', data)
+    try {
+      const data = await putStop(stop.id, stop)
+      commit('UPDATE_STOP', data)
+    } catch (err) {
+      throw new Error(err)
+    }
   },
   async deleteStop({ commit }, id) {
     await this.$axios.$delete(`${this.$axios.defaults.baseURL}/stops/${id}`)
