@@ -92,6 +92,8 @@
 <script>
 import Container from '~/components/global/Container.vue'
 import YesNoQuestion from '~/components/questionTypes/YesNoQuestion.vue'
+import { getQuestions } from '~/lib/api/questions'
+import { getStop } from '~/lib/api/stops'
 
 export default {
   name: 'SurveyPage',
@@ -103,7 +105,7 @@ export default {
       answers: [],
     }
   },
-  async fetch({ store, route }) {
+  async fetch({ store, route, $http }) {
     if (
       (!store.getters['stops/getUniqueStop'] ||
         store.getters['stops/getUniqueStop'].id !==
@@ -111,13 +113,12 @@ export default {
       (!store.getters['stops/getAllStops'] ||
         !store.getters['stops/getOneStop'](route.params.stopId))
     ) {
-      await store.dispatch('stops/fetchUniqueStop', route.params.stopId)
+      const data = await getStop($http, route.params.stopId)
+      store.dispatch('stops/fetchUniqueStop', data)
     }
     if (!store.getters['questions/getAllQuestions']) {
-      await store.dispatch('questions/fetchAllQuestions')
-    }
-    if (!store.getters['watchers/getUniqueWatcher']) {
-      await store.dispatch('watchers/fetchUniqueWatcher', route.params.stopId)
+      const data = await getQuestions($http)
+      store.dispatch('questions/fetchAllQuestions', data)
     }
   },
   computed: {

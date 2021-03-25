@@ -153,6 +153,9 @@ import QRCode from '@/components/QRCode'
 import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
 import Container from '~/components/global/Container.vue'
 import { answerType } from '~/lib/types'
+import { getStop } from '~/lib/api/stops'
+import { getQuestions } from '~/lib/api/questions'
+import { getCategories } from '~/lib/api/categories'
 
 export default {
   name: 'StopPage',
@@ -167,7 +170,7 @@ export default {
       answers: [],
     }
   },
-  async fetch({ store, route }) {
+  async fetch({ store, route, $http }) {
     if (
       (!store.getters['stops/getUniqueStop'] ||
         store.getters['stops/getUniqueStop'].id !==
@@ -175,13 +178,16 @@ export default {
       (!store.getters['stops/getAllStops'] ||
         !store.getters['stops/getOneStop'](route.params.stopId))
     ) {
-      await store.dispatch('stops/fetchUniqueStop', route.params.stopId)
+      const data = await getStop($http, route.params.stopId)
+      store.dispatch('stops/fetchUniqueStop', data)
     }
     if (!store.getters['questions/getAllQuestions']) {
-      await store.dispatch('questions/fetchAllQuestions')
+      const data = await getQuestions($http)
+      store.dispatch('questions/fetchAllQuestions', data)
     }
     if (!store.getters['categories/getAllCategories']) {
-      await store.dispatch('categories/fetchAllCategories')
+      const data = await getCategories($http)
+      store.dispatch('categories/fetchAllCategories', data)
     }
   },
   head() {

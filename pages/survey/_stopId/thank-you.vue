@@ -51,19 +51,24 @@
 </template>
 
 <script>
+import { getStop } from '~/lib/api/stops'
 export default {
   name: 'ThankYou',
-  async fetch({ store, route }) {
-    if (!store.getters['stops/getAllStops']) {
-      await store.dispatch('stops/fetchAllStops')
-    }
-    if (!store.getters['watchers/getUniqueWatcher']) {
-      await store.dispatch('watchers/fetchUniqueWatcher', route.params.stopId)
+  async fetch({ store, $http, route }) {
+    if (
+      (!store.getters['stops/getUniqueStop'] ||
+        store.getters['stops/getUniqueStop'].id !==
+          parseInt(route.params.stopId)) &&
+      (!store.getters['stops/getAllStops'] ||
+        !store.getters['stops/getOneStop'](route.params.stopId))
+    ) {
+      const data = await getStop($http, route.params.stopId)
+      store.dispatch('stops/fetchUniqueStop', data)
     }
   },
   computed: {
     stop() {
-      return this.$store.getters['stops/getOneStop'](this.$route.params.stopId)
+      return this.$store.getters['stops/getUniqueStop']
     },
   },
 }
