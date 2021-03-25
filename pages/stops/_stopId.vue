@@ -92,10 +92,11 @@
               <CFlex justify="space-between" mb="2">
                 <CHeading as="h3" size="lg">{{ cat.text }}</CHeading>
               </CFlex>
-              <CAccordion :allow-toggle="true">
+              <CAccordion :allow-toggle="true" :default-index="-1">
                 <CAccordionItem
                   v-for="(question, questionIdx) in cat.questions"
                   :key="questionIdx"
+                  :default-is-open="false"
                 >
                   <CAccordionHeader>
                     <CFlex flex="1">
@@ -167,7 +168,6 @@ export default {
   data() {
     return {
       answerType,
-      answers: [],
     }
   },
   async fetch({ store, route, $http }) {
@@ -191,8 +191,9 @@ export default {
     }
   },
   head() {
+    const { stopName } = this.$store.getters['stops/getUniqueStop']
     return getMeta({
-      title: this.stop.stopName,
+      title: stopName,
       url: this.$config.baseURL + this.$route.path,
       description: '',
     })
