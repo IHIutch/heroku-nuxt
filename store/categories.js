@@ -39,26 +39,19 @@ export const getters = {
 }
 
 export const actions = {
-  async fetchAllCategories({ commit }) {
-    const data = await this.$http.$get(`/categories`)
+  fetchAllCategories({ commit }, data) {
     commit('SET_CATEGORIES', data)
   },
-  async fetchUniqueCategory({ commit }, id) {
-    const data = await this.$http.$get(`/categories/${id}`)
+  fetchUniqueCategory({ commit }, data) {
     commit('SET_UNIQUE_CATEGORY', data)
   },
-  async createCategory({ commit }, category) {
-    const data = await this.$http.$post(`/categories`, { category })
+  createCategory({ commit }, data) {
     commit('CREATE_CATEGORY', data)
   },
-  async updateCategory({ commit }, category) {
-    const data = await this.$http.$put(`/categories/${category.id}`, {
-      category,
-    })
+  updateCategory({ commit }, data) {
     commit('UPDATE_CATEGORY', data)
   },
-  async deleteCategory({ commit }, id) {
-    await this.$http.$delete(`/categories/${id}`)
+  deleteCategory({ commit }, id) {
     commit('DELETE_CATEGORY', id)
   },
 }

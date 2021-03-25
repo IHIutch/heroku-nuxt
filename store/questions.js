@@ -37,26 +37,19 @@ export const getters = {
 }
 
 export const actions = {
-  async fetchAllQuestions({ commit }) {
-    const data = await this.$http.$get(`/questions`)
+  fetchAllQuestions({ commit }, data) {
     commit('SET_QUESTIONS', data)
   },
-  async fetchUniqueQuestion({ commit }, id) {
-    const data = await this.$http.$get(`/questions/${id}`)
+  fetchUniqueQuestion({ commit }, data) {
     commit('SET_UNIQUE_QUESTION', data)
   },
-  async createQuestion({ commit }, question) {
-    const data = await this.$http.$post(`/questions`, { question })
+  createQuestion({ commit }, data) {
     commit('CREATE_QUESTION', data)
   },
-  async updateQuestion({ commit }, question) {
-    const data = await this.$http.$put(`/questions/${question.id}`, {
-      question,
-    })
+  updateQuestion({ commit }, data) {
     commit('UPDATE_QUESTION', data)
   },
-  async deleteQuestion({ commit }, id) {
-    await this.$http.$delete(`/questions/${id}`)
+  deleteQuestion({ commit }, id) {
     commit('DELETE_QUESTION', id)
   },
 }
