@@ -147,19 +147,13 @@ export default {
     })
   },
   methods: {
-    submit() {
+    async submit() {
       this.isSaving = true
-      this.$http
-        .$post(`/survey/${this.stop.stopId}`, {
-          answers: this.answers,
-          watcher: this.watcher,
-        })
-        .then((data) => {
-          this.$router.replace('/survey/thank-you')
-        })
-        .catch((err) => {
-          throw new Error(err)
-        })
+      await this.$http.$post(`/survey/${this.stop.stopId}`, {
+        answers: this.answers,
+        watcher: this.watcher,
+      })
+      this.$router.replace('/survey/thank-you')
     },
     next() {
       this.$router.push(`#${this.step + 1}`)
