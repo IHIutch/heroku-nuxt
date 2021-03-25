@@ -153,7 +153,7 @@ export default {
         answers: this.answers,
         watcher: this.watcher,
       })
-      this.$router.replace('/survey/thank-you')
+      this.$router.replace(`/survey/${this.stop.stopId}/thank-you`)
     },
     next() {
       this.$router.push(`#${this.step + 1}`)
