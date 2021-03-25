@@ -1,6 +1,6 @@
 import express from 'express'
 import { Stop } from '../models/index'
-import { apiStatusType } from '../../../lib/types/apiStatus'
+import { apiStatusType } from '../../../lib/types'
 
 const router = express.Router()
 

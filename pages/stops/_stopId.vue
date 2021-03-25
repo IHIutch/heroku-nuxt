@@ -152,7 +152,7 @@ import { getMeta, getColorByNumber } from '@/functions/index'
 import QRCode from '@/components/QRCode'
 import DoughnutChartWrapper from '@/components/DoughnutChartWrapper'
 import Container from '~/components/global/Container.vue'
-import { answerType } from '~/lib/types/answer'
+import { answerType } from '~/lib/types'
 
 export default {
   name: 'StopPage',
