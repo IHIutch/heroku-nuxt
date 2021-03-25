@@ -60,7 +60,7 @@ export default {
     '@nuxtjs/emotion',
   ],
   http: {
-    prefix: '/api/v1',
+    baseURL: `${baseURL}/api/v1`,
   },
   /*
    ** Build configuration
