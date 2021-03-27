@@ -107,11 +107,8 @@ export default {
   },
   async fetch({ store, route, $http }) {
     if (
-      (!store.getters['stops/getUniqueStop'] ||
-        store.getters['stops/getUniqueStop'].id !==
-          parseInt(route.params.stopId)) &&
-      (!store.getters['stops/getAllStops'] ||
-        !store.getters['stops/getOneStop'](route.params.stopId))
+      !store.getters['stops/getUniqueStop'] ||
+      store.getters['stops/getUniqueStop'].id !== parseInt(route.params.stopId)
     ) {
       const data = await getStop($http, route.params.stopId)
       store.dispatch('stops/fetchUniqueStop', data)
