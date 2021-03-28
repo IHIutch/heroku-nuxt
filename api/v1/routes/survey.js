@@ -52,6 +52,12 @@ router.post('/:stopId', async (req, res) => {
       )
     })
 
+    scores.overall = Object.values(scores).reduce(
+      (acc, v) =>
+        (acc += parseFloat((v / Object.keys(scores).length).toFixed(2))),
+      0
+    )
+
     await Watcher.upsert({
       stopId,
       status,
