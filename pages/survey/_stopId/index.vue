@@ -103,6 +103,7 @@ export default {
       isSaving: false,
       answerCount: 5,
       answers: [],
+      watcherStatus: [],
     }
   },
   async fetch({ store, route, $http }) {
@@ -128,15 +129,10 @@ export default {
     questions() {
       return this.$store.getters['questions/getAllQuestions']
     },
-    watcher() {
-      return this.$store.getters['watchers/getUniqueWatcher']
-    },
   },
   mounted() {
-    const arr = Object.keys(this.questions)
-    this.answers = [...new Array(this.answerCount)].map((a) => {
-      const id = arr[Math.floor(Math.random() * arr.length)]
-      arr.splice(id, 1)
+    const questionIds = this.getRandomQuestionIds()
+    this.answers = questionIds.map((id) => {
       return {
         questionId: id,
         value: '',
@@ -148,7 +144,7 @@ export default {
       this.isSaving = true
       await this.$http.$post(`/survey/${this.stop.stopId}`, {
         answers: this.answers,
-        watcher: this.watcher,
+        status: this.watcherStatus,
       })
       this.$router.replace(`/survey/${this.stop.stopId}/thank-you`)
     },
@@ -157,6 +153,22 @@ export default {
     },
     prev() {
       this.$router.go(-1)
+    },
+    getRandomQuestionIds() {
+      this.watcherStatus = [...this.stop.watcher.status]
+      return [...new Array(this.answerCount)].reduce((acc) => {
+        let idx = null
+        do {
+          idx = Math.floor(Math.random() * this.watcherStatus.length)
+        } while (acc.includes(this.watcherStatus[idx]))
+        const questionId = this.watcherStatus[idx]
+        this.watcherStatus.splice(idx, 1)
+        if (!this.watcherStatus.length)
+          this.watcherStatus = Object.keys(this.questions).map((id) =>
+            parseInt(id)
+          )
+        return [...acc, questionId]
+      }, [])
     },
   },
 }
