@@ -28,7 +28,7 @@
                     </l-popup>
                   </l-feature-group>
                   <l-circle-marker
-                    v-for="(stop, idx) in stopScores"
+                    v-for="(stop, idx) in stops"
                     :key="idx"
                     :lat-lng="[stop.stopLat, stop.stopLon]"
                     :radius="5"
@@ -193,7 +193,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(stop, idx) in stopScores" :key="idx">
+              <tr v-for="(stop, idx) in stops" :key="idx">
                 <td
                   v-chakra
                   padding-left="6"
@@ -224,10 +224,10 @@
                   border-bottom-width="1px"
                 >
                   <CBadge
-                    v-if="stop.scores.safety !== false"
-                    :variant-color="getVariant(stop.scores.safety)"
+                    v-if="stop.watcher && stop.watcher.scores.safety"
+                    :variant-color="getVariant(stop.watcher.scores.safety)"
                   >
-                    {{ stop.scores.safety }}
+                    {{ stop.watcher.scores.safety | roundToInt }}
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
@@ -241,10 +241,12 @@
                   border-bottom-width="1px"
                 >
                   <CBadge
-                    v-if="stop.scores.accessibility !== false"
-                    :variant-color="getVariant(stop.scores.accessibility)"
+                    v-if="stop.watcher && stop.watcher.scores.accessibility"
+                    :variant-color="
+                      getVariant(stop.watcher.scores.accessibility)
+                    "
                   >
-                    {{ stop.scores.accessibility }}
+                    {{ stop.watcher.scores.accessibility | roundToInt }}
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
@@ -258,10 +260,10 @@
                   border-bottom-width="1px"
                 >
                   <CBadge
-                    v-if="stop.scores.sanitary !== false"
-                    :variant-color="getVariant(stop.scores.sanitary)"
+                    v-if="stop.watcher && stop.watcher.scores.sanitary"
+                    :variant-color="getVariant(stop.watcher.scores.sanitary)"
                   >
-                    {{ stop.scores.sanitary }}
+                    {{ stop.watcher.scores.sanitary | roundToInt }}
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
@@ -275,10 +277,10 @@
                   border-bottom-width="1px"
                 >
                   <CBadge
-                    v-if="stop.scores.wayfinding !== false"
-                    :variant-color="getVariant(stop.scores.wayfinding)"
+                    v-if="stop.watcher && stop.watcher.scores.wayfinding"
+                    :variant-color="getVariant(stop.watcher.scores.wayfinding)"
                   >
-                    {{ stop.scores.wayfinding }}
+                    {{ stop.watcher.scores.wayfinding | roundToInt }}
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
@@ -292,10 +294,10 @@
                   border-bottom-width="1px"
                 >
                   <CBadge
-                    v-if="stop.scores.comfort !== false"
-                    :variant-color="getVariant(stop.scores.comfort)"
+                    v-if="stop.watcher && stop.watcher.scores.comfort"
+                    :variant-color="getVariant(stop.watcher.scores.comfort)"
                   >
-                    {{ stop.scores.comfort }}
+                    {{ stop.watcher.scores.comfort | roundToInt }}
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
@@ -309,10 +311,10 @@
                   border-bottom-width="1px"
                 >
                   <CBadge
-                    v-if="stop.scores.overall !== false"
-                    :variant-color="getVariant(stop.scores.overall)"
+                    v-if="stop.watcher && stop.watcher.scores.overall"
+                    :variant-color="getVariant(stop.watcher.scores.overall)"
                   >
-                    {{ stop.scores.overall }}
+                    {{ stop.watcher.scores.overall | roundToInt }}
                   </CBadge>
                   <CText v-else>-</CText>
                 </td>
@@ -348,6 +350,9 @@ export default {
   components: {
     Container,
   },
+  filters: {
+    roundToInt: (val) => Math.round(val),
+  },
   data() {
     return {
       table: {
@@ -372,42 +377,8 @@ export default {
     }
   },
   computed: {
-    stopScores() {
-      const categories = [
-        'safety',
-        'accessibility',
-        'sanitary',
-        'wayfinding',
-        'comfort',
-      ]
-
-      return Object.values(this.$store.getters['stops/getAllStops']).map(
-        (stop, idx) => {
-          const scores = Object.assign(
-            {},
-            ...categories.map((cat) => {
-              return {
-                [cat]: stop.scores
-                  ? stop.scores.find((catScore) => {
-                      return catScore.category.toLowerCase() === cat
-                    }).score
-                  : false,
-              }
-            })
-          )
-
-          scores.overall = Object.values(scores).reduce((acc, score) => {
-            return score
-              ? (acc += score / Object.keys(scores).length)
-              : (acc += 0)
-          }, 0)
-
-          return {
-            ...stop,
-            scores,
-          }
-        }
-      )
+    stops() {
+      return this.$store.getters['stops/getAllStops']
     },
   },
   methods: {
