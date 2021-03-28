@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Watcher.init(
     {
-      stopId: DataTypes.INTEGER,
+      stopId: {
+        type: DataTypes.INTEGER,
+        unique: true,
+      },
       status: DataTypes.JSONB,
       scores: DataTypes.JSONB,
     },

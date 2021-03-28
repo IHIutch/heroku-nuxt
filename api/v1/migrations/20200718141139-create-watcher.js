@@ -16,6 +16,7 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+        unique: true,
       },
       status: {
         type: Sequelize.JSONB,
