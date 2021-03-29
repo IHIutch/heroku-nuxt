@@ -1,7 +1,7 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { Answer, Question, Watcher } from '../models/index'
-import { apiStatusType } from '../../../lib/types'
+import { answerType, apiStatusType } from '../../../lib/types'
 
 const router = express.Router()
 
@@ -37,7 +37,7 @@ router.post('/:stopId', async (req, res) => {
     const scores = questions.reduce((acc, q) => {
       const cat = q.category.value
       const pts = q.prevAnswers.length
-        ? q.prevAnswers.map((a) => (a.value === 'true' ? 1 : 0))
+        ? q.prevAnswers.map((a) => (a.value === answerType.TRUE ? 1 : 0))
         : [-1]
       acc[cat] = acc[cat] ? acc[cat].concat(pts) : pts
       return acc
